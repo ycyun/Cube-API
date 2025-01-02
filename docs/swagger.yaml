@@ -1,0 +1,391 @@
+definitions:
+  HTTP400BadRequest:
+    properties:
+      err_code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+  HTTP404NotFound:
+    properties:
+      err_code:
+        example: 404
+        type: integer
+      message:
+        example: Not Found
+        type: string
+    type: object
+  HTTP500InternalServerError:
+    properties:
+      err_code:
+        example: 500
+        type: integer
+      message:
+        example: InternalServerError
+        type: string
+    type: object
+  TypeGlueStatus:
+    description: Glue의 상태를 나타내는 구조체
+    properties:
+      election_epoch:
+        example: 148
+        format: uint32
+        type: integer
+      fsid:
+        description: Glue클러스터를 구분하는 ID
+        example: 9980ffe8-4bc1-11ee-9b1f-002481004170
+        format: uuid
+        type: string
+      fsmap:
+        properties:
+          by_rank:
+            items: { }
+            type: array
+          epoch:
+            type: integer
+          up:standby:
+            type: integer
+        type: object
+      health:
+        properties:
+          checks: { }
+          mutes: { }
+          status:
+            example: HEALTH_WARN
+            format: string
+            type: string
+        type: object
+      mgrmap:
+        properties:
+          available:
+            type: boolean
+          modules:
+            items:
+              type: string
+            type: array
+          num_standbys:
+            type: integer
+          services:
+            properties:
+              dashboard:
+                type: string
+              prometheus:
+                type: string
+            type: object
+        type: object
+      monmap:
+        properties:
+          epoch:
+            type: integer
+          min_mon_release_name:
+            type: string
+          num_mons:
+            type: integer
+        type: object
+      osdmap:
+        properties:
+          epoch:
+            type: integer
+          num_in_osds:
+            type: integer
+          num_osds:
+            type: integer
+          num_remapped_pgs:
+            type: integer
+          num_up_osds:
+            type: integer
+          osd_in_since:
+            type: integer
+          osd_up_since:
+            type: integer
+        type: object
+      pgmap:
+        properties:
+          bytes_avail:
+            type: integer
+          bytes_total:
+            type: integer
+          bytes_used:
+            type: integer
+          data_bytes:
+            type: integer
+          num_objects:
+            type: integer
+          num_pgs:
+            type: integer
+          num_pools:
+            type: integer
+          pgs_by_state:
+            items:
+              properties:
+                count:
+                  type: integer
+                state_name:
+                  type: string
+              type: object
+            type: array
+          read_bytes_sec:
+            type: integer
+          read_op_per_sec:
+            type: integer
+          write_bytes_sec:
+            type: integer
+          write_op_per_sec:
+            type: integer
+        type: object
+      progress_events:
+        type: object
+      quorum:
+        items:
+          type: integer
+        type: array
+      quorum_age:
+        type: integer
+      quorum_names:
+        items:
+          type: string
+        type: array
+      refresh_time:
+        type: string
+      servicemap:
+        properties:
+          epoch:
+            type: integer
+          modified:
+            type: string
+          services: { }
+        type: object
+    type: object
+  TypeMoldStatus:
+    description: Glue의 상태를 나타내는 구조체
+    properties:
+      election_epoch:
+        example: 148
+        format: uint32
+        type: integer
+      fsid:
+        description: Glue클러스터를 구분하는 ID
+        example: 9980ffe8-4bc1-11ee-9b1f-002481004170
+        format: uuid
+        type: string
+      fsmap:
+        properties:
+          by_rank:
+            items: { }
+            type: array
+          epoch:
+            type: integer
+          up:standby:
+            type: integer
+        type: object
+      health:
+        properties:
+          checks: { }
+          mutes: { }
+          status:
+            example: HEALTH_WARN
+            format: string
+            type: string
+        type: object
+      mgrmap:
+        properties:
+          available:
+            type: boolean
+          modules:
+            items:
+              type: string
+            type: array
+          num_standbys:
+            type: integer
+          services:
+            properties:
+              dashboard:
+                type: string
+              prometheus:
+                type: string
+            type: object
+        type: object
+      monmap:
+        properties:
+          epoch:
+            type: integer
+          min_mon_release_name:
+            type: string
+          num_mons:
+            type: integer
+        type: object
+      osdmap:
+        properties:
+          epoch:
+            type: integer
+          num_in_osds:
+            type: integer
+          num_osds:
+            type: integer
+          num_remapped_pgs:
+            type: integer
+          num_up_osds:
+            type: integer
+          osd_in_since:
+            type: integer
+          osd_up_since:
+            type: integer
+        type: object
+      pgmap:
+        properties:
+          bytes_avail:
+            type: integer
+          bytes_total:
+            type: integer
+          bytes_used:
+            type: integer
+          data_bytes:
+            type: integer
+          num_objects:
+            type: integer
+          num_pgs:
+            type: integer
+          num_pools:
+            type: integer
+          pgs_by_state:
+            items:
+              properties:
+                count:
+                  type: integer
+                state_name:
+                  type: string
+              type: object
+            type: array
+          read_bytes_sec:
+            type: integer
+          read_op_per_sec:
+            type: integer
+          write_bytes_sec:
+            type: integer
+          write_op_per_sec:
+            type: integer
+        type: object
+      progress_events:
+        type: object
+      quorum:
+        items:
+          type: integer
+        type: array
+      quorum_age:
+        type: integer
+      quorum_names:
+        items:
+          type: string
+        type: array
+      refresh_time:
+        type: string
+      servicemap:
+        properties:
+          epoch:
+            type: integer
+          modified:
+            type: string
+          services: { }
+        type: object
+    type: object
+  action.TypeCUBEVersion:
+    properties:
+      debug:
+        type: boolean
+      version:
+        type: string
+    type: object
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+paths:
+  /glue:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: GLUE의 상태값을 보여줍니다.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/TypeGlueStatus'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: Show Status of GLUE
+      tags:
+        - API
+        - Glue
+        - GLUE
+  /mold:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: MOLD의 상태값을 보여줍니다.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/TypeMoldStatus'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: Show Status of MOLD
+      tags:
+        - API
+        - Mold
+        - MOLD
+  /version:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: API 의 버전을 보여줍니다.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/action.TypeCUBEVersion'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: Show Versions of API
+      tags:
+        - API
+swagger: "2.0"
