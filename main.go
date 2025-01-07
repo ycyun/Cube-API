@@ -7,6 +7,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	Cube "github.com/ycyun/Cube-API/cube/action"
+	Dashboard "github.com/ycyun/Cube-API/dashboard/action"
 	"github.com/ycyun/Cube-API/docs"
 	Glue "github.com/ycyun/Cube-API/glue/action"
 	Mold "github.com/ycyun/Cube-API/mold/action"
@@ -18,11 +19,24 @@ import (
 // @contact.url    http://www.swagger.io/support
 // @contact.email  support@swagger.io
 func main() {
-	cube := Cube.Init()
-	Cube.StatusRegister(Glue.MonitorGlueStatus)
-	Cube.StatusRegister(Mold.MonitorStatus)
+	// 시간대 설정
+	location, err := time.LoadLocation("Asia/Seoul")
+	if err != nil {
+		panic(err)
+	}
+	// Set the timezone for the current process
+	time.Local = location
 
-	cube.StatusRegister(errorMaker)
+	//cube := Cube.Init()
+	Cube.StatusRegister(Mold.MonitorStatus)
+	Cube.StatusRegister(Glue.Monitor)
+	//Cube.StatusRegister(Glue.MonitorGlueStatus)
+	//Cube.StatusRegister(Glue.MonitorGlueHealthDetail)
+	Cube.StatusRegister(Dashboard.Monitor)
+	//cube.StatusRegister(Dashboard.MonitorDashboard)
+
+	Cube.StatusRegister(errorMaker)
+
 	go Cube.Start()
 
 	docs.SwaggerInfo.Title = "Cube API"
@@ -38,7 +52,7 @@ func main() {
 	gin.SetMode(gin.DebugMode)
 	//gin.SetMode(gin.ReleaseMode)
 	r.ForwardedByClientIP = true
-	err := r.SetTrustedProxies(nil)
+	err = r.SetTrustedProxies(nil)
 	if err != nil {
 		Cube.AddError(err)
 	}
@@ -53,10 +67,18 @@ func main() {
 		glue := v1.Group("/glue")
 		{
 			glue.GET("", Glue.GetGlueStatus)
+			glue.GET("/auth", Glue.GetGlueAuth)
+			glue.GET("/auth/:username", Glue.GetGlueAuth)
+			glue.GET("/auths", Glue.GetGlueAuths)
 		}
 		mold := v1.Group("/mold")
 		{
 			mold.GET("", Mold.GetStatus)
+		}
+		dashboard := v1.Group("/dashboard")
+		{
+			dashboard.GET("", Dashboard.UpdateStatus)
+
 		}
 		v1.Any("/version", Cube.Version)
 		v1.GET("/err", Cube.Error)

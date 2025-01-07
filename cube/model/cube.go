@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"reflect"
 	"sync"
 	"time"
 )
@@ -26,7 +27,7 @@ func Cube() *TypeCUBE {
 	if cube == nil {
 		lockCUBE.Do(
 			func() {
-				fmt.Println("Creating glue instance now.")
+				fmt.Println("Creating ", reflect.TypeOf(cube), " now.")
 				cube = &TypeCUBE{
 					Handlers: []func(){},
 					running:  false,

@@ -7,6 +7,7 @@ import (
 	"github.com/gofrs/uuid"
 	"github.com/ycyun/Cube-API/utils"
 	"os/exec"
+	"reflect"
 	"sync"
 	"time"
 )
@@ -17,9 +18,39 @@ type TypeGlueStatus struct {
 	Fsid   uuid.UUID `json:"fsid" example:"9980ffe8-4bc1-11ee-9b1f-002481004170" format:"uuid"` //Glue클러스터를 구분하는 ID
 	Health struct {
 		Status string `json:"status" example:"HEALTH_WARN" format:"string"`
-		Checks interface {
+		Checks struct {
+			OSDMAPFLAGS struct {
+				Severity string `json:"severity"`
+				Summary  struct {
+					Message string `json:"message"`
+					Count   int    `json:"count"`
+				} `json:"summary"`
+				Muted bool `json:"muted"`
+			} `json:"OSDMAP_FLAGS"`
+			OSDDOWN struct {
+				Severity string `json:"severity"`
+				Summary  struct {
+					Message string `json:"message"`
+					Count   int    `json:"count"`
+				} `json:"summary"`
+				Muted bool `json:"muted"`
+			} `json:"OSD_DOWN"`
+			PGAVAILABILITY struct {
+				Severity string `json:"severity"`
+				Summary  struct {
+					Message string `json:"message"`
+					Count   int    `json:"count"`
+				} `json:"summary"`
+				Muted bool `json:"muted"`
+			} `json:"PG_AVAILABILITY"`
 		} `json:"checks"`
-		Mutes interface{} `json:"mutes"`
+
+		Mutes []struct {
+			Code    string `json:"code"`
+			Sticky  bool   `json:"sticky"`
+			Summary string `json:"summary"`
+			Count   int    `json:"count"`
+		} `json:"mutes"`
 	} `json:"health"`
 	ElectionEpoch int      `json:"election_epoch" example:"148" format:"uint32"`
 	Quorum        []int    `json:"quorum"`
@@ -71,9 +102,224 @@ type TypeGlueStatus struct {
 		} `json:"services"`
 	} `json:"mgrmap"`
 	Servicemap struct {
-		Epoch    int         `json:"epoch"`
-		Modified string      `json:"modified"`
-		Services interface{} `json:"services"`
+		Epoch    int    `json:"epoch"`
+		Modified string `json:"modified"`
+		Services struct {
+			Rgw struct {
+				Daemons struct {
+					Summary string `json:"summary"`
+					Field2  struct {
+						StartEpoch int    `json:"start_epoch"`
+						StartStamp string `json:"start_stamp"`
+						Gid        int    `json:"gid"`
+						Addr       string `json:"addr"`
+						Metadata   struct {
+							Arch              string `json:"arch"`
+							CephRelease       string `json:"ceph_release"`
+							CephVersion       string `json:"ceph_version"`
+							CephVersionShort  string `json:"ceph_version_short"`
+							ContainerHostname string `json:"container_hostname"`
+							ContainerImage    string `json:"container_image"`
+							Cpu               string `json:"cpu"`
+							Distro            string `json:"distro"`
+							DistroDescription string `json:"distro_description"`
+							DistroVersion     string `json:"distro_version"`
+							FrontendConfig0   string `json:"frontend_config#0"`
+							FrontendType0     string `json:"frontend_type#0"`
+							Hostname          string `json:"hostname"`
+							Id                string `json:"id"`
+							KernelDescription string `json:"kernel_description"`
+							KernelVersion     string `json:"kernel_version"`
+							MemSwapKb         string `json:"mem_swap_kb"`
+							MemTotalKb        string `json:"mem_total_kb"`
+							NumHandles        string `json:"num_handles"`
+							Os                string `json:"os"`
+							Pid               string `json:"pid"`
+							RealmId           string `json:"realm_id"`
+							RealmName         string `json:"realm_name"`
+							ZoneId            string `json:"zone_id"`
+							ZoneName          string `json:"zone_name"`
+							ZonegroupId       string `json:"zonegroup_id"`
+							ZonegroupName     string `json:"zonegroup_name"`
+						} `json:"metadata"`
+						TaskStatus struct {
+						} `json:"task_status"`
+					} `json:"326414282"`
+					Field3 struct {
+						StartEpoch int    `json:"start_epoch"`
+						StartStamp string `json:"start_stamp"`
+						Gid        int    `json:"gid"`
+						Addr       string `json:"addr"`
+						Metadata   struct {
+							Arch              string `json:"arch"`
+							CephRelease       string `json:"ceph_release"`
+							CephVersion       string `json:"ceph_version"`
+							CephVersionShort  string `json:"ceph_version_short"`
+							ContainerHostname string `json:"container_hostname"`
+							ContainerImage    string `json:"container_image"`
+							Cpu               string `json:"cpu"`
+							Distro            string `json:"distro"`
+							DistroDescription string `json:"distro_description"`
+							DistroVersion     string `json:"distro_version"`
+							FrontendConfig0   string `json:"frontend_config#0"`
+							FrontendType0     string `json:"frontend_type#0"`
+							Hostname          string `json:"hostname"`
+							Id                string `json:"id"`
+							KernelDescription string `json:"kernel_description"`
+							KernelVersion     string `json:"kernel_version"`
+							MemSwapKb         string `json:"mem_swap_kb"`
+							MemTotalKb        string `json:"mem_total_kb"`
+							NumHandles        string `json:"num_handles"`
+							Os                string `json:"os"`
+							Pid               string `json:"pid"`
+							RealmId           string `json:"realm_id"`
+							RealmName         string `json:"realm_name"`
+							ZoneId            string `json:"zone_id"`
+							ZoneName          string `json:"zone_name"`
+							ZonegroupId       string `json:"zonegroup_id"`
+							ZonegroupName     string `json:"zonegroup_name"`
+						} `json:"metadata"`
+						TaskStatus struct {
+						} `json:"task_status"`
+					} `json:"326414323"`
+					Field4 struct {
+						StartEpoch int    `json:"start_epoch"`
+						StartStamp string `json:"start_stamp"`
+						Gid        int    `json:"gid"`
+						Addr       string `json:"addr"`
+						Metadata   struct {
+							Arch              string `json:"arch"`
+							CephRelease       string `json:"ceph_release"`
+							CephVersion       string `json:"ceph_version"`
+							CephVersionShort  string `json:"ceph_version_short"`
+							ContainerHostname string `json:"container_hostname"`
+							ContainerImage    string `json:"container_image"`
+							Cpu               string `json:"cpu"`
+							Distro            string `json:"distro"`
+							DistroDescription string `json:"distro_description"`
+							DistroVersion     string `json:"distro_version"`
+							FrontendConfig0   string `json:"frontend_config#0"`
+							FrontendType0     string `json:"frontend_type#0"`
+							Hostname          string `json:"hostname"`
+							Id                string `json:"id"`
+							KernelDescription string `json:"kernel_description"`
+							KernelVersion     string `json:"kernel_version"`
+							MemSwapKb         string `json:"mem_swap_kb"`
+							MemTotalKb        string `json:"mem_total_kb"`
+							NumHandles        string `json:"num_handles"`
+							Os                string `json:"os"`
+							Pid               string `json:"pid"`
+							RealmId           string `json:"realm_id"`
+							RealmName         string `json:"realm_name"`
+							ZoneId            string `json:"zone_id"`
+							ZoneName          string `json:"zone_name"`
+							ZonegroupId       string `json:"zonegroup_id"`
+							ZonegroupName     string `json:"zonegroup_name"`
+						} `json:"metadata"`
+						TaskStatus struct {
+						} `json:"task_status"`
+					} `json:"326414647"`
+				} `json:"daemons"`
+			} `json:"rgw"`
+			TcmuRunner struct {
+				Daemons struct {
+					Summary        string `json:"summary"`
+					Scvm2RbdIscsi1 struct {
+						StartEpoch int    `json:"start_epoch"`
+						StartStamp string `json:"start_stamp"`
+						Gid        int    `json:"gid"`
+						Addr       string `json:"addr"`
+						Metadata   struct {
+							Arch              string `json:"arch"`
+							CephRelease       string `json:"ceph_release"`
+							CephVersion       string `json:"ceph_version"`
+							CephVersionShort  string `json:"ceph_version_short"`
+							ContainerHostname string `json:"container_hostname"`
+							ContainerImage    string `json:"container_image"`
+							Cpu               string `json:"cpu"`
+							DaemonPrefix      string `json:"daemon_prefix"`
+							DaemonType        string `json:"daemon_type"`
+							Distro            string `json:"distro"`
+							DistroDescription string `json:"distro_description"`
+							DistroVersion     string `json:"distro_version"`
+							Hostname          string `json:"hostname"`
+							ImageId           string `json:"image_id"`
+							ImageName         string `json:"image_name"`
+							KernelDescription string `json:"kernel_description"`
+							KernelVersion     string `json:"kernel_version"`
+							MemSwapKb         string `json:"mem_swap_kb"`
+							MemTotalKb        string `json:"mem_total_kb"`
+							Os                string `json:"os"`
+							PoolName          string `json:"pool_name"`
+						} `json:"metadata"`
+						TaskStatus struct {
+						} `json:"task_status"`
+					} `json:"scvm2:rbd/iscsi1"`
+					Scvm2RbdIscsi2 struct {
+						StartEpoch int    `json:"start_epoch"`
+						StartStamp string `json:"start_stamp"`
+						Gid        int    `json:"gid"`
+						Addr       string `json:"addr"`
+						Metadata   struct {
+							Arch              string `json:"arch"`
+							CephRelease       string `json:"ceph_release"`
+							CephVersion       string `json:"ceph_version"`
+							CephVersionShort  string `json:"ceph_version_short"`
+							ContainerHostname string `json:"container_hostname"`
+							ContainerImage    string `json:"container_image"`
+							Cpu               string `json:"cpu"`
+							DaemonPrefix      string `json:"daemon_prefix"`
+							DaemonType        string `json:"daemon_type"`
+							Distro            string `json:"distro"`
+							DistroDescription string `json:"distro_description"`
+							DistroVersion     string `json:"distro_version"`
+							Hostname          string `json:"hostname"`
+							ImageId           string `json:"image_id"`
+							ImageName         string `json:"image_name"`
+							KernelDescription string `json:"kernel_description"`
+							KernelVersion     string `json:"kernel_version"`
+							MemSwapKb         string `json:"mem_swap_kb"`
+							MemTotalKb        string `json:"mem_total_kb"`
+							Os                string `json:"os"`
+							PoolName          string `json:"pool_name"`
+						} `json:"metadata"`
+						TaskStatus struct {
+						} `json:"task_status"`
+					} `json:"scvm2:rbd/iscsi2"`
+					Scvm2RbdIscsi3 struct {
+						StartEpoch int    `json:"start_epoch"`
+						StartStamp string `json:"start_stamp"`
+						Gid        int    `json:"gid"`
+						Addr       string `json:"addr"`
+						Metadata   struct {
+							Arch              string `json:"arch"`
+							CephRelease       string `json:"ceph_release"`
+							CephVersion       string `json:"ceph_version"`
+							CephVersionShort  string `json:"ceph_version_short"`
+							ContainerHostname string `json:"container_hostname"`
+							ContainerImage    string `json:"container_image"`
+							Cpu               string `json:"cpu"`
+							DaemonPrefix      string `json:"daemon_prefix"`
+							DaemonType        string `json:"daemon_type"`
+							Distro            string `json:"distro"`
+							DistroDescription string `json:"distro_description"`
+							DistroVersion     string `json:"distro_version"`
+							Hostname          string `json:"hostname"`
+							ImageId           string `json:"image_id"`
+							ImageName         string `json:"image_name"`
+							KernelDescription string `json:"kernel_description"`
+							KernelVersion     string `json:"kernel_version"`
+							MemSwapKb         string `json:"mem_swap_kb"`
+							MemTotalKb        string `json:"mem_total_kb"`
+							Os                string `json:"os"`
+							PoolName          string `json:"pool_name"`
+						} `json:"metadata"`
+						TaskStatus struct {
+						} `json:"task_status"`
+					} `json:"scvm2:rbd/iscsi3"`
+				} `json:"daemons"`
+			} `json:"tcmu-runner"`
+		} `json:"services"`
 	} `json:"servicemap"`
 	ProgressEvents struct {
 	} `json:"progress_events"`
@@ -89,7 +335,7 @@ func Status() *TypeGlueStatus {
 		lockGlueStatus.Do(
 			func() {
 				if gin.IsDebugging() {
-					fmt.Println("Creating glue instance now.")
+					fmt.Println("Creating ", reflect.TypeOf(_glueStatus), " now.")
 				}
 				_glueStatus = &TypeGlueStatus{}
 			})

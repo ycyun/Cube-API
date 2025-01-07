@@ -6,6 +6,7 @@ import (
 	"github.com/goccy/go-json"
 	Cube "github.com/ycyun/Cube-API/cube/action"
 	"os/exec"
+	"reflect"
 	"sync"
 	"time"
 )
@@ -36,7 +37,7 @@ func Version() *TypeGlueVersion {
 		lockGlueVersion.Do(
 			func() {
 				if gin.IsDebugging() {
-					fmt.Println("Creating glueversion instance now.")
+					fmt.Println("Creating ", reflect.TypeOf(_glueVersion), " now.")
 				}
 				_glueVersion = &TypeGlueVersion{}
 			})

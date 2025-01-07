@@ -7,6 +7,7 @@ import (
 	"github.com/gofrs/uuid"
 	"github.com/ycyun/Cube-API/utils"
 	"os/exec"
+	"reflect"
 	"sync"
 	"time"
 )
@@ -89,7 +90,7 @@ func Status() *TypeMoldStatus {
 		lockGlueStatus.Do(
 			func() {
 				if gin.IsDebugging() {
-					fmt.Println("Creating mold instance now.")
+					fmt.Println("Creating ", reflect.TypeOf(_moldStatus), " now.")
 				}
 				_moldStatus = &TypeMoldStatus{}
 			})
