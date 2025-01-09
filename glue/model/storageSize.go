@@ -108,6 +108,9 @@ func UpdateStorageSize() *TypeGlueStorageSize {
 
 		}
 	}
+
+	var StatsByClass []TypeGlueClass
+	var Pools []TypeGluePools
 	for key, value := range _tmpGlueStorageSize {
 		if key == "stats" {
 			s := TypeGlueStorageStats{}
@@ -133,8 +136,7 @@ func UpdateStorageSize() *TypeGlueStorageSize {
 					return nil
 				}
 				s.Type = name
-
-				_glueStorageSize.StatsByClass = append(_glueStorageSize.StatsByClass, s)
+				StatsByClass = append(StatsByClass, s)
 			}
 		} else if key == "pools" {
 			for _, item := range value.([]interface{}) {
@@ -148,10 +150,13 @@ func UpdateStorageSize() *TypeGlueStorageSize {
 				if err != nil {
 					return nil
 				}
-				_glueStorageSize.Pools = append(_glueStorageSize.Pools, s)
+				Pools = append(Pools, s)
 			}
 		}
 
 	}
+
+	_glueStorageSize.Pools = Pools
+	_glueStorageSize.StatsByClass = StatsByClass
 	return _glueStorageSize
 }

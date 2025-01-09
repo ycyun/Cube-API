@@ -23,6 +23,8 @@ type TypeGlueDaemons struct {
 	OSD          []TypeGlueDaemon `json:"osd"`
 	Prometheus   []TypeGlueDaemon `json:"prometheus"`
 	RGW          []TypeGlueDaemon `json:"rgw"`
+	NodeExporter []TypeGlueDaemon `json:"node-exporter"`
+	RbdMirror    []TypeGlueDaemon `json:"rbd-mirror"`
 	Other        []TypeGlueDaemon `json:"other"`
 	RefreshTime  time.Time
 }
@@ -65,14 +67,30 @@ func DaemonList() *TypeGlueDaemons {
 			})
 	} else {
 		if gin.IsDebugging() {
-			fmt.Println("get old instance.")
+			fmt.Println("get old ", reflect.TypeOf(_glueDaemonList), " instance.")
 		}
 	}
 	return _glueDaemonList
 }
 
 func UpdateDaemonList() *TypeGlueDaemons {
+	DaemonList()
 	var _glueDaemonLists []TypeGlueDaemon
+	var AlertManager []TypeGlueDaemon
+	var CephExporter []TypeGlueDaemon
+	var Crash []TypeGlueDaemon
+	var Grafana []TypeGlueDaemon
+	var ISCSI []TypeGlueDaemon
+	var MDS []TypeGlueDaemon
+	var MGR []TypeGlueDaemon
+	var MON []TypeGlueDaemon
+	var OSD []TypeGlueDaemon
+	var Prometheus []TypeGlueDaemon
+	var NodeExporter []TypeGlueDaemon
+	var RGW []TypeGlueDaemon
+	var RbdMirror []TypeGlueDaemon
+	var Other []TypeGlueDaemon
+
 	if gin.Mode() == gin.ReleaseMode {
 		var stdout []byte
 
@@ -95,32 +113,50 @@ func UpdateDaemonList() *TypeGlueDaemons {
 	for _, _glueDaemon := range _glueDaemonLists {
 		switch _glueDaemon.DaemonType {
 		case "alertmanager":
-			_glueDaemonList.AlertManager = append(_glueDaemonList.AlertManager, _glueDaemon)
+			AlertManager = append(AlertManager, _glueDaemon)
 		case "ceph-exporter":
-			_glueDaemonList.CephExporter = append(_glueDaemonList.CephExporter, _glueDaemon)
+			CephExporter = append(CephExporter, _glueDaemon)
 		case "crash":
-			_glueDaemonList.Crash = append(_glueDaemonList.Crash, _glueDaemon)
+			Crash = append(Crash, _glueDaemon)
 		case "grafana":
-			_glueDaemonList.Grafana = append(_glueDaemonList.Grafana, _glueDaemon)
+			Grafana = append(Grafana, _glueDaemon)
 		case "iscsi":
-			_glueDaemonList.ISCSI = append(_glueDaemonList.ISCSI, _glueDaemon)
+			ISCSI = append(ISCSI, _glueDaemon)
 		case "mds":
-			_glueDaemonList.MDS = append(_glueDaemonList.MDS, _glueDaemon)
+			MDS = append(MDS, _glueDaemon)
 		case "mgr":
-			_glueDaemonList.MGR = append(_glueDaemonList.MGR, _glueDaemon)
+			MGR = append(MGR, _glueDaemon)
 		case "mon":
-			_glueDaemonList.MON = append(_glueDaemonList.MON, _glueDaemon)
+			MON = append(MON, _glueDaemon)
 		case "osd":
-			_glueDaemonList.OSD = append(_glueDaemonList.OSD, _glueDaemon)
+			OSD = append(OSD, _glueDaemon)
 		case "prometheus":
-			_glueDaemonList.Prometheus = append(_glueDaemonList.Prometheus, _glueDaemon)
+			Prometheus = append(Prometheus, _glueDaemon)
+		case "node-exporter":
+			NodeExporter = append(NodeExporter, _glueDaemon)
 		case "rgw":
-			_glueDaemonList.RGW = append(_glueDaemonList.RGW, _glueDaemon)
+			RGW = append(RGW, _glueDaemon)
+		case "rbd-mirror":
+			RbdMirror = append(RbdMirror, _glueDaemon)
 		default:
-			_glueDaemonList.Other = append(_glueDaemonList.Other, _glueDaemon)
+			Other = append(Other, _glueDaemon)
 
 		}
 
+		_glueDaemonList.AlertManager = AlertManager
+		_glueDaemonList.CephExporter = CephExporter
+		_glueDaemonList.Crash = Crash
+		_glueDaemonList.Grafana = Grafana
+		_glueDaemonList.ISCSI = ISCSI
+		_glueDaemonList.MDS = MDS
+		_glueDaemonList.MGR = MGR
+		_glueDaemonList.MON = MON
+		_glueDaemonList.OSD = OSD
+		_glueDaemonList.Prometheus = Prometheus
+		_glueDaemonList.NodeExporter = NodeExporter
+		_glueDaemonList.RGW = RGW
+		_glueDaemonList.RbdMirror = RbdMirror
+		_glueDaemonList.Other = Other
 	}
 	_glueDaemonList.RefreshTime = time.Now()
 	return _glueDaemonList

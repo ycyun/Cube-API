@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-json"
-	Cube "github.com/ycyun/Cube-API/cube/action"
+	Controller "github.com/ycyun/Cube-API/controller"
 	"os/exec"
 	"reflect"
 	"sync"
@@ -14,18 +14,14 @@ import (
 // TypeGlueVersion
 // @Description Glue의 버전
 type TypeGlueVersion struct {
-	Mon interface {
-	} `json:"mon"`
-	Mgr interface {
-	} `json:"mgr"`
-	Osd interface {
-	} `json:"osd"`
-	RbdMirror interface {
-	} `json:"rbd-mirror"`
-	Rgw interface {
-	} `json:"rgw"`
-	Overall interface {
-	} `json:"overall"`
+	Mon        interface{} `json:"mon"`
+	Mgr        interface{} `json:"mgr"`
+	Osd        interface{} `json:"osd"`
+	MDS        interface{} `json:"mds"`
+	Rgw        interface{} `json:"rgw"`
+	RbdMirror  interface{} `json:"rbd-mirror"`
+	TcmuRunner interface{} `json:"tcmu-runner"`
+	Overall    interface{} `json:"overall"`
 } //@name TypeGlueVersion
 
 var lockGlueVersion sync.Once
@@ -50,18 +46,19 @@ func Version() *TypeGlueVersion {
 }
 
 func UpdateVersion() *TypeGlueVersion {
+	Version()
 	if gin.Mode() == gin.ReleaseMode {
 		cmd := exec.Command("ceph", "versions")
 		stdout, _ := cmd.CombinedOutput()
 
 		if err := json.Unmarshal(stdout, &_glueVersion); err != nil {
-			Cube.AddError(err)
+			Controller.AddError(err)
 		}
 	} else {
 		// Print the output
 		versions := []byte("{\n    \"mon\": {\n        \"ceph version Glue-Diplo-4.0.0 (5dd24139a1eada541a3bc16b6941c5dde975e26d) reef (stable)\": 3\n    },\n    \"mgr\": {\n        \"ceph version Glue-Diplo-4.0.0 (5dd24139a1eada541a3bc16b6941c5dde975e26d) reef (stable)\": 2\n    },\n    \"osd\": {\n        \"ceph version Glue-Diplo-4.0.0 (5dd24139a1eada541a3bc16b6941c5dde975e26d) reef (stable)\": 19\n    },\n    \"rbd-mirror\": {\n        \"ceph version Glue-Diplo-4.0.0 (5dd24139a1eada541a3bc16b6941c5dde975e26d) reef (stable)\": 2\n    },\n    \"rgw\": {\n        \"ceph version Glue-Diplo-4.0.0 (5dd24139a1eada541a3bc16b6941c5dde975e26d) reef (stable)\": 1\n    },\n    \"overall\": {\n        \"ceph version Glue-Diplo-4.0.0 (5dd24139a1eada541a3bc16b6941c5dde975e26d) reef (stable)\": 27\n    }\n}")
 		if err := json.Unmarshal(versions, &_glueVersion); err != nil {
-			Cube.AddError(err)
+			Controller.AddError(err)
 		}
 	}
 	_glueStatus.RefreshTime = time.Now()

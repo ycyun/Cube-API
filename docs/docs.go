@@ -9,16 +9,460 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
+        "termsOfService": "https://ablecloud.io/",
         "contact": {
             "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
+            "url": "https://www.ablecloud.io/support",
+            "email": "ycyun@ablecloud.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
         },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/Sample": {
+            "get": {
+                "description": "\u003c\u003cSample\u003e\u003e의 상태값을 보여줍니다.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "\u003c\u003cSample\u003e\u003e"
+                ],
+                "summary": "Show Status of \u003c\u003cSample\u003e\u003e",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TypeSampleStatus"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
+        "/cube/hosts": {
+            "get": {
+                "description": "Cube의 Host목록을 보여줍니다.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "Show List of Host",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeHosts"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
+        "/cube/neighbor": {
+            "get": {
+                "description": "GetNeighbor.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "GetNeighbor",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/controller.TypeNeighbor"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "PutNeighbor.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "PutNeighbor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Neighbor IP",
+                        "name": "ip",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Neighbor Hostname",
+                        "name": "hostname",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/controller.TypeNeighbor"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "PutNeighbor.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "PutNeighbor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Neighbor IP",
+                        "name": "ip",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Neighbor Hostname",
+                        "name": "hostname",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/controller.TypeNeighbor"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "DeleteNeighbor.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "DeleteNeighbor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Neighbor IP",
+                        "name": "ip",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Neighbor Hostname",
+                        "name": "hostname",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/controller.TypeNeighbor"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
+        "/cube/neighbor/info": {
+            "get": {
+                "description": "GetNeighbor.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "GetNeighbor",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard": {
+            "get": {
+                "description": "GLUE의 상태값을 보여줍니다.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "Glue",
+                    "GLUE"
+                ],
+                "summary": "Show StorageCenterClusterStatus of GLUE",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TyepStorageCenterCluster"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
+        "/err": {
+            "get": {
+                "description": "Error.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "Error",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Errorlog"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
         "/glue": {
             "get": {
                 "description": "GLUE의 상태값을 보여줍니다.",
@@ -39,6 +483,92 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/TypeGlueStatus"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
+        "/glue/auth": {
+            "get": {
+                "description": "GLUE의 인증키를 보여줍니다.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "Glue",
+                    "GLUE"
+                ],
+                "summary": "Show Auth of GLUE",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TypeAuth"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
+        "/glue/auths": {
+            "get": {
+                "description": "GLUE의 인증키 목록을 보여줍니다.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "Glue",
+                    "GLUE"
+                ],
+                "summary": "Show Auths of GLUE",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TypeAuth"
                         }
                     },
                     "400": {
@@ -105,9 +635,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/version": {
+        "/pcs": {
             "get": {
-                "description": "API 의 버전을 보여줍니다.",
+                "description": "PCS 상태값을 보여줍니다.",
                 "consumes": [
                     "application/x-www-form-urlencoded"
                 ],
@@ -115,14 +645,60 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "API"
+                    "API",
+                    "PCS"
                 ],
-                "summary": "Show Versions of API",
+                "summary": "Show Status of PCS",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/action.TypeCUBEVersion"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/TypePCSesource"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
+        "/version": {
+            "get": {
+                "description": "CUBE 의 버전을 보여줍니다.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "Show Versions of CUBE",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.TypeVersion"
                         }
                     },
                     "400": {
@@ -148,6 +724,19 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "Errorlog": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "format": "string"
+                },
+                "refresh_time": {
+                    "type": "string",
+                    "format": "time"
+                }
+            }
+        },
         "HTTP400BadRequest": {
             "type": "object",
             "properties": {
@@ -187,6 +776,43 @@ const docTemplate = `{
                 }
             }
         },
+        "TyepStorageCenterCluster": {
+            "type": "object",
+            "properties": {
+                "cluster-status": {
+                    "$ref": "#/definitions/model.TypeClusterStatus"
+                },
+                "daemons": {
+                    "$ref": "#/definitions/model.TypeGlueDaemons"
+                },
+                "disks": {
+                    "$ref": "#/definitions/model.TypeDisks"
+                },
+                "gateways": {
+                    "$ref": "#/definitions/model.TypeGateways"
+                },
+                "refresh-time": {
+                    "type": "string"
+                },
+                "storage-pools": {
+                    "$ref": "#/definitions/TypeGlueStorageSize"
+                }
+            }
+        },
+        "TypeAuth": {
+            "type": "object",
+            "properties": {
+                "auth": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/TypeAuth"
+                    }
+                },
+                "refreshTime": {
+                    "type": "string"
+                }
+            }
+        },
         "TypeGlueStatus": {
             "description": "Glue의 상태를 나타내는 구조체",
             "type": "object",
@@ -220,8 +846,97 @@ const docTemplate = `{
                 "health": {
                     "type": "object",
                     "properties": {
-                        "checks": {},
-                        "mutes": {},
+                        "checks": {
+                            "type": "object",
+                            "properties": {
+                                "OSDMAP_FLAGS": {
+                                    "type": "object",
+                                    "properties": {
+                                        "muted": {
+                                            "type": "boolean"
+                                        },
+                                        "severity": {
+                                            "type": "string"
+                                        },
+                                        "summary": {
+                                            "type": "object",
+                                            "properties": {
+                                                "count": {
+                                                    "type": "integer"
+                                                },
+                                                "message": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "OSD_DOWN": {
+                                    "type": "object",
+                                    "properties": {
+                                        "muted": {
+                                            "type": "boolean"
+                                        },
+                                        "severity": {
+                                            "type": "string"
+                                        },
+                                        "summary": {
+                                            "type": "object",
+                                            "properties": {
+                                                "count": {
+                                                    "type": "integer"
+                                                },
+                                                "message": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "PG_AVAILABILITY": {
+                                    "type": "object",
+                                    "properties": {
+                                        "muted": {
+                                            "type": "boolean"
+                                        },
+                                        "severity": {
+                                            "type": "string"
+                                        },
+                                        "summary": {
+                                            "type": "object",
+                                            "properties": {
+                                                "count": {
+                                                    "type": "integer"
+                                                },
+                                                "message": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "mutes": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "code": {
+                                        "type": "string"
+                                    },
+                                    "count": {
+                                        "type": "integer"
+                                    },
+                                    "sticky": {
+                                        "type": "boolean"
+                                    },
+                                    "summary": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
                         "status": {
                             "type": "string",
                             "format": "string",
@@ -379,7 +1094,639 @@ const docTemplate = `{
                         "modified": {
                             "type": "string"
                         },
-                        "services": {}
+                        "services": {
+                            "type": "object",
+                            "properties": {
+                                "rgw": {
+                                    "type": "object",
+                                    "properties": {
+                                        "daemons": {
+                                            "type": "object",
+                                            "properties": {
+                                                "326414282": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "addr": {
+                                                            "type": "string"
+                                                        },
+                                                        "gid": {
+                                                            "type": "integer"
+                                                        },
+                                                        "metadata": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "arch": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_release": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_version_short": {
+                                                                    "type": "string"
+                                                                },
+                                                                "container_hostname": {
+                                                                    "type": "string"
+                                                                },
+                                                                "container_image": {
+                                                                    "type": "string"
+                                                                },
+                                                                "cpu": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro_description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "frontend_config#0": {
+                                                                    "type": "string"
+                                                                },
+                                                                "frontend_type#0": {
+                                                                    "type": "string"
+                                                                },
+                                                                "hostname": {
+                                                                    "type": "string"
+                                                                },
+                                                                "id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "kernel_description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "kernel_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "mem_swap_kb": {
+                                                                    "type": "string"
+                                                                },
+                                                                "mem_total_kb": {
+                                                                    "type": "string"
+                                                                },
+                                                                "num_handles": {
+                                                                    "type": "string"
+                                                                },
+                                                                "os": {
+                                                                    "type": "string"
+                                                                },
+                                                                "pid": {
+                                                                    "type": "string"
+                                                                },
+                                                                "realm_id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "realm_name": {
+                                                                    "type": "string"
+                                                                },
+                                                                "zone_id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "zone_name": {
+                                                                    "type": "string"
+                                                                },
+                                                                "zonegroup_id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "zonegroup_name": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        },
+                                                        "start_epoch": {
+                                                            "type": "integer"
+                                                        },
+                                                        "start_stamp": {
+                                                            "type": "string"
+                                                        },
+                                                        "task_status": {
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "326414323": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "addr": {
+                                                            "type": "string"
+                                                        },
+                                                        "gid": {
+                                                            "type": "integer"
+                                                        },
+                                                        "metadata": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "arch": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_release": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_version_short": {
+                                                                    "type": "string"
+                                                                },
+                                                                "container_hostname": {
+                                                                    "type": "string"
+                                                                },
+                                                                "container_image": {
+                                                                    "type": "string"
+                                                                },
+                                                                "cpu": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro_description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "frontend_config#0": {
+                                                                    "type": "string"
+                                                                },
+                                                                "frontend_type#0": {
+                                                                    "type": "string"
+                                                                },
+                                                                "hostname": {
+                                                                    "type": "string"
+                                                                },
+                                                                "id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "kernel_description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "kernel_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "mem_swap_kb": {
+                                                                    "type": "string"
+                                                                },
+                                                                "mem_total_kb": {
+                                                                    "type": "string"
+                                                                },
+                                                                "num_handles": {
+                                                                    "type": "string"
+                                                                },
+                                                                "os": {
+                                                                    "type": "string"
+                                                                },
+                                                                "pid": {
+                                                                    "type": "string"
+                                                                },
+                                                                "realm_id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "realm_name": {
+                                                                    "type": "string"
+                                                                },
+                                                                "zone_id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "zone_name": {
+                                                                    "type": "string"
+                                                                },
+                                                                "zonegroup_id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "zonegroup_name": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        },
+                                                        "start_epoch": {
+                                                            "type": "integer"
+                                                        },
+                                                        "start_stamp": {
+                                                            "type": "string"
+                                                        },
+                                                        "task_status": {
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "326414647": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "addr": {
+                                                            "type": "string"
+                                                        },
+                                                        "gid": {
+                                                            "type": "integer"
+                                                        },
+                                                        "metadata": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "arch": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_release": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_version_short": {
+                                                                    "type": "string"
+                                                                },
+                                                                "container_hostname": {
+                                                                    "type": "string"
+                                                                },
+                                                                "container_image": {
+                                                                    "type": "string"
+                                                                },
+                                                                "cpu": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro_description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "frontend_config#0": {
+                                                                    "type": "string"
+                                                                },
+                                                                "frontend_type#0": {
+                                                                    "type": "string"
+                                                                },
+                                                                "hostname": {
+                                                                    "type": "string"
+                                                                },
+                                                                "id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "kernel_description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "kernel_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "mem_swap_kb": {
+                                                                    "type": "string"
+                                                                },
+                                                                "mem_total_kb": {
+                                                                    "type": "string"
+                                                                },
+                                                                "num_handles": {
+                                                                    "type": "string"
+                                                                },
+                                                                "os": {
+                                                                    "type": "string"
+                                                                },
+                                                                "pid": {
+                                                                    "type": "string"
+                                                                },
+                                                                "realm_id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "realm_name": {
+                                                                    "type": "string"
+                                                                },
+                                                                "zone_id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "zone_name": {
+                                                                    "type": "string"
+                                                                },
+                                                                "zonegroup_id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "zonegroup_name": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        },
+                                                        "start_epoch": {
+                                                            "type": "integer"
+                                                        },
+                                                        "start_stamp": {
+                                                            "type": "string"
+                                                        },
+                                                        "task_status": {
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "summary": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "tcmu-runner": {
+                                    "type": "object",
+                                    "properties": {
+                                        "daemons": {
+                                            "type": "object",
+                                            "properties": {
+                                                "scvm2:rbd/iscsi1": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "addr": {
+                                                            "type": "string"
+                                                        },
+                                                        "gid": {
+                                                            "type": "integer"
+                                                        },
+                                                        "metadata": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "arch": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_release": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_version_short": {
+                                                                    "type": "string"
+                                                                },
+                                                                "container_hostname": {
+                                                                    "type": "string"
+                                                                },
+                                                                "container_image": {
+                                                                    "type": "string"
+                                                                },
+                                                                "cpu": {
+                                                                    "type": "string"
+                                                                },
+                                                                "daemon_prefix": {
+                                                                    "type": "string"
+                                                                },
+                                                                "daemon_type": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro_description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "hostname": {
+                                                                    "type": "string"
+                                                                },
+                                                                "image_id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "image_name": {
+                                                                    "type": "string"
+                                                                },
+                                                                "kernel_description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "kernel_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "mem_swap_kb": {
+                                                                    "type": "string"
+                                                                },
+                                                                "mem_total_kb": {
+                                                                    "type": "string"
+                                                                },
+                                                                "os": {
+                                                                    "type": "string"
+                                                                },
+                                                                "pool_name": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        },
+                                                        "start_epoch": {
+                                                            "type": "integer"
+                                                        },
+                                                        "start_stamp": {
+                                                            "type": "string"
+                                                        },
+                                                        "task_status": {
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "scvm2:rbd/iscsi2": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "addr": {
+                                                            "type": "string"
+                                                        },
+                                                        "gid": {
+                                                            "type": "integer"
+                                                        },
+                                                        "metadata": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "arch": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_release": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_version_short": {
+                                                                    "type": "string"
+                                                                },
+                                                                "container_hostname": {
+                                                                    "type": "string"
+                                                                },
+                                                                "container_image": {
+                                                                    "type": "string"
+                                                                },
+                                                                "cpu": {
+                                                                    "type": "string"
+                                                                },
+                                                                "daemon_prefix": {
+                                                                    "type": "string"
+                                                                },
+                                                                "daemon_type": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro_description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "hostname": {
+                                                                    "type": "string"
+                                                                },
+                                                                "image_id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "image_name": {
+                                                                    "type": "string"
+                                                                },
+                                                                "kernel_description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "kernel_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "mem_swap_kb": {
+                                                                    "type": "string"
+                                                                },
+                                                                "mem_total_kb": {
+                                                                    "type": "string"
+                                                                },
+                                                                "os": {
+                                                                    "type": "string"
+                                                                },
+                                                                "pool_name": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        },
+                                                        "start_epoch": {
+                                                            "type": "integer"
+                                                        },
+                                                        "start_stamp": {
+                                                            "type": "string"
+                                                        },
+                                                        "task_status": {
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "scvm2:rbd/iscsi3": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "addr": {
+                                                            "type": "string"
+                                                        },
+                                                        "gid": {
+                                                            "type": "integer"
+                                                        },
+                                                        "metadata": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "arch": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_release": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "ceph_version_short": {
+                                                                    "type": "string"
+                                                                },
+                                                                "container_hostname": {
+                                                                    "type": "string"
+                                                                },
+                                                                "container_image": {
+                                                                    "type": "string"
+                                                                },
+                                                                "cpu": {
+                                                                    "type": "string"
+                                                                },
+                                                                "daemon_prefix": {
+                                                                    "type": "string"
+                                                                },
+                                                                "daemon_type": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro_description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "distro_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "hostname": {
+                                                                    "type": "string"
+                                                                },
+                                                                "image_id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "image_name": {
+                                                                    "type": "string"
+                                                                },
+                                                                "kernel_description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "kernel_version": {
+                                                                    "type": "string"
+                                                                },
+                                                                "mem_swap_kb": {
+                                                                    "type": "string"
+                                                                },
+                                                                "mem_total_kb": {
+                                                                    "type": "string"
+                                                                },
+                                                                "os": {
+                                                                    "type": "string"
+                                                                },
+                                                                "pool_name": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        },
+                                                        "start_epoch": {
+                                                            "type": "integer"
+                                                        },
+                                                        "start_stamp": {
+                                                            "type": "string"
+                                                        },
+                                                        "task_status": {
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "summary": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "TypeGlueStorageSize": {
+            "type": "object",
+            "properties": {
+                "pools": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGluePools"
+                    }
+                },
+                "stats": {
+                    "$ref": "#/definitions/model.TypeGlueStorageStats"
+                },
+                "stats_by_class": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueClass"
                     }
                 }
             }
@@ -581,7 +1928,872 @@ const docTemplate = `{
                 }
             }
         },
-        "action.TypeCUBEVersion": {
+        "TypePCSStatus": {
+            "type": "object",
+            "properties": {
+                "apiVersion": {
+                    "description": "XMLName    xml.Name ` + "`" + `xml:\"PCS-result\"` + "`" + `\nText       string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                    "type": "string"
+                },
+                "bans": {
+                    "type": "object",
+                    "properties": {
+                        "ban": {
+                            "description": "Text string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "description": "Text         string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                                        "type": "string"
+                                    },
+                                    "masterOnly": {
+                                        "type": "string"
+                                    },
+                                    "node": {
+                                        "type": "string"
+                                    },
+                                    "promotedOnly": {
+                                        "type": "string"
+                                    },
+                                    "resource": {
+                                        "type": "string"
+                                    },
+                                    "weight": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "nodeHistory": {
+                    "type": "object",
+                    "properties": {
+                        "node": {
+                            "description": "Text string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "description": "Text            string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                                        "type": "string"
+                                    },
+                                    "resourceHistory": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Text               string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                                                    "type": "string"
+                                                },
+                                                "migrationThreshold": {
+                                                    "type": "string"
+                                                },
+                                                "operationHistory": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "call": {
+                                                                "description": "Text         string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                                                                "type": "string"
+                                                            },
+                                                            "execTime": {
+                                                                "type": "string"
+                                                            },
+                                                            "interval": {
+                                                                "type": "string"
+                                                            },
+                                                            "lastRcChange": {
+                                                                "type": "string"
+                                                            },
+                                                            "queueTime": {
+                                                                "type": "string"
+                                                            },
+                                                            "rc": {
+                                                                "type": "string"
+                                                            },
+                                                            "rcText": {
+                                                                "type": "string"
+                                                            },
+                                                            "task": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "orphan": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "nodes": {
+                    "type": "object",
+                    "properties": {
+                        "node": {
+                            "description": "Text string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "expectedUp": {
+                                        "type": "string"
+                                    },
+                                    "featureSet": {
+                                        "type": "string"
+                                    },
+                                    "health": {
+                                        "type": "string"
+                                    },
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "isDc": {
+                                        "type": "string"
+                                    },
+                                    "maintenance": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "description": "Text             string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                                        "type": "string"
+                                    },
+                                    "online": {
+                                        "type": "string"
+                                    },
+                                    "pending": {
+                                        "type": "string"
+                                    },
+                                    "resourcesRunning": {
+                                        "type": "string"
+                                    },
+                                    "shutdown": {
+                                        "type": "string"
+                                    },
+                                    "standby": {
+                                        "type": "string"
+                                    },
+                                    "standbyOnfail": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "unclean": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "refreshTime": {
+                    "type": "string"
+                },
+                "request": {
+                    "type": "string"
+                },
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "clone": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.TypePCSClone"
+                            }
+                        },
+                        "resource": {
+                            "description": "Text     string            ` + "`" + `xml:\",chardata\"` + "`" + `",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/TypePCSesource"
+                            }
+                        }
+                    }
+                },
+                "status": {
+                    "type": "object",
+                    "properties": {
+                        "code": {
+                            "description": "Text    string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                            "type": "string"
+                        },
+                        "message": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "summary": {
+                    "type": "object",
+                    "properties": {
+                        "clusterOptions": {
+                            "type": "object",
+                            "properties": {
+                                "maintenanceMode": {
+                                    "type": "string"
+                                },
+                                "noQuorumPolicy": {
+                                    "type": "string"
+                                },
+                                "priorityFencingDelayMs": {
+                                    "type": "string"
+                                },
+                                "stonithEnabled": {
+                                    "description": "Text                   string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                                    "type": "string"
+                                },
+                                "stonithTimeoutMs": {
+                                    "type": "string"
+                                },
+                                "stopAllResources": {
+                                    "type": "string"
+                                },
+                                "symmetricCluster": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "currentDc": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "mixedVersion": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "present": {
+                                    "description": "Text         string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                                    "type": "string"
+                                },
+                                "version": {
+                                    "type": "string"
+                                },
+                                "withQuorum": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "lastChange": {
+                            "type": "object",
+                            "properties": {
+                                "client": {
+                                    "type": "string"
+                                },
+                                "origin": {
+                                    "type": "string"
+                                },
+                                "time": {
+                                    "description": "Text   string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                                    "type": "string"
+                                },
+                                "user": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "lastUpdate": {
+                            "type": "object",
+                            "properties": {
+                                "origin": {
+                                    "type": "string"
+                                },
+                                "time": {
+                                    "description": "Text   string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "nodesConfigured": {
+                            "type": "object",
+                            "properties": {
+                                "number": {
+                                    "description": "Text   string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "resourcesConfigured": {
+                            "type": "object",
+                            "properties": {
+                                "blocked": {
+                                    "type": "string"
+                                },
+                                "disabled": {
+                                    "type": "string"
+                                },
+                                "number": {
+                                    "description": "Text     string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "stack": {
+                            "description": "Text  string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                            "type": "object",
+                            "properties": {
+                                "pcsdState": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Text      string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "TypePCSesource": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "string"
+                },
+                "blocked": {
+                    "type": "string"
+                },
+                "failed": {
+                    "type": "string"
+                },
+                "failureIgnored": {
+                    "type": "string"
+                },
+                "id": {
+                    "description": "Text           string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                    "type": "string"
+                },
+                "maintenance": {
+                    "type": "string"
+                },
+                "managed": {
+                    "type": "string"
+                },
+                "node": {
+                    "type": "object",
+                    "properties": {
+                        "cached": {
+                            "type": "string"
+                        },
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "description": "Text   string ` + "`" + `xml:\",chardata\"` + "`" + `",
+                            "type": "string"
+                        }
+                    }
+                },
+                "nodesRunningOn": {
+                    "type": "string"
+                },
+                "orphaned": {
+                    "type": "string"
+                },
+                "resourceAgent": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "TypeSampleStatus": {
+            "type": "object",
+            "properties": {
+                "refreshTime": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "object",
+                    "properties": {
+                        "code": {
+                            "type": "string"
+                        },
+                        "message": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "xmlname": {
+                    "type": "string"
+                }
+            }
+        },
+        "controller.TypeNeighbor": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "ip": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TypeClusterStatus": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TypeDisks": {
+            "type": "object",
+            "properties": {
+                "in": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "up": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.TypeGateways": {
+            "type": "object",
+            "properties": {
+                "quorum": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "up": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.TypeGlueClass": {
+            "type": "object",
+            "properties": {
+                "total_avail_bytes": {
+                    "type": "integer"
+                },
+                "total_bytes": {
+                    "type": "integer"
+                },
+                "total_used_bytes": {
+                    "type": "integer"
+                },
+                "total_used_raw_bytes": {
+                    "type": "integer"
+                },
+                "total_used_raw_ratio": {
+                    "type": "number"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TypeGlueDaemon": {
+            "type": "object",
+            "properties": {
+                "container_id": {
+                    "type": "string"
+                },
+                "container_image_digests": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "container_image_id": {
+                    "type": "string"
+                },
+                "container_image_name": {
+                    "type": "string"
+                },
+                "cpu_percentage": {
+                    "type": "string"
+                },
+                "created": {
+                    "type": "string"
+                },
+                "daemon_id": {
+                    "type": "string"
+                },
+                "daemon_name": {
+                    "type": "string"
+                },
+                "daemon_type": {
+                    "type": "string"
+                },
+                "events": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "hostname": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "last_refresh": {
+                    "type": "string"
+                },
+                "memory_request": {
+                    "type": "integer"
+                },
+                "memory_usage": {
+                    "type": "integer"
+                },
+                "ports": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "started": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "status_desc": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TypeGlueDaemons": {
+            "type": "object",
+            "properties": {
+                "alertmanager": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "ceph-exporter": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "crash": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "grafana": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "iscsi": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "mds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "mgr": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "mon": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "node-exporter": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "osd": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "other": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "prometheus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "rbd-mirror": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                },
+                "refreshTime": {
+                    "type": "string"
+                },
+                "rgw": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeGlueDaemon"
+                    }
+                }
+            }
+        },
+        "model.TypeGluePoolStats": {
+            "type": "object",
+            "properties": {
+                "avail_raw": {
+                    "type": "integer"
+                },
+                "bytes_used": {
+                    "type": "integer"
+                },
+                "compress_bytes_used": {
+                    "type": "integer"
+                },
+                "compress_under_bytes": {
+                    "type": "integer"
+                },
+                "data_bytes_used": {
+                    "type": "integer"
+                },
+                "dirty": {
+                    "type": "integer"
+                },
+                "kb_used": {
+                    "type": "integer"
+                },
+                "max_avail": {
+                    "type": "integer"
+                },
+                "objects": {
+                    "type": "integer"
+                },
+                "omap_bytes_used": {
+                    "type": "integer"
+                },
+                "percent_used": {
+                    "type": "number"
+                },
+                "quota_bytes": {
+                    "type": "integer"
+                },
+                "quota_objects": {
+                    "type": "integer"
+                },
+                "rd": {
+                    "type": "integer"
+                },
+                "rd_bytes": {
+                    "type": "integer"
+                },
+                "stored": {
+                    "type": "integer"
+                },
+                "stored_data": {
+                    "type": "integer"
+                },
+                "stored_omap": {
+                    "type": "integer"
+                },
+                "stored_raw": {
+                    "type": "integer"
+                },
+                "wr": {
+                    "type": "integer"
+                },
+                "wr_bytes": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.TypeGluePools": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "stats": {
+                    "$ref": "#/definitions/model.TypeGluePoolStats"
+                }
+            }
+        },
+        "model.TypeGlueStorageStats": {
+            "type": "object",
+            "properties": {
+                "num_osds": {
+                    "type": "integer"
+                },
+                "num_per_pool_omap_osds": {
+                    "type": "integer"
+                },
+                "num_per_pool_osds": {
+                    "type": "integer"
+                },
+                "total_avail_bytes": {
+                    "type": "integer"
+                },
+                "total_bytes": {
+                    "type": "integer"
+                },
+                "total_used_bytes": {
+                    "type": "integer"
+                },
+                "total_used_raw_bytes": {
+                    "type": "integer"
+                },
+                "total_used_raw_ratio": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.TypeHost": {
+            "type": "object",
+            "properties": {
+                "hostnames": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ip": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TypeHosts": {
+            "type": "object",
+            "properties": {
+                "host": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypeHost"
+                    }
+                },
+                "refresh_time": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TypePCSClone": {
+            "type": "object",
+            "properties": {
+                "disabled": {
+                    "type": "string"
+                },
+                "failed": {
+                    "type": "string"
+                },
+                "failureIgnored": {
+                    "type": "string"
+                },
+                "group": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TypePCSResourceGroup"
+                    }
+                },
+                "id": {
+                    "description": "Text           string                 ` + "`" + `xml:\",chardata\"` + "`" + `",
+                    "type": "string"
+                },
+                "maintenance": {
+                    "type": "string"
+                },
+                "managed": {
+                    "type": "string"
+                },
+                "multiState": {
+                    "type": "string"
+                },
+                "resource": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TypePCSesource"
+                    }
+                },
+                "unique": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TypePCSResourceGroup": {
+            "type": "object",
+            "properties": {
+                "disabled": {
+                    "type": "string"
+                },
+                "id": {
+                    "description": "Text            string            ` + "`" + `xml:\",chardata\"` + "`" + `",
+                    "type": "string"
+                },
+                "maintenance": {
+                    "type": "string"
+                },
+                "managed": {
+                    "type": "string"
+                },
+                "numberResources": {
+                    "type": "string"
+                },
+                "resource": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TypePCSesource"
+                    }
+                }
+            }
+        },
+        "utils.TypeVersion": {
             "type": "object",
             "properties": {
                 "debug": {
@@ -592,17 +2804,26 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "None": {
+            "type": "basic"
+        }
+    },
+    "externalDocs": {
+        "description": "ABLECLOUD",
+        "url": "https://www.ablecloud.io"
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
-	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Version:          "1.0",
+	Host:             "10.211.55.11:8080",
+	BasePath:         "/api/v1",
+	Schemes:          []string{"http", "https"},
+	Title:            "Cube API",
+	Description:      "This is a Cube-API server.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

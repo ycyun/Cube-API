@@ -25,8 +25,8 @@ func GetGlueStatus(ctx *gin.Context) {
 
 // GetGlueAuth godoc
 //
-//	@Summary		Show Status of GLUE
-//	@Description	GLUE의 상태값을 보여줍니다.
+//	@Summary		Show Auth of GLUE
+//	@Description	GLUE의 인증키를 보여줍니다.
 //	@Tags			API, Glue, GLUE
 //	@Accept			x-www-form-urlencoded
 //	@Produce		json
@@ -34,7 +34,7 @@ func GetGlueStatus(ctx *gin.Context) {
 //	@Failure		400	{object}	HTTP400BadRequest
 //	@Failure		404	{object}	HTTP404NotFound
 //	@Failure		500	{object}	HTTP500InternalServerError
-//	@Router			/glue [get]
+//	@Router			/glue/auth [get]
 func GetGlueAuth(ctx *gin.Context) {
 	var user Glue.User
 	if err := ctx.ShouldBindQuery(&user); err != nil {
@@ -58,16 +58,16 @@ func GetGlueAuth(ctx *gin.Context) {
 
 // GetGlueAuths godoc
 //
-//	@Summary		Show Status of GLUE
-//	@Description	GLUE의 상태값을 보여줍니다.
+//	@Summary		Show Auths of GLUE
+//	@Description	GLUE의 인증키 목록을 보여줍니다.
 //	@Tags			API, Glue, GLUE
 //	@Accept			x-www-form-urlencoded
 //	@Produce		json
-//	@Success		200	{object}	Glue.TypeAuth
+//	@Success		200	{object}	Glue.TypeAuths
 //	@Failure		400	{object}	HTTP400BadRequest
 //	@Failure		404	{object}	HTTP404NotFound
 //	@Failure		500	{object}	HTTP500InternalServerError
-//	@Router			/glue [get]
+//	@Router			/glue/auths [get]
 func GetGlueAuths(ctx *gin.Context) {
 	ret := Glue.GetAuths()
 	ctx.IndentedJSON(http.StatusOK, ret)
@@ -77,11 +77,14 @@ func Monitor() {
 	Glue.UpdateStatus()
 	Glue.UpdateHealth()
 	Glue.UpdateAuths()
-}
-func MonitorGlueStatus() {
-	Glue.UpdateStatus()
+	Glue.UpdateDaemonList()
+	Glue.UpdateStorageSize()
+	Glue.UpdateVersion()
 }
 
-func MonitorGlueHealthDetail() {
-	Glue.UpdateHealth()
-}
+//func MonitorGlueStatus() {
+//	Glue.UpdateStatus()
+//}
+//func MonitorGlueHealthDetail() {
+//	Glue.UpdateHealth()
+//}

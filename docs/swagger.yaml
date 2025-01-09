@@ -1,4 +1,14 @@
+basePath: /api/v1
 definitions:
+  Errorlog:
+    properties:
+      error:
+        format: string
+        type: string
+      refresh_time:
+        format: time
+        type: string
+    type: object
   HTTP400BadRequest:
     properties:
       err_code:
@@ -26,6 +36,30 @@ definitions:
         example: InternalServerError
         type: string
     type: object
+  TyepStorageCenterCluster:
+    properties:
+      cluster-status:
+        $ref: '#/definitions/model.TypeClusterStatus'
+      daemons:
+        $ref: '#/definitions/model.TypeGlueDaemons'
+      disks:
+        $ref: '#/definitions/model.TypeDisks'
+      gateways:
+        $ref: '#/definitions/model.TypeGateways'
+      refresh-time:
+        type: string
+      storage-pools:
+        $ref: '#/definitions/TypeGlueStorageSize'
+    type: object
+  TypeAuth:
+    properties:
+      auth:
+        additionalProperties:
+          $ref: '#/definitions/TypeAuth'
+        type: object
+      refreshTime:
+        type: string
+    type: object
   TypeGlueStatus:
     description: Glue의 상태를 나타내는 구조체
     properties:
@@ -50,8 +84,64 @@ definitions:
         type: object
       health:
         properties:
-          checks: { }
-          mutes: { }
+          checks:
+            properties:
+              OSD_DOWN:
+                properties:
+                  muted:
+                    type: boolean
+                  severity:
+                    type: string
+                  summary:
+                    properties:
+                      count:
+                        type: integer
+                      message:
+                        type: string
+                    type: object
+                type: object
+              OSDMAP_FLAGS:
+                properties:
+                  muted:
+                    type: boolean
+                  severity:
+                    type: string
+                  summary:
+                    properties:
+                      count:
+                        type: integer
+                      message:
+                        type: string
+                    type: object
+                type: object
+              PG_AVAILABILITY:
+                properties:
+                  muted:
+                    type: boolean
+                  severity:
+                    type: string
+                  summary:
+                    properties:
+                      count:
+                        type: integer
+                      message:
+                        type: string
+                    type: object
+                type: object
+            type: object
+          mutes:
+            items:
+              properties:
+                code:
+                  type: string
+                count:
+                  type: integer
+                sticky:
+                  type: boolean
+                summary:
+                  type: string
+              type: object
+            type: array
           status:
             example: HEALTH_WARN
             format: string
@@ -155,8 +245,423 @@ definitions:
             type: integer
           modified:
             type: string
-          services: { }
+          services:
+            properties:
+              rgw:
+                properties:
+                  daemons:
+                    properties:
+                      "326414282":
+                        properties:
+                          addr:
+                            type: string
+                          gid:
+                            type: integer
+                          metadata:
+                            properties:
+                              arch:
+                                type: string
+                              ceph_release:
+                                type: string
+                              ceph_version:
+                                type: string
+                              ceph_version_short:
+                                type: string
+                              container_hostname:
+                                type: string
+                              container_image:
+                                type: string
+                              cpu:
+                                type: string
+                              distro:
+                                type: string
+                              distro_description:
+                                type: string
+                              distro_version:
+                                type: string
+                              frontend_config#0:
+                                type: string
+                              frontend_type#0:
+                                type: string
+                              hostname:
+                                type: string
+                              id:
+                                type: string
+                              kernel_description:
+                                type: string
+                              kernel_version:
+                                type: string
+                              mem_swap_kb:
+                                type: string
+                              mem_total_kb:
+                                type: string
+                              num_handles:
+                                type: string
+                              os:
+                                type: string
+                              pid:
+                                type: string
+                              realm_id:
+                                type: string
+                              realm_name:
+                                type: string
+                              zone_id:
+                                type: string
+                              zone_name:
+                                type: string
+                              zonegroup_id:
+                                type: string
+                              zonegroup_name:
+                                type: string
+                            type: object
+                          start_epoch:
+                            type: integer
+                          start_stamp:
+                            type: string
+                          task_status:
+                            type: object
+                        type: object
+                      "326414323":
+                        properties:
+                          addr:
+                            type: string
+                          gid:
+                            type: integer
+                          metadata:
+                            properties:
+                              arch:
+                                type: string
+                              ceph_release:
+                                type: string
+                              ceph_version:
+                                type: string
+                              ceph_version_short:
+                                type: string
+                              container_hostname:
+                                type: string
+                              container_image:
+                                type: string
+                              cpu:
+                                type: string
+                              distro:
+                                type: string
+                              distro_description:
+                                type: string
+                              distro_version:
+                                type: string
+                              frontend_config#0:
+                                type: string
+                              frontend_type#0:
+                                type: string
+                              hostname:
+                                type: string
+                              id:
+                                type: string
+                              kernel_description:
+                                type: string
+                              kernel_version:
+                                type: string
+                              mem_swap_kb:
+                                type: string
+                              mem_total_kb:
+                                type: string
+                              num_handles:
+                                type: string
+                              os:
+                                type: string
+                              pid:
+                                type: string
+                              realm_id:
+                                type: string
+                              realm_name:
+                                type: string
+                              zone_id:
+                                type: string
+                              zone_name:
+                                type: string
+                              zonegroup_id:
+                                type: string
+                              zonegroup_name:
+                                type: string
+                            type: object
+                          start_epoch:
+                            type: integer
+                          start_stamp:
+                            type: string
+                          task_status:
+                            type: object
+                        type: object
+                      "326414647":
+                        properties:
+                          addr:
+                            type: string
+                          gid:
+                            type: integer
+                          metadata:
+                            properties:
+                              arch:
+                                type: string
+                              ceph_release:
+                                type: string
+                              ceph_version:
+                                type: string
+                              ceph_version_short:
+                                type: string
+                              container_hostname:
+                                type: string
+                              container_image:
+                                type: string
+                              cpu:
+                                type: string
+                              distro:
+                                type: string
+                              distro_description:
+                                type: string
+                              distro_version:
+                                type: string
+                              frontend_config#0:
+                                type: string
+                              frontend_type#0:
+                                type: string
+                              hostname:
+                                type: string
+                              id:
+                                type: string
+                              kernel_description:
+                                type: string
+                              kernel_version:
+                                type: string
+                              mem_swap_kb:
+                                type: string
+                              mem_total_kb:
+                                type: string
+                              num_handles:
+                                type: string
+                              os:
+                                type: string
+                              pid:
+                                type: string
+                              realm_id:
+                                type: string
+                              realm_name:
+                                type: string
+                              zone_id:
+                                type: string
+                              zone_name:
+                                type: string
+                              zonegroup_id:
+                                type: string
+                              zonegroup_name:
+                                type: string
+                            type: object
+                          start_epoch:
+                            type: integer
+                          start_stamp:
+                            type: string
+                          task_status:
+                            type: object
+                        type: object
+                      summary:
+                        type: string
+                    type: object
+                type: object
+              tcmu-runner:
+                properties:
+                  daemons:
+                    properties:
+                      scvm2:rbd/iscsi1:
+                        properties:
+                          addr:
+                            type: string
+                          gid:
+                            type: integer
+                          metadata:
+                            properties:
+                              arch:
+                                type: string
+                              ceph_release:
+                                type: string
+                              ceph_version:
+                                type: string
+                              ceph_version_short:
+                                type: string
+                              container_hostname:
+                                type: string
+                              container_image:
+                                type: string
+                              cpu:
+                                type: string
+                              daemon_prefix:
+                                type: string
+                              daemon_type:
+                                type: string
+                              distro:
+                                type: string
+                              distro_description:
+                                type: string
+                              distro_version:
+                                type: string
+                              hostname:
+                                type: string
+                              image_id:
+                                type: string
+                              image_name:
+                                type: string
+                              kernel_description:
+                                type: string
+                              kernel_version:
+                                type: string
+                              mem_swap_kb:
+                                type: string
+                              mem_total_kb:
+                                type: string
+                              os:
+                                type: string
+                              pool_name:
+                                type: string
+                            type: object
+                          start_epoch:
+                            type: integer
+                          start_stamp:
+                            type: string
+                          task_status:
+                            type: object
+                        type: object
+                      scvm2:rbd/iscsi2:
+                        properties:
+                          addr:
+                            type: string
+                          gid:
+                            type: integer
+                          metadata:
+                            properties:
+                              arch:
+                                type: string
+                              ceph_release:
+                                type: string
+                              ceph_version:
+                                type: string
+                              ceph_version_short:
+                                type: string
+                              container_hostname:
+                                type: string
+                              container_image:
+                                type: string
+                              cpu:
+                                type: string
+                              daemon_prefix:
+                                type: string
+                              daemon_type:
+                                type: string
+                              distro:
+                                type: string
+                              distro_description:
+                                type: string
+                              distro_version:
+                                type: string
+                              hostname:
+                                type: string
+                              image_id:
+                                type: string
+                              image_name:
+                                type: string
+                              kernel_description:
+                                type: string
+                              kernel_version:
+                                type: string
+                              mem_swap_kb:
+                                type: string
+                              mem_total_kb:
+                                type: string
+                              os:
+                                type: string
+                              pool_name:
+                                type: string
+                            type: object
+                          start_epoch:
+                            type: integer
+                          start_stamp:
+                            type: string
+                          task_status:
+                            type: object
+                        type: object
+                      scvm2:rbd/iscsi3:
+                        properties:
+                          addr:
+                            type: string
+                          gid:
+                            type: integer
+                          metadata:
+                            properties:
+                              arch:
+                                type: string
+                              ceph_release:
+                                type: string
+                              ceph_version:
+                                type: string
+                              ceph_version_short:
+                                type: string
+                              container_hostname:
+                                type: string
+                              container_image:
+                                type: string
+                              cpu:
+                                type: string
+                              daemon_prefix:
+                                type: string
+                              daemon_type:
+                                type: string
+                              distro:
+                                type: string
+                              distro_description:
+                                type: string
+                              distro_version:
+                                type: string
+                              hostname:
+                                type: string
+                              image_id:
+                                type: string
+                              image_name:
+                                type: string
+                              kernel_description:
+                                type: string
+                              kernel_version:
+                                type: string
+                              mem_swap_kb:
+                                type: string
+                              mem_total_kb:
+                                type: string
+                              os:
+                                type: string
+                              pool_name:
+                                type: string
+                            type: object
+                          start_epoch:
+                            type: integer
+                          start_stamp:
+                            type: string
+                          task_status:
+                            type: object
+                        type: object
+                      summary:
+                        type: string
+                    type: object
+                type: object
+            type: object
         type: object
+    type: object
+  TypeGlueStorageSize:
+    properties:
+      pools:
+        items:
+          $ref: '#/definitions/model.TypeGluePools'
+        type: array
+      stats:
+        $ref: '#/definitions/model.TypeGlueStorageStats'
+      stats_by_class:
+        items:
+          $ref: '#/definitions/model.TypeGlueClass'
+        type: array
     type: object
   TypeMoldStatus:
     description: Glue의 상태를 나타내는 구조체
@@ -290,19 +795,899 @@ definitions:
           services: { }
         type: object
     type: object
-  action.TypeCUBEVersion:
+  TypePCSStatus:
+    properties:
+      apiVersion:
+        description: |-
+          XMLName    xml.Name `xml:"PCS-result"`
+          Text       string `xml:",chardata"`
+        type: string
+      bans:
+        properties:
+          ban:
+            description: Text string `xml:",chardata"`
+            items:
+              properties:
+                id:
+                  description: Text         string `xml:",chardata"`
+                  type: string
+                masterOnly:
+                  type: string
+                node:
+                  type: string
+                promotedOnly:
+                  type: string
+                resource:
+                  type: string
+                weight:
+                  type: string
+              type: object
+            type: array
+        type: object
+      nodeHistory:
+        properties:
+          node:
+            description: Text string `xml:",chardata"`
+            items:
+              properties:
+                name:
+                  description: Text            string `xml:",chardata"`
+                  type: string
+                resourceHistory:
+                  items:
+                    properties:
+                      id:
+                        description: Text               string `xml:",chardata"`
+                        type: string
+                      migrationThreshold:
+                        type: string
+                      operationHistory:
+                        items:
+                          properties:
+                            call:
+                              description: Text         string `xml:",chardata"`
+                              type: string
+                            execTime:
+                              type: string
+                            interval:
+                              type: string
+                            lastRcChange:
+                              type: string
+                            queueTime:
+                              type: string
+                            rc:
+                              type: string
+                            rcText:
+                              type: string
+                            task:
+                              type: string
+                          type: object
+                        type: array
+                      orphan:
+                        type: string
+                    type: object
+                  type: array
+              type: object
+            type: array
+        type: object
+      nodes:
+        properties:
+          node:
+            description: Text string `xml:",chardata"`
+            items:
+              properties:
+                expectedUp:
+                  type: string
+                featureSet:
+                  type: string
+                health:
+                  type: string
+                id:
+                  type: string
+                isDc:
+                  type: string
+                maintenance:
+                  type: string
+                name:
+                  description: Text             string `xml:",chardata"`
+                  type: string
+                online:
+                  type: string
+                pending:
+                  type: string
+                resourcesRunning:
+                  type: string
+                shutdown:
+                  type: string
+                standby:
+                  type: string
+                standbyOnfail:
+                  type: string
+                type:
+                  type: string
+                unclean:
+                  type: string
+              type: object
+            type: array
+        type: object
+      refreshTime:
+        type: string
+      request:
+        type: string
+      resources:
+        properties:
+          clone:
+            items:
+              $ref: '#/definitions/model.TypePCSClone'
+            type: array
+          resource:
+            description: Text     string            `xml:",chardata"`
+            items:
+              $ref: '#/definitions/TypePCSesource'
+            type: array
+        type: object
+      status:
+        properties:
+          code:
+            description: Text    string `xml:",chardata"`
+            type: string
+          message:
+            type: string
+        type: object
+      summary:
+        properties:
+          clusterOptions:
+            properties:
+              maintenanceMode:
+                type: string
+              noQuorumPolicy:
+                type: string
+              priorityFencingDelayMs:
+                type: string
+              stonithEnabled:
+                description: Text                   string `xml:",chardata"`
+                type: string
+              stonithTimeoutMs:
+                type: string
+              stopAllResources:
+                type: string
+              symmetricCluster:
+                type: string
+            type: object
+          currentDc:
+            properties:
+              id:
+                type: string
+              mixedVersion:
+                type: string
+              name:
+                type: string
+              present:
+                description: Text         string `xml:",chardata"`
+                type: string
+              version:
+                type: string
+              withQuorum:
+                type: string
+            type: object
+          lastChange:
+            properties:
+              client:
+                type: string
+              origin:
+                type: string
+              time:
+                description: Text   string `xml:",chardata"`
+                type: string
+              user:
+                type: string
+            type: object
+          lastUpdate:
+            properties:
+              origin:
+                type: string
+              time:
+                description: Text   string `xml:",chardata"`
+                type: string
+            type: object
+          nodesConfigured:
+            properties:
+              number:
+                description: Text   string `xml:",chardata"`
+                type: string
+            type: object
+          resourcesConfigured:
+            properties:
+              blocked:
+                type: string
+              disabled:
+                type: string
+              number:
+                description: Text     string `xml:",chardata"`
+                type: string
+            type: object
+          stack:
+            description: Text  string `xml:",chardata"`
+            properties:
+              pcsdState:
+                type: string
+              type:
+                description: Text      string `xml:",chardata"`
+                type: string
+            type: object
+        type: object
+    type: object
+  TypePCSesource:
+    properties:
+      active:
+        type: string
+      blocked:
+        type: string
+      failed:
+        type: string
+      failureIgnored:
+        type: string
+      id:
+        description: Text           string `xml:",chardata"`
+        type: string
+      maintenance:
+        type: string
+      managed:
+        type: string
+      node:
+        properties:
+          cached:
+            type: string
+          id:
+            type: string
+          name:
+            description: Text   string `xml:",chardata"`
+            type: string
+        type: object
+      nodesRunningOn:
+        type: string
+      orphaned:
+        type: string
+      resourceAgent:
+        type: string
+      role:
+        type: string
+    type: object
+  TypeSampleStatus:
+    properties:
+      refreshTime:
+        type: string
+      status:
+        properties:
+          code:
+            type: string
+          message:
+            type: string
+          text:
+            type: string
+        type: object
+      xmlname:
+        type: string
+    type: object
+  controller.TypeNeighbor:
+    properties:
+      hostname:
+        type: string
+      ip:
+        type: string
+    type: object
+  model.TypeClusterStatus:
+    properties:
+      message:
+        items:
+          type: string
+        type: array
+      status:
+        type: string
+    type: object
+  model.TypeDisks:
+    properties:
+      in:
+        type: integer
+      total:
+        type: integer
+      up:
+        type: integer
+    type: object
+  model.TypeGateways:
+    properties:
+      quorum:
+        items:
+          type: string
+        type: array
+      total:
+        type: integer
+      up:
+        type: integer
+    type: object
+  model.TypeGlueClass:
+    properties:
+      total_avail_bytes:
+        type: integer
+      total_bytes:
+        type: integer
+      total_used_bytes:
+        type: integer
+      total_used_raw_bytes:
+        type: integer
+      total_used_raw_ratio:
+        type: number
+      type:
+        type: string
+    type: object
+  model.TypeGlueDaemon:
+    properties:
+      container_id:
+        type: string
+      container_image_digests:
+        items:
+          type: string
+        type: array
+      container_image_id:
+        type: string
+      container_image_name:
+        type: string
+      cpu_percentage:
+        type: string
+      created:
+        type: string
+      daemon_id:
+        type: string
+      daemon_name:
+        type: string
+      daemon_type:
+        type: string
+      events:
+        items:
+          type: string
+        type: array
+      hostname:
+        type: string
+      is_active:
+        type: boolean
+      last_refresh:
+        type: string
+      memory_request:
+        type: integer
+      memory_usage:
+        type: integer
+      ports:
+        items:
+          type: integer
+        type: array
+      service_name:
+        type: string
+      started:
+        type: string
+      status:
+        type: integer
+      status_desc:
+        type: string
+      version:
+        type: string
+    type: object
+  model.TypeGlueDaemons:
+    properties:
+      alertmanager:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      ceph-exporter:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      crash:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      grafana:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      iscsi:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      mds:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      mgr:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      mon:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      node-exporter:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      osd:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      other:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      prometheus:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      rbd-mirror:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+      refreshTime:
+        type: string
+      rgw:
+        items:
+          $ref: '#/definitions/model.TypeGlueDaemon'
+        type: array
+    type: object
+  model.TypeGluePoolStats:
+    properties:
+      avail_raw:
+        type: integer
+      bytes_used:
+        type: integer
+      compress_bytes_used:
+        type: integer
+      compress_under_bytes:
+        type: integer
+      data_bytes_used:
+        type: integer
+      dirty:
+        type: integer
+      kb_used:
+        type: integer
+      max_avail:
+        type: integer
+      objects:
+        type: integer
+      omap_bytes_used:
+        type: integer
+      percent_used:
+        type: number
+      quota_bytes:
+        type: integer
+      quota_objects:
+        type: integer
+      rd:
+        type: integer
+      rd_bytes:
+        type: integer
+      stored:
+        type: integer
+      stored_data:
+        type: integer
+      stored_omap:
+        type: integer
+      stored_raw:
+        type: integer
+      wr:
+        type: integer
+      wr_bytes:
+        type: integer
+    type: object
+  model.TypeGluePools:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      stats:
+        $ref: '#/definitions/model.TypeGluePoolStats'
+    type: object
+  model.TypeGlueStorageStats:
+    properties:
+      num_osds:
+        type: integer
+      num_per_pool_omap_osds:
+        type: integer
+      num_per_pool_osds:
+        type: integer
+      total_avail_bytes:
+        type: integer
+      total_bytes:
+        type: integer
+      total_used_bytes:
+        type: integer
+      total_used_raw_bytes:
+        type: integer
+      total_used_raw_ratio:
+        type: number
+    type: object
+  model.TypeHost:
+    properties:
+      hostnames:
+        items:
+          type: string
+        type: array
+      ip:
+        type: string
+    type: object
+  model.TypeHosts:
+    properties:
+      host:
+        items:
+          $ref: '#/definitions/model.TypeHost'
+        type: array
+      refresh_time:
+        type: string
+    type: object
+  model.TypePCSClone:
+    properties:
+      disabled:
+        type: string
+      failed:
+        type: string
+      failureIgnored:
+        type: string
+      group:
+        items:
+          $ref: '#/definitions/model.TypePCSResourceGroup'
+        type: array
+      id:
+        description: Text           string                 `xml:",chardata"`
+        type: string
+      maintenance:
+        type: string
+      managed:
+        type: string
+      multiState:
+        type: string
+      resource:
+        items:
+          $ref: '#/definitions/TypePCSesource'
+        type: array
+      unique:
+        type: string
+    type: object
+  model.TypePCSResourceGroup:
+    properties:
+      disabled:
+        type: string
+      id:
+        description: Text            string            `xml:",chardata"`
+        type: string
+      maintenance:
+        type: string
+      managed:
+        type: string
+      numberResources:
+        type: string
+      resource:
+        items:
+          $ref: '#/definitions/TypePCSesource'
+        type: array
+    type: object
+  utils.TypeVersion:
     properties:
       debug:
         type: boolean
       version:
         type: string
     type: object
+externalDocs:
+  description: ABLECLOUD
+  url: https://www.ablecloud.io
+host: 10.211.55.11:8080
 info:
   contact:
-    email: support@swagger.io
+    email: ycyun@ablecloud.io
     name: API Support
-    url: http://www.swagger.io/support
+    url: https://www.ablecloud.io/support
+  description: This is a Cube-API server.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://ablecloud.io/
+  title: Cube API
+  version: "1.0"
 paths:
+  /Sample:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: <<Sample>>의 상태값을 보여줍니다.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/TypeSampleStatus'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: Show Status of <<Sample>>
+      tags:
+        - API
+        - <<Sample>>
+  /cube/hosts:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: Cube의 Host목록을 보여줍니다.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TypeHosts'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: Show List of Host
+      tags:
+        - API
+        - CUBE
+  /cube/neighbor:
+    delete:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: DeleteNeighbor.
+      parameters:
+        - description: Neighbor IP
+          in: formData
+          name: ip
+          required: true
+          type: string
+        - description: Neighbor Hostname
+          in: formData
+          name: hostname
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controller.TypeNeighbor'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: DeleteNeighbor
+      tags:
+        - API
+        - CUBE
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: GetNeighbor.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controller.TypeNeighbor'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: GetNeighbor
+      tags:
+        - API
+        - CUBE
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: PutNeighbor.
+      parameters:
+        - description: Neighbor IP
+          in: formData
+          name: ip
+          required: true
+          type: string
+        - description: Neighbor Hostname
+          in: formData
+          name: hostname
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controller.TypeNeighbor'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: PutNeighbor
+      tags:
+        - API
+        - CUBE
+    put:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: PutNeighbor.
+      parameters:
+        - description: Neighbor IP
+          in: formData
+          name: ip
+          required: true
+          type: string
+        - description: Neighbor Hostname
+          in: formData
+          name: hostname
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controller.TypeNeighbor'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: PutNeighbor
+      tags:
+        - API
+        - CUBE
+  /cube/neighbor/info:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: GetNeighbor.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: GetNeighbor
+      tags:
+        - API
+        - CUBE
+  /dashboard:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: GLUE의 상태값을 보여줍니다.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/TyepStorageCenterCluster'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: Show StorageCenterClusterStatus of GLUE
+      tags:
+        - API
+        - Glue
+        - GLUE
+  /err:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: Error.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/Errorlog'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: Error
+      tags:
+        - API
+        - CUBE
   /glue:
     get:
       consumes:
@@ -328,6 +1713,64 @@ paths:
           schema:
             $ref: '#/definitions/HTTP500InternalServerError'
       summary: Show Status of GLUE
+      tags:
+        - API
+        - Glue
+        - GLUE
+  /glue/auth:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: GLUE의 인증키를 보여줍니다.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/TypeAuth'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: Show Auth of GLUE
+      tags:
+        - API
+        - Glue
+        - GLUE
+  /glue/auths:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: GLUE의 인증키 목록을 보여줍니다.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/TypeAuth'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: Show Auths of GLUE
       tags:
         - API
         - Glue
@@ -361,18 +1804,20 @@ paths:
         - API
         - Mold
         - MOLD
-  /version:
+  /pcs:
     get:
       consumes:
         - application/x-www-form-urlencoded
-      description: API 의 버전을 보여줍니다.
+      description: PCS 상태값을 보여줍니다.
       produces:
         - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/action.TypeCUBEVersion'
+            items:
+              $ref: '#/definitions/TypePCSesource'
+            type: array
         "400":
           description: Bad Request
           schema:
@@ -385,7 +1830,42 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/HTTP500InternalServerError'
-      summary: Show Versions of API
+      summary: Show Status of PCS
       tags:
         - API
+        - PCS
+  /version:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      description: CUBE 의 버전을 보여줍니다.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.TypeVersion'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/HTTP400BadRequest'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/HTTP404NotFound'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/HTTP500InternalServerError'
+      summary: Show Versions of CUBE
+      tags:
+        - API
+        - CUBE
+schemes:
+  - http
+  - https
+securityDefinitions:
+  None:
+    type: basic
 swagger: "2.0"

@@ -3,18 +3,8 @@ package utils
 import (
 	"log"
 	"runtime"
+	"time"
 )
-
-func HandleError(err error) (b bool) {
-	if err != nil {
-		// notice that we're using 1, so it will actually log where
-		// the Error happened, 0 = this function, we don't want that.
-		_, filename, line, _ := runtime.Caller(1)
-		log.Printf("[Error] %s:%d %v", filename, line, err)
-		b = true
-	}
-	return
-}
 
 // FancyHandleError this logs the function name as well.
 func FancyHandleError(err error) (b bool) {
@@ -28,4 +18,17 @@ func FancyHandleError(err error) (b bool) {
 		b = true
 	}
 	return
+}
+
+type Errors struct {
+	Errors []Errorlog `json:"errors"`
+}
+type Errorlog struct {
+	Error string    `json:"error" format:"string"`
+	Time  time.Time `json:"refresh_time" format:"time"`
+} // @name Errorlog
+
+type TypeVersion struct {
+	Version string `json:"version,omitempty"`
+	Debug   bool   `json:"debug,omitempty"`
 }

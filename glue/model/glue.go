@@ -1,29 +1,26 @@
 package model
 
-import (
-	"github.com/ycyun/Cube-API/utils"
-)
-
-type gluePools struct {
-	Pools []string `json:"pools"`
-} // @name GluePools
-
-type glueError struct {
-	utils.HTTPError
-	Detail    string `json:"detail"`
-	Code      string `json:"code"`
-	Component string `json:"component"`
-} // @name GlueError
+//
+//type gluePools struct {
+//	Pools []string `json:"pools"`
+//} // @name GluePools
+//
+//type glueError struct {
+//	utils.HTTPError
+//	Detail    string `json:"detail"`
+//	Code      string `json:"code"`
+//	Component string `json:"component"`
+//} // @name GlueError
 
 type glueFS struct {
 	Name string `json:"name"`
 } // @name GlueFS
 
 type FSList struct {
-	glueFS []glueFS `json:"glueFS"`
+	GlueFS []glueFS `json:"glueFS"`
 } // @name FSList
 
-type glueFSInfo struct {
+type GlueFSInfo struct {
 	MonAddrs                  []string `json:"mon_addrs"`
 	PendingSubvolumeDeletions int      `json:"pending_subvolume_deletions"`
 	Pools                     struct {

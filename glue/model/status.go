@@ -341,7 +341,7 @@ func Status() *TypeGlueStatus {
 			})
 	} else {
 		if gin.IsDebugging() {
-			fmt.Println("get old instance.")
+			fmt.Println("get old ", reflect.TypeOf(_glueStatus), " instance.")
 		}
 	}
 	return _glueStatus

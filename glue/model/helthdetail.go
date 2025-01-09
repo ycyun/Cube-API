@@ -73,7 +73,7 @@ func Health() *TypeGlueHealthDetail {
 			})
 	} else {
 		if gin.IsDebugging() {
-			fmt.Println("get old instance.")
+			fmt.Println("get old ", reflect.TypeOf(_glueStorageSize), " instance.")
 		}
 	}
 	return _glueHealthDetail
@@ -103,6 +103,7 @@ func UpdateHealth() *TypeGlueHealthDetail {
 	Health()
 	for key, value := range _tmpGlueHealthDetail {
 		if key == "mutes" {
+			var localMutes []TypeGlueHealthDetailMutes
 			for _, item := range value.([]interface{}) {
 				s := TypeGlueHealthDetailMutes{}
 				marshal, err := json.MarshalIndent(item, "", "\t")
@@ -114,8 +115,9 @@ func UpdateHealth() *TypeGlueHealthDetail {
 					return nil
 				}
 				//fmt.Println(name, ":\t", item, ":\t", s)
-				_glueHealthDetail.Mutes = append(_glueHealthDetail.Mutes, s)
+				localMutes = append(localMutes, s)
 			}
+			_glueHealthDetail.Mutes = localMutes
 		} else if key == "status" {
 			_glueHealthDetail.Status = value.(string)
 		} else if key == "checks" {

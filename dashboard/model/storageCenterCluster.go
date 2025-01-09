@@ -55,7 +55,7 @@ func StorageCenterClusterStatus() *TypeStorageCenterCluster {
 			})
 	} else {
 		if gin.IsDebugging() {
-			fmt.Println("get old instance.")
+			fmt.Println("get old ", reflect.TypeOf(_StorageCenterCluster), " instance.")
 		}
 	}
 	return _StorageCenterCluster
@@ -79,9 +79,10 @@ func StorageCenterClusterUpdateStatus() *TypeStorageCenterCluster {
 	return _StorageCenterCluster
 }
 
-type gluePools struct {
-	Pools []string `json:"pools"`
-} // @name GluePools
+//
+//type gluePools struct {
+//	Pools []string `json:"pools"`
+//} // @name GluePools
 
 type Auth struct {
 	Token       string `json:"token"`

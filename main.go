@@ -6,18 +6,36 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	C "github.com/ycyun/Cube-API/controller"
 	Cube "github.com/ycyun/Cube-API/cube/action"
 	Dashboard "github.com/ycyun/Cube-API/dashboard/action"
 	"github.com/ycyun/Cube-API/docs"
 	Glue "github.com/ycyun/Cube-API/glue/action"
 	Mold "github.com/ycyun/Cube-API/mold/action"
+	PCS "github.com/ycyun/Cube-API/pcs/action"
 	"log"
 	"time"
 )
 
-// @contact.name   API Support
-// @contact.url    http://www.swagger.io/support
-// @contact.email  support@swagger.io
+//	@title			Cube API
+//	@version		1.0
+//	@description	This is a Cube-API server.
+//	@termsOfService	https://ablecloud.io/
+
+//	@contact.name	API Support
+//	@contact.url	https://www.ablecloud.io/support
+//	@contact.email	ycyun@ablecloud.io
+
+//	@license.name	Apache 2.0
+//	@license.url	https://www.apache.org/licenses/LICENSE-2.0.html
+
+//	@host						10.211.55.11:8080
+//	@BasePath					/api/v1
+//	@Schemes					http https
+//	@securityDefinitions.basic	None
+
+// @externalDocs.description	ABLECLOUD
+// @externalDocs.url			https://www.ablecloud.io
 func main() {
 	// 시간대 설정
 	location, err := time.LoadLocation("Asia/Seoul")
@@ -27,34 +45,32 @@ func main() {
 	// Set the timezone for the current process
 	time.Local = location
 
-	//cube := Cube.Init()
-	Cube.StatusRegister(Mold.MonitorStatus)
-	Cube.StatusRegister(Glue.Monitor)
+	c := C.Init()
+	C.LoadConfig()
+	Cube.InitCube()
+	c.StatusRegister(Mold.MonitorStatus)
+	c.StatusRegister(Glue.Monitor)
 	//Cube.StatusRegister(Glue.MonitorGlueStatus)
 	//Cube.StatusRegister(Glue.MonitorGlueHealthDetail)
-	Cube.StatusRegister(Dashboard.Monitor)
+	c.StatusRegister(Dashboard.Monitor)
+	c.StatusRegister(PCS.Monitor)
 	//cube.StatusRegister(Dashboard.MonitorDashboard)
+	c.StatusRegister(Cube.UpdateHosts)
+	//c.StatusRegister(errorMaker)
+	c.StatusRegister(C.SaveConfig)
 
-	Cube.StatusRegister(errorMaker)
+	go c.Start()
 
-	go Cube.Start()
-
-	docs.SwaggerInfo.Title = "Cube API"
-	docs.SwaggerInfo.Description = "This is a Cube-API server."
-	docs.SwaggerInfo.Version = "1.0"
-	//docs.SwaggerInfo.Host = ".swagger.io"
-
-	docs.SwaggerInfo.BasePath = "/api/v1"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	r := gin.Default()
-	gin.SetMode(gin.DebugMode)
+	//gin.SetMode(gin.DebugMode)
 	//gin.SetMode(gin.ReleaseMode)
 	r.ForwardedByClientIP = true
 	err = r.SetTrustedProxies(nil)
 	if err != nil {
-		Cube.AddError(err)
+		c.AddError(err)
 	}
 
 	r.Use(gin.Logger())
@@ -64,9 +80,19 @@ func main() {
 
 	v1 := r.Group("/api/v1")
 	{
+		cube := v1.Group("/cube")
+		{
+			cube.GET("/hosts", Cube.GetHosts)
+			cube.GET("/test", Cube.GetHosts)
+			cube.GET("/neighbor", c.GetNeighbor)
+			cube.GET("/neighbor/info", c.GetNeighborInfo)
+			cube.POST("/neighbor", c.PutNeighbor)
+			cube.PUT("/neighbor", c.PutNeighbor)
+			cube.DELETE("/neighbor", c.DeleteNeighbor)
+		}
 		glue := v1.Group("/glue")
 		{
-			glue.GET("", Glue.GetGlueStatus)
+			glue.GET("/", Glue.GetGlueStatus)
 			glue.GET("/auth", Glue.GetGlueAuth)
 			glue.GET("/auth/:username", Glue.GetGlueAuth)
 			glue.GET("/auths", Glue.GetGlueAuths)
@@ -75,25 +101,32 @@ func main() {
 		{
 			mold.GET("", Mold.GetStatus)
 		}
+		pcs := v1.Group("/pcs")
+		{
+			pcs.GET("", PCS.GetStatus)
+			pcs.GET("/resources", PCS.GetResource)
+		}
 		dashboard := v1.Group("/dashboard")
 		{
-			dashboard.GET("", Dashboard.UpdateStatus)
+			dashboard.GET("", Dashboard.GetStatus)
 
 		}
 		v1.Any("/version", Cube.Version)
-		v1.GET("/err", Cube.Error)
-		v1.DELETE("/err", Cube.ClearError)
+		v1.GET("/err", c.Error)
+		v1.DELETE("/err", c.DeleteError)
+		v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	err = r.Run(":8080")
 	if err != nil {
-		Cube.AddError(err)
+		c.AddError(err)
 	}
-	Cube.Stop()
+	c.Stop()
 	Cube.PrintError()
 	fmt.Println("end")
 }
 
 func errorMaker() {
-	Cube.AddError(errors.New(time.Now().String()))
+	c := C.Init()
+	c.AddError(errors.New(time.Now().String()))
 }

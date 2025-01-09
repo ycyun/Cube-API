@@ -12,6 +12,9 @@ import (
 	"time"
 )
 
+type TypeAuthDump struct {
+	AuthDump []TypeAuth `json:"auth_dump"`
+}
 type TypeAuths struct {
 	Auth        map[string]*TypeAuth `json:"auth"`
 	RefreshTime time.Time            `json:"refreshTime"`
@@ -44,7 +47,7 @@ func Auth() *TypeAuths {
 			})
 	} else {
 		if gin.IsDebugging() {
-			fmt.Println("get old instance.")
+			fmt.Println("get old ", reflect.TypeOf(_glueAuth), " instance.")
 		}
 	}
 	return _glueAuth
@@ -93,9 +96,33 @@ func UpdateAuth(user string) bool {
 }
 func UpdateAuths() {
 	Auth()
-	for user := range _glueAuth.Auth {
-		UpdateAuth(user)
+	var authdump TypeAuthDump
+	if gin.Mode() == gin.ReleaseMode {
+		var stdout []byte
+
+		cmd := exec.Command("ceph", "auth", "ls", "-f", "json")
+		stdout, _ = cmd.CombinedOutput()
+
+		if err := json.Unmarshal(stdout, &authdump); err != nil && gin.IsDebugging() {
+			utils.FancyHandleError(err)
+
+		}
+	} else {
+
+		stdout := []byte("{\n  \"auth_dump\" : [ {\n    \"entity\" : \"osd.0\",\n    \"key\" : \"AQBAA35nJVO0JRAA+u+6vnTNF4/rjTDRFgrKwA==\",\n    \"caps\" : {\n      \"mgr\" : \"allow profile osd\",\n      \"mon\" : \"allow profile osd\",\n      \"osd\" : \"allow *\"\n    }\n  }, {\n    \"entity\" : \"osd.1\",\n    \"key\" : \"AQBEA35nr2IEMBAAucOjYUKhS0UulQdIVzZo0g==\",\n    \"caps\" : {\n      \"mgr\" : \"allow profile osd\",\n      \"mon\" : \"allow profile osd\",\n      \"osd\" : \"allow *\"\n    }\n  }, {\n    \"entity\" : \"osd.2\",\n    \"key\" : \"AQBIA35n7YtMJhAAjq6IxRKhQCp1fM+O8qxPrw==\",\n    \"caps\" : {\n      \"mgr\" : \"allow profile osd\",\n      \"mon\" : \"allow profile osd\",\n      \"osd\" : \"allow *\"\n    }\n  }, {\n    \"entity\" : \"client.admin\",\n    \"key\" : \"AQCfAH5n8+zJEhAAWvMzk9GIKdjR3kRuS6pK7w==\",\n    \"caps\" : {\n      \"mds\" : \"allow *\",\n      \"mgr\" : \"allow *\",\n      \"mon\" : \"allow *\",\n      \"osd\" : \"allow *\"\n    }\n  }, {\n    \"entity\" : \"client.bootstrap-mds\",\n    \"key\" : \"AQClAH5nywsNHxAA7F1uUhZeJc2rSE8lClBnMQ==\",\n    \"caps\" : {\n      \"mon\" : \"allow profile bootstrap-mds\"\n    }\n  }, {\n    \"entity\" : \"client.bootstrap-mgr\",\n    \"key\" : \"AQClAH5nKhENHxAAA7ZCBgvp8A19XQQY/QAsXw==\",\n    \"caps\" : {\n      \"mon\" : \"allow profile bootstrap-mgr\"\n    }\n  }, {\n    \"entity\" : \"client.bootstrap-osd\",\n    \"key\" : \"AQClAH5nDBYNHxAA/FRfoa1sUKssyNSBOeGjAw==\",\n    \"caps\" : {\n      \"mon\" : \"allow profile bootstrap-osd\"\n    }\n  }, {\n    \"entity\" : \"client.bootstrap-rbd\",\n    \"key\" : \"AQClAH5nQRsNHxAApaz693JRpCbgo34aBSkG0g==\",\n    \"caps\" : {\n      \"mon\" : \"allow profile bootstrap-rbd\"\n    }\n  }, {\n    \"entity\" : \"client.bootstrap-rbd-mirror\",\n    \"key\" : \"AQClAH5n+R8NHxAAZUo19/W56001Bs9sXENkIg==\",\n    \"caps\" : {\n      \"mon\" : \"allow profile bootstrap-rbd-mirror\"\n    }\n  }, {\n    \"entity\" : \"client.bootstrap-rgw\",\n    \"key\" : \"AQClAH5nWCUNHxAAKH14DzGB0D69GOXZWCKJpA==\",\n    \"caps\" : {\n      \"mon\" : \"allow profile bootstrap-rgw\"\n    }\n  }, {\n    \"entity\" : \"client.ceph-exporter.Rocky\",\n    \"key\" : \"AQDHAH5n3ItQDRAAwE7OitIrHTViqKDhbo1mLw==\",\n    \"caps\" : {\n      \"mgr\" : \"allow r\",\n      \"mon\" : \"profile ceph-exporter\",\n      \"osd\" : \"allow r\"\n    }\n  }, {\n    \"entity\" : \"client.crash.Rocky\",\n    \"key\" : \"AQDIAH5nadQMDRAAzIMkRrHWWdRyquCIjhYeeA==\",\n    \"caps\" : {\n      \"mgr\" : \"profile crash\",\n      \"mon\" : \"profile crash\"\n    }\n  }, {\n    \"entity\" : \"mgr.Rocky.fhhwgx\",\n    \"key\" : \"AQCgAH5nuHApABAAYCMLvF3GrhNTyR2fYNKXhQ==\",\n    \"caps\" : {\n      \"mds\" : \"allow *\",\n      \"mon\" : \"profile mgr\",\n      \"osd\" : \"allow *\"\n    }\n  } ]\n}")
+
+		if err := json.Unmarshal(stdout, &authdump); err != nil {
+			utils.FancyHandleError(err)
+
+		}
 	}
+	_tmpauth := map[string]*TypeAuth{}
+	for _, v := range authdump.AuthDump {
+		_tmpauth[v.Entity] = &v
+		_tmpauth[v.Entity].RefreshTime = time.Now()
+	}
+	_glueAuth.Auth = _tmpauth
+	_glueAuth.RefreshTime = time.Now()
 }
 func GetAuth(user User) *TypeAuth {
 	ret := false

@@ -96,7 +96,7 @@ func Status() *TypeMoldStatus {
 			})
 	} else {
 		if gin.IsDebugging() {
-			fmt.Println("get old mold instance.")
+			fmt.Println("get old ", reflect.TypeOf(_moldStatus), " instance.")
 		}
 	}
 	return _moldStatus
