@@ -10,7 +10,7 @@ import (
 //
 //	@Summary		Show StorageCenterClusterStatus of GLUE
 //	@Description	GLUE의 상태값을 보여줍니다.
-//	@Tags			API, Glue, GLUE
+//	@Tags			API, Dashboard
 //	@Accept			x-www-form-urlencoded
 //	@Produce		json
 //	@Success		200	{object}	Dashboard.TypeStorageCenterCluster
@@ -20,14 +20,17 @@ import (
 //	@Router			/dashboard [get]
 func GetStatus(ctx *gin.Context) {
 	SCC := Dashboard.StorageCenterClusterUpdateStatus()
+	CCV := Dashboard.CloudVMStatus()
 	ret := map[string]interface{}{
 		"StorageCenterCluster": SCC,
+		"CloudCenterVM":        CCV,
 	}
 	ctx.IndentedJSON(http.StatusOK, ret)
 }
 
 func Monitor() {
 	Dashboard.StorageCenterClusterUpdateStatus()
+	Dashboard.CloudVMUpdateStatus()
 }
 
 //func MonitorDashboard() {

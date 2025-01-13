@@ -5,12 +5,30 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-json"
 	"github.com/gofrs/uuid"
+	"github.com/melbahja/goph"
 	"github.com/ycyun/Cube-API/utils"
+	"log"
+	"net/http"
 	"os/exec"
 	"reflect"
+	"strings"
 	"sync"
 	"time"
 )
+
+type TypeServerStatus struct {
+	Active  bool `json:"active"`
+	Enabled bool `json:"enabled"`
+}
+type TypeMoldServiceStatus struct {
+	MoldWebService *TypeServerStatus `json:"mold_web_service"`
+	MoldDBService  *TypeServerStatus `json:"mold_db_service"`
+} // @name TypeMoldWebStatus
+
+type TypeMoldWebStatus struct {
+	Code int    `json:"code"`
+	Body string `json:"body"`
+} // @name TypeMoldWebStatus
 
 // TypeMoldStatus model info
 // @Description Glue의 상태를 나타내는 구조체
@@ -82,8 +100,12 @@ type TypeMoldStatus struct {
 } // @name TypeMoldStatus
 
 var lockGlueStatus sync.Once
+var lockWebStatus sync.Once
+var lockServiceStatus sync.Once
 
 var _moldStatus *TypeMoldStatus
+var _moldWebStatus *TypeMoldWebStatus
+var _moldServiceStatus *TypeMoldServiceStatus
 
 func Status() *TypeMoldStatus {
 	if _moldStatus == nil {
@@ -93,6 +115,11 @@ func Status() *TypeMoldStatus {
 					fmt.Println("Creating ", reflect.TypeOf(_moldStatus), " now.")
 				}
 				_moldStatus = &TypeMoldStatus{}
+				_moldWebStatus = &TypeMoldWebStatus{}
+				_moldServiceStatus = &TypeMoldServiceStatus{
+					MoldWebService: &TypeServerStatus{},
+					MoldDBService:  &TypeServerStatus{},
+				}
 			})
 	} else {
 		if gin.IsDebugging() {
@@ -103,6 +130,7 @@ func Status() *TypeMoldStatus {
 }
 
 func UpdateStatus() *TypeMoldStatus {
+	Status()
 	if gin.Mode() == gin.ReleaseMode {
 		var stdout []byte
 
@@ -122,5 +150,89 @@ func UpdateStatus() *TypeMoldStatus {
 		}
 	}
 	_moldStatus.RefreshTime = time.Now()
+	CheckMoldWeb()
+	CheckMoldService()
 	return _moldStatus
+}
+
+func CheckMoldWeb() *TypeMoldWebStatus {
+	resp, err := http.Get("http://ccvm:8080/client")
+	status := resp.StatusCode
+	fmt.Println(status)
+	fmt.Print(err)
+	_moldWebStatus.Code = status
+	//body, _ := io.ReadAll(resp.Body)
+	//_moldWebStatus.Body = string(body)
+	return _moldWebStatus
+}
+
+func CheckMoldService() *TypeMoldServiceStatus {
+	if gin.Mode() == gin.ReleaseMode {
+		auth, err := goph.Key("/root/.ssh/id_rsa", "")
+		if err != nil {
+			log.Fatal(err)
+		}
+		client, err := goph.New("root", "ccvm", auth)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer client.Close()
+
+		var stdout []byte
+
+		cmd, err := client.Command("systemctl", "is-active", "cloudstack-management")
+		if err != nil {
+			return nil
+		}
+		stdout, _ = cmd.CombinedOutput()
+		output := strings.TrimSpace(string(stdout))
+		if output == "active" {
+			_moldServiceStatus.MoldWebService.Active = true
+		} else {
+			_moldServiceStatus.MoldWebService.Active = false
+		}
+
+		cmd, err = client.Command("systemctl", "is-enabled", "cloudstack-management")
+		if err != nil {
+			return nil
+		}
+		stdout, _ = cmd.CombinedOutput()
+		output = strings.TrimSpace(string(stdout))
+		if output == "enabled" {
+			_moldServiceStatus.MoldWebService.Enabled = true
+		} else {
+			_moldServiceStatus.MoldWebService.Enabled = false
+		}
+
+		cmd, err = client.Command("systemctl", "is-active", "mysqld")
+		if err != nil {
+			return nil
+		}
+		stdout, _ = cmd.CombinedOutput()
+		output = strings.TrimSpace(string(stdout))
+		if output == "active" {
+			_moldServiceStatus.MoldDBService.Active = true
+		} else {
+			_moldServiceStatus.MoldDBService.Active = false
+		}
+
+		cmd, err = client.Command("systemctl", "is-enabled", "mysqld")
+		if err != nil {
+			return nil
+		}
+		stdout, _ = cmd.CombinedOutput()
+		output = strings.TrimSpace(string(stdout))
+		if output == "enabled" {
+			_moldServiceStatus.MoldDBService.Enabled = true
+		} else {
+			_moldServiceStatus.MoldDBService.Enabled = false
+		}
+	} else {
+		_moldServiceStatus.MoldDBService.Enabled = false
+		_moldServiceStatus.MoldDBService.Active = false
+		_moldServiceStatus.MoldWebService.Enabled = false
+		_moldServiceStatus.MoldWebService.Active = false
+
+	}
+	return _moldServiceStatus
 }

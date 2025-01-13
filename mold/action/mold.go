@@ -2,10 +2,9 @@ package action
 
 import (
 	"github.com/gin-gonic/gin"
+	Cube "github.com/ycyun/Cube-API/cube/model"
 	Mold "github.com/ycyun/Cube-API/mold/model"
-	"github.com/ycyun/Cube-API/utils"
 	"net/http"
-	"time"
 )
 
 // GetStatus godoc
@@ -22,9 +21,13 @@ import (
 //	@Router			/mold [get]
 func GetStatus(ctx *gin.Context) {
 
-	ctx.IndentedJSON(http.StatusOK, utils.TestReturn{RefreshTime: Mold.Status().RefreshTime, Now: time.Now()})
+	ctx.IndentedJSON(http.StatusOK, Mold.Status())
 }
 
 func MonitorStatus() {
 	Mold.UpdateStatus()
+}
+
+func GetCCVMInfo(ctx *gin.Context) {
+	ctx.IndentedJSON(http.StatusOK, Cube.GetVMStatus("ccvm"))
 }

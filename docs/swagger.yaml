@@ -1076,6 +1076,28 @@ definitions:
       ip:
         type: string
     type: object
+  controller.TypeNeighborInfo:
+    properties:
+      code:
+        type: integer
+      info:
+        additionalProperties: true
+        type: object
+    type: object
+  controller.TypeNeighborInfos:
+    properties:
+      neighbors:
+        additionalProperties:
+          $ref: '#/definitions/controller.TypeNeighborInfo'
+        type: object
+    type: object
+  controller.TypeNeighbors:
+    properties:
+      neighbors:
+        items:
+          $ref: '#/definitions/controller.TypeNeighbor'
+        type: array
+    type: object
   model.TypeClusterStatus:
     properties:
       message:
@@ -1369,6 +1391,13 @@ definitions:
           $ref: '#/definitions/TypePCSesource'
         type: array
     type: object
+  model.TypePCSResources:
+    properties:
+      PCSResource:
+        items:
+          $ref: '#/definitions/TypePCSesource'
+        type: array
+    type: object
   utils.TypeVersion:
     properties:
       debug:
@@ -1379,7 +1408,6 @@ definitions:
 externalDocs:
   description: ABLECLOUD
   url: https://www.ablecloud.io
-host: 10.211.55.11:8080
 info:
   contact:
     email: ycyun@ablecloud.io
@@ -1471,9 +1499,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/controller.TypeNeighbor'
-            type: array
+            $ref: '#/definitions/controller.TypeNeighbor'
         "400":
           description: Bad Request
           schema:
@@ -1500,9 +1526,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/controller.TypeNeighbor'
-            type: array
+            $ref: '#/definitions/controller.TypeNeighbors'
         "400":
           description: Bad Request
           schema:
@@ -1540,9 +1564,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/controller.TypeNeighbor'
-            type: array
+            $ref: '#/definitions/controller.TypeNeighbors'
         "400":
           description: Bad Request
           schema:
@@ -1580,9 +1602,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/controller.TypeNeighbor'
-            type: array
+            $ref: '#/definitions/controller.TypeNeighbors'
         "400":
           description: Bad Request
           schema:
@@ -1610,9 +1630,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              type: string
-            type: array
+            $ref: '#/definitions/controller.TypeNeighborInfos'
         "400":
           description: Bad Request
           schema:
@@ -1656,8 +1674,7 @@ paths:
       summary: Show StorageCenterClusterStatus of GLUE
       tags:
         - API
-        - Glue
-        - GLUE
+        - Dashboard
   /err:
     get:
       consumes:
@@ -1669,9 +1686,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/Errorlog'
-            type: array
+            $ref: '#/definitions/Errorlog'
         "400":
           description: Bad Request
           schema:
@@ -1815,9 +1830,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/TypePCSesource'
-            type: array
+            $ref: '#/definitions/model.TypePCSResources'
         "400":
           description: Bad Request
           schema:

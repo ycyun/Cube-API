@@ -126,10 +126,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/controller.TypeNeighbor"
-                            }
+                            "$ref": "#/definitions/controller.TypeNeighbors"
                         }
                     },
                     "400": {
@@ -185,10 +182,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/controller.TypeNeighbor"
-                            }
+                            "$ref": "#/definitions/controller.TypeNeighbors"
                         }
                     },
                     "400": {
@@ -244,10 +238,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/controller.TypeNeighbor"
-                            }
+                            "$ref": "#/definitions/controller.TypeNeighbors"
                         }
                     },
                     "400": {
@@ -303,10 +294,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/controller.TypeNeighbor"
-                            }
+                            "$ref": "#/definitions/controller.TypeNeighbor"
                         }
                     },
                     "400": {
@@ -348,10 +336,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/controller.TypeNeighborInfos"
                         }
                     },
                     "400": {
@@ -386,8 +371,7 @@ const docTemplate = `{
                 ],
                 "tags": [
                     "API",
-                    "Glue",
-                    "GLUE"
+                    "Dashboard"
                 ],
                 "summary": "Show StorageCenterClusterStatus of GLUE",
                 "responses": {
@@ -436,10 +420,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Errorlog"
-                            }
+                            "$ref": "#/definitions/Errorlog"
                         }
                     },
                     "400": {
@@ -653,10 +634,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/TypePCSesource"
-                            }
+                            "$ref": "#/definitions/model.TypePCSResources"
                         }
                     },
                     "400": {
@@ -2348,6 +2326,40 @@ const docTemplate = `{
                 }
             }
         },
+        "controller.TypeNeighborInfo": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "info": {
+                    "type": "object",
+                    "additionalProperties": true
+                }
+            }
+        },
+        "controller.TypeNeighborInfos": {
+            "type": "object",
+            "properties": {
+                "neighbors": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/controller.TypeNeighborInfo"
+                    }
+                }
+            }
+        },
+        "controller.TypeNeighbors": {
+            "type": "object",
+            "properties": {
+                "neighbors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/controller.TypeNeighbor"
+                    }
+                }
+            }
+        },
         "model.TypeClusterStatus": {
             "type": "object",
             "properties": {
@@ -2793,6 +2805,17 @@ const docTemplate = `{
                 }
             }
         },
+        "model.TypePCSResources": {
+            "type": "object",
+            "properties": {
+                "PCSResource": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TypePCSesource"
+                    }
+                }
+            }
+        },
         "utils.TypeVersion": {
             "type": "object",
             "properties": {
@@ -2819,7 +2842,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "10.211.55.11:8080",
+	Host:             "",
 	BasePath:         "/api/v1",
 	Schemes:          []string{"http", "https"},
 	Title:            "Cube API",

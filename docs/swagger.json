@@ -19,7 +19,6 @@
         },
         "version": "1.0"
     },
-    "host": "10.211.55.11:8080",
     "basePath": "/api/v1",
     "paths": {
         "/Sample": {
@@ -124,10 +123,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/controller.TypeNeighbor"
-                            }
+                            "$ref": "#/definitions/controller.TypeNeighbors"
                         }
                     },
                     "400": {
@@ -183,10 +179,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/controller.TypeNeighbor"
-                            }
+                            "$ref": "#/definitions/controller.TypeNeighbors"
                         }
                     },
                     "400": {
@@ -242,10 +235,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/controller.TypeNeighbor"
-                            }
+                            "$ref": "#/definitions/controller.TypeNeighbors"
                         }
                     },
                     "400": {
@@ -301,10 +291,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/controller.TypeNeighbor"
-                            }
+                            "$ref": "#/definitions/controller.TypeNeighbor"
                         }
                     },
                     "400": {
@@ -346,10 +333,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/controller.TypeNeighborInfos"
                         }
                     },
                     "400": {
@@ -384,8 +368,7 @@
                 ],
                 "tags": [
                     "API",
-                    "Glue",
-                    "GLUE"
+                    "Dashboard"
                 ],
                 "summary": "Show StorageCenterClusterStatus of GLUE",
                 "responses": {
@@ -434,10 +417,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Errorlog"
-                            }
+                            "$ref": "#/definitions/Errorlog"
                         }
                     },
                     "400": {
@@ -651,10 +631,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/TypePCSesource"
-                            }
+                            "$ref": "#/definitions/model.TypePCSResources"
                         }
                     },
                     "400": {
@@ -2346,6 +2323,40 @@
                 }
             }
         },
+        "controller.TypeNeighborInfo": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "info": {
+                    "type": "object",
+                    "additionalProperties": true
+                }
+            }
+        },
+        "controller.TypeNeighborInfos": {
+            "type": "object",
+            "properties": {
+                "neighbors": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/controller.TypeNeighborInfo"
+                    }
+                }
+            }
+        },
+        "controller.TypeNeighbors": {
+            "type": "object",
+            "properties": {
+                "neighbors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/controller.TypeNeighbor"
+                    }
+                }
+            }
+        },
         "model.TypeClusterStatus": {
             "type": "object",
             "properties": {
@@ -2784,6 +2795,17 @@
                     "type": "string"
                 },
                 "resource": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TypePCSesource"
+                    }
+                }
+            }
+        },
+        "model.TypePCSResources": {
+            "type": "object",
+            "properties": {
+                "PCSResource": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/TypePCSesource"

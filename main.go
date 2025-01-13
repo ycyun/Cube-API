@@ -13,6 +13,7 @@ import (
 	Glue "github.com/ycyun/Cube-API/glue/action"
 	Mold "github.com/ycyun/Cube-API/mold/action"
 	PCS "github.com/ycyun/Cube-API/pcs/action"
+	UTILS "github.com/ycyun/Cube-API/utils"
 	"log"
 	"time"
 )
@@ -29,7 +30,7 @@ import (
 //	@license.name	Apache 2.0
 //	@license.url	https://www.apache.org/licenses/LICENSE-2.0.html
 
-//	@host						10.211.55.11:8080
+//	@ssshost						10.211.55.11:8080
 //	@BasePath					/api/v1
 //	@Schemes					http https
 //	@securityDefinitions.basic	None
@@ -50,23 +51,20 @@ func main() {
 	Cube.InitCube()
 	c.StatusRegister(Mold.MonitorStatus)
 	c.StatusRegister(Glue.Monitor)
-	//Cube.StatusRegister(Glue.MonitorGlueStatus)
-	//Cube.StatusRegister(Glue.MonitorGlueHealthDetail)
 	c.StatusRegister(Dashboard.Monitor)
 	c.StatusRegister(PCS.Monitor)
-	//cube.StatusRegister(Dashboard.MonitorDashboard)
 	c.StatusRegister(Cube.UpdateHosts)
-	//c.StatusRegister(errorMaker)
 	c.StatusRegister(C.SaveConfig)
 
 	go c.Start()
-
+	APIPort := "8080"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
+	docs.SwaggerInfo.Host = UTILS.GetLocalIP().String() + ":" + APIPort
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	r := gin.Default()
 	//gin.SetMode(gin.DebugMode)
-	//gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.ReleaseMode)
 	r.ForwardedByClientIP = true
 	err = r.SetTrustedProxies(nil)
 	if err != nil {
@@ -100,6 +98,7 @@ func main() {
 		mold := v1.Group("/mold")
 		{
 			mold.GET("", Mold.GetStatus)
+			mold.GET("/ccvm", Mold.GetCCVMInfo)
 		}
 		pcs := v1.Group("/pcs")
 		{
@@ -117,7 +116,7 @@ func main() {
 		v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
-	err = r.Run(":8080")
+	err = r.Run(":" + APIPort)
 	if err != nil {
 		c.AddError(err)
 	}
