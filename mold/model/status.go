@@ -1,11 +1,13 @@
 package model
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-json"
 	"github.com/gofrs/uuid"
 	"github.com/melbahja/goph"
+	"github.com/ycyun/Cube-API/controller"
 	"github.com/ycyun/Cube-API/utils"
 	"log"
 	"net/http"
@@ -157,6 +159,18 @@ func UpdateStatus() *TypeMoldStatus {
 
 func CheckMoldWeb() *TypeMoldWebStatus {
 	resp, err := http.Get("http://ccvm:8080/client")
+	if err != nil {
+		fmt.Println(err)
+		controller.AddError(err)
+		_moldWebStatus.Code = 500
+		return _moldWebStatus
+	}
+	if resp == nil {
+		fmt.Println("response is nil")
+		controller.AddError(errors.New("response is nil"))
+		_moldWebStatus.Code = 500
+		return _moldWebStatus
+	}
 	status := resp.StatusCode
 	fmt.Println(status)
 	fmt.Print(err)
@@ -167,6 +181,7 @@ func CheckMoldWeb() *TypeMoldWebStatus {
 }
 
 func CheckMoldService() *TypeMoldServiceStatus {
+	UpdateStatus()
 	if gin.Mode() == gin.ReleaseMode {
 		auth, err := goph.Key("/root/.ssh/id_rsa", "")
 		if err != nil {

@@ -72,6 +72,7 @@ func (c *TypeController) AddError(err error) {
 }
 
 func AddError(err error) {
+	Init()
 	controller.AddError(err)
 }
 
