@@ -21,7 +21,7 @@ import (
 //	@Failure		400	{object}	HTTP400BadRequest
 //	@Failure		404	{object}	HTTP404NotFound
 //	@Failure		500	{object}	HTTP500InternalServerError
-//	@Router			/cube/neighbor [get]
+//	@Router			/neighbor [get]
 func (c *TypeController) GetNeighbor(context *gin.Context) {
 	ret := c.Neighbor
 	context.IndentedJSON(http.StatusOK, ret)
@@ -40,8 +40,8 @@ func (c *TypeController) GetNeighbor(context *gin.Context) {
 //	@Failure		400			{object}	HTTP400BadRequest
 //	@Failure		404			{object}	HTTP404NotFound
 //	@Failure		500			{object}	HTTP500InternalServerError
-//	@Router			/cube/neighbor [post]
-//	@Router			/cube/neighbor [put]
+//	@Router			/neighbor [post]
+//	@Router			/neighbor [put]
 func (c *TypeController) PutNeighbor(ctx *gin.Context) {
 	var neighbor TypeNeighbor
 
@@ -76,7 +76,7 @@ func (c *TypeController) PutNeighbor(ctx *gin.Context) {
 //	@Failure		400			{object}	HTTP400BadRequest
 //	@Failure		404			{object}	HTTP404NotFound
 //	@Failure		500			{object}	HTTP500InternalServerError
-//	@Router			/cube/neighbor [delete]
+//	@Router			/neighbor [delete]
 func (c *TypeController) DeleteNeighbor(ctx *gin.Context) {
 	var neighbor TypeNeighbor
 
@@ -132,7 +132,7 @@ func (c *TypeController) DeleteNeighbor(ctx *gin.Context) {
 //	@Failure		400	{object}	HTTP400BadRequest
 //	@Failure		404	{object}	HTTP404NotFound
 //	@Failure		500	{object}	HTTP500InternalServerError
-//	@Router			/cube/neighbor/info [get]
+//	@Router			/neighbor/info [get]
 func (c *TypeController) GetNeighborInfo(ctx *gin.Context) {
 	ctx.IndentedJSON(http.StatusOK, c.UpdateNeighborInfo())
 }

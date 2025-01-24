@@ -1,13 +1,21 @@
 package controller
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/goccy/go-json"
+	Glue "github.com/ycyun/Cube-API/glue/model"
+	Mold "github.com/ycyun/Cube-API/mold/model"
 	"github.com/ycyun/Cube-API/utils"
+	"io"
 	"net/http"
+	"os"
 	"reflect"
 	"sync"
 	"time"
+
+	Cube "github.com/ycyun/Cube-API/cube/model"
 )
 
 type TypeNeighbor struct {
@@ -20,14 +28,14 @@ type TypeNeighbors struct {
 }
 
 type TypeController struct {
-	Handlers []func()          `json:"handlers"`
-	running  bool              `json:"running"`
-	Neighbor TypeNeighbors     `json:"neighbors"`
-	errors   utils.Errors      `json:"errors"`
-	version  utils.TypeVersion `json:"version"`
-	Cube     interface{}       `json:"cube"`
-	Mold     interface{}       `json:"mold_status"`
-	Glue     interface{}       `json:"glue_status"`
+	Handlers []func()             `json:"handlers"`
+	running  bool                 `json:"running"`
+	Neighbor *TypeNeighbors       `json:"neighbors"`
+	errors   *utils.Errors        `json:"errors"`
+	version  *utils.TypeVersion   `json:"version"`
+	Cube     *Cube.TypeCUBE       `json:"cube"`
+	Mold     *Mold.TypeMoldStatus `json:"mold_status"`
+	Glue     *Glue.TypeGlueStatus `json:"glue_status"`
 } //	@name	TypeController
 
 var lockController sync.Once
@@ -39,6 +47,10 @@ func Init() *TypeController {
 			func() {
 				fmt.Println("Creating ", reflect.TypeOf(controller), " now.")
 				controller = &TypeController{}
+				controller.Neighbor = &TypeNeighbors{}
+				controller.Cube = Cube.Cube()
+				controller.Mold = Mold.Status()
+				controller.Glue = Glue.Status()
 			})
 	} else {
 		fmt.Println("get old ", reflect.TypeOf(controller), " instance.")
@@ -76,12 +88,12 @@ func AddError(err error) {
 	controller.AddError(err)
 }
 
-func (c *TypeController) GetError() utils.Errors {
+func (c *TypeController) GetError() *utils.Errors {
 	return c.errors
 }
 
 func (c *TypeController) ClearError() {
-	c.errors = utils.Errors{}
+	c.errors = &utils.Errors{}
 }
 
 // Error godoc
@@ -112,4 +124,31 @@ func (c *TypeController) UpdateCCVMInfo() TypeNeighborInfos {
 		ret.Neighbors[neighbor.HostName] = TypeNeighborInfo{str, code}
 	}
 	return ret
+}
+
+func (c *TypeController) LoadConfig() {
+	fc, err := os.OpenFile(configFile, os.O_RDONLY, 0666)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer fc.Close()
+
+	var strconfig []byte
+	var config Config
+
+	strconfig, err = io.ReadAll(bufio.NewReader(fc))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	err = json.Unmarshal(strconfig, &config)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	//Init()
+	c.Neighbor.Neighbors = config.Neighbor
 }

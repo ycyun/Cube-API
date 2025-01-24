@@ -3,8 +3,6 @@ package model
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/goccy/go-json"
-	"github.com/ycyun/Cube-API/controller"
 	Cube "github.com/ycyun/Cube-API/cube/model"
 	Mold "github.com/ycyun/Cube-API/mold/model"
 	"reflect"
@@ -43,15 +41,15 @@ func CloudVMStatus() *TypeCloudVM {
 func CloudVMUpdateStatus() *TypeCloudVM {
 	CloudVMStatus()
 
-	c := controller.Init()
-	infos := c.UpdateCCVMInfo()
-	for i, info := range infos.Neighbors {
-		if info.Info["running"] == true {
-			tmp, _ := json.Marshal(info.Info)
-			json.Unmarshal(tmp, &_CloudVMCluster.VMStatus)
-			fmt.Println(i)
-		}
-	}
+	//c := controller.Init()
+	//infos := c.UpdateCCVMInfo()
+	//for i, info := range infos.Neighbors {
+	//	if info.Info["running"] == true {
+	//		tmp, _ := json.Marshal(info.Info)
+	//		json.Unmarshal(tmp, &_CloudVMCluster.VMStatus)
+	//		fmt.Println(i)
+	//	}
+	//}
 	//_CloudVMCluster.VMStatus = Cube.GetVMStatus("ccvm")
 	_CloudVMCluster.ServiceStatus = Mold.CheckMoldService()
 	_CloudVMCluster.WebStatus = Mold.CheckMoldWeb()

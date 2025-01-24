@@ -9,11 +9,10 @@ import (
 )
 
 type TypeCUBE struct {
-	Handlers    []func()          `json:"handlers"`
-	running     bool              `json:"running"`
-	Neighbor    []TypeHost        `json:"neighbors"`
-	errors      []utils.Errorlog  `json:"errors"`
-	version     utils.TypeVersion `json:"version"`
+	Disks       *TypeBlockDevice  `json:"disk"`
+	NICs        *TypeNICStatus    `json:"nic"`
+	Hosts       *TypeHosts        `json:"hosts"`
+	Version     utils.TypeVersion `json:"version"`
 	RefreshTime time.Time         `json:"refreshTime"`
 }
 
@@ -26,9 +25,10 @@ func Cube() *TypeCUBE {
 			func() {
 				fmt.Println("Creating ", reflect.TypeOf(cube), " now.")
 				cube = &TypeCUBE{
-					Handlers: []func(){},
-					running:  false,
-					version:  utils.TypeVersion{Version: "v5.0.0"},
+					Version: utils.TypeVersion{Version: "v5.0.0"},
+					Disks:   Disk(),
+					NICs:    NIC(),
+					Hosts:   Hosts(),
 				}
 			})
 	} else {
@@ -39,5 +39,9 @@ func Cube() *TypeCUBE {
 }
 
 func (c *TypeCUBE) GetVersion() utils.TypeVersion {
-	return c.version
+	return c.Version
+} // @name version
+
+func (c *TypeCUBE) Update() utils.TypeVersion {
+	return c.Version
 } // @name version

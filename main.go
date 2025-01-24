@@ -7,7 +7,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	C "github.com/ycyun/Cube-API/controller"
-	Cube "github.com/ycyun/Cube-API/cube/action"
+	//Cube "github.com/ycyun/Cube-API/cube/action"
 	Dashboard "github.com/ycyun/Cube-API/dashboard/action"
 	"github.com/ycyun/Cube-API/docs"
 	Glue "github.com/ycyun/Cube-API/glue/action"
@@ -47,13 +47,15 @@ func main() {
 	time.Local = location
 
 	c := C.Init()
-	C.LoadConfig()
-	Cube.InitCube()
-	c.StatusRegister(Mold.MonitorStatus)
+	c.LoadConfig()
+
+	//c.StatusRegister(Mold.MonitorStatus)
 	c.StatusRegister(Glue.Monitor)
-	c.StatusRegister(Dashboard.Monitor)
+	//c.StatusRegister(Dashboard.Monitor)
 	c.StatusRegister(PCS.Monitor)
-	c.StatusRegister(Cube.UpdateHosts)
+	c.StatusRegister(Cube.Hosts.Update)
+	c.StatusRegister(Cube.NICs.Update)
+	c.StatusRegister(Cube.Disks.Update)
 	c.StatusRegister(C.SaveConfig)
 
 	go c.Start()
@@ -78,15 +80,17 @@ func main() {
 
 	v1 := r.Group("/api/v1")
 	{
+		v1.GET("/neighbor", c.GetNeighbor)
+		v1.GET("/neighbor/info", c.GetNeighborInfo)
+		v1.POST("/neighbor", c.PutNeighbor)
+		v1.PUT("/neighbor", c.PutNeighbor)
+		v1.DELETE("/neighbor", c.DeleteNeighbor)
 		cube := v1.Group("/cube")
 		{
-			cube.GET("/hosts", Cube.GetHosts)
-			cube.GET("/test", Cube.GetHosts)
-			cube.GET("/neighbor", c.GetNeighbor)
-			cube.GET("/neighbor/info", c.GetNeighborInfo)
-			cube.POST("/neighbor", c.PutNeighbor)
-			cube.PUT("/neighbor", c.PutNeighbor)
-			cube.DELETE("/neighbor", c.DeleteNeighbor)
+			cube.GET("/hosts", Cube.Hosts.Get)
+			cube.GET("/test", Cube.Hosts.Get)
+			cube.GET("/nics", Cube.NICs.Get)
+			cube.GET("/disk", Cube.Disks.Get)
 		}
 		glue := v1.Group("/glue")
 		{
@@ -110,7 +114,7 @@ func main() {
 			dashboard.GET("", Dashboard.GetStatus)
 
 		}
-		v1.Any("/version", Cube.Version)
+		//v1.Any("/version", Cube.Version)
 		v1.GET("/err", c.Error)
 		v1.DELETE("/err", c.DeleteError)
 		v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -121,7 +125,6 @@ func main() {
 		c.AddError(err)
 	}
 	c.Stop()
-	Cube.PrintError()
 	fmt.Println("end")
 }
 

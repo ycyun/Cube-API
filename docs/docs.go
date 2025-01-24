@@ -66,6 +66,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/cube/disk": {
+            "get": {
+                "description": "Cube의 Disk목록을 보여줍니다.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "Show List of Disk",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TypeBlockDevice"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
         "/cube/hosts": {
             "get": {
                 "description": "Cube의 Host목록을 보여줍니다.",
@@ -337,6 +379,90 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controller.TypeNeighborInfos"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
+        "/cube/nics": {
+            "get": {
+                "description": "Cube의 NIC목록을 보여줍니다.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "Show List of NIC",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeNICStatus"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
+        "/cube/nics2": {
+            "get": {
+                "description": "Cube의 NIC목록을 보여줍니다.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "Show List of NIC",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeNICStatus"
                         }
                     },
                     "400": {
@@ -754,6 +880,501 @@ const docTemplate = `{
                 }
             }
         },
+        "NICStatus": {
+            "type": "object",
+            "properties": {
+                "addr_info": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "broadcast": {
+                                "type": "string"
+                            },
+                            "family": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "local": {
+                                "type": "string"
+                            },
+                            "noprefixroute": {
+                                "type": "boolean"
+                            },
+                            "preferred_life_time": {
+                                "type": "integer"
+                            },
+                            "prefixlen": {
+                                "type": "integer"
+                            },
+                            "scope": {
+                                "type": "string"
+                            },
+                            "valid_life_time": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                "address": {
+                    "type": "string"
+                },
+                "allmulti": {
+                    "type": "integer"
+                },
+                "altnames": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "broadcast": {
+                    "type": "string"
+                },
+                "flags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "gro_ipv4_max_size": {
+                    "type": "integer"
+                },
+                "gro_max_size": {
+                    "type": "integer"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "gso_ipv4_max_size": {
+                    "type": "integer"
+                },
+                "gso_max_segs": {
+                    "type": "integer"
+                },
+                "gso_max_size": {
+                    "type": "integer"
+                },
+                "ifindex": {
+                    "type": "integer"
+                },
+                "ifname": {
+                    "type": "string"
+                },
+                "link_type": {
+                    "type": "string"
+                },
+                "linkinfo": {
+                    "type": "object",
+                    "properties": {
+                        "info_data": {
+                            "type": "object",
+                            "properties": {
+                                "active_slave": {
+                                    "type": "string"
+                                },
+                                "ad_lacp_active": {
+                                    "type": "string"
+                                },
+                                "ad_lacp_rate": {
+                                    "type": "string"
+                                },
+                                "ad_select": {
+                                    "type": "string"
+                                },
+                                "ageing_time": {
+                                    "type": "integer"
+                                },
+                                "all_slaves_active": {
+                                    "type": "integer"
+                                },
+                                "arp_all_targets": {
+                                    "type": "string"
+                                },
+                                "arp_interval": {
+                                    "type": "integer"
+                                },
+                                "arp_missed_max": {
+                                    "type": "integer"
+                                },
+                                "arp_validate": {},
+                                "bridge_id": {
+                                    "type": "string"
+                                },
+                                "downdelay": {
+                                    "type": "integer"
+                                },
+                                "fail_over_mac": {
+                                    "type": "string"
+                                },
+                                "forward_delay": {
+                                    "type": "integer"
+                                },
+                                "gc_timer": {
+                                    "type": "number"
+                                },
+                                "group_addr": {
+                                    "type": "string"
+                                },
+                                "group_fwd_mask": {
+                                    "type": "string"
+                                },
+                                "hello_time": {
+                                    "type": "integer"
+                                },
+                                "hello_timer": {
+                                    "type": "number"
+                                },
+                                "lp_interval": {
+                                    "type": "integer"
+                                },
+                                "max_age": {
+                                    "type": "integer"
+                                },
+                                "mcast_hash_elasticity": {
+                                    "type": "integer"
+                                },
+                                "mcast_hash_max": {
+                                    "type": "integer"
+                                },
+                                "mcast_igmp_version": {
+                                    "type": "integer"
+                                },
+                                "mcast_last_member_cnt": {
+                                    "type": "integer"
+                                },
+                                "mcast_last_member_intvl": {
+                                    "type": "integer"
+                                },
+                                "mcast_membership_intvl": {
+                                    "type": "integer"
+                                },
+                                "mcast_mld_version": {
+                                    "type": "integer"
+                                },
+                                "mcast_querier": {
+                                    "type": "integer"
+                                },
+                                "mcast_querier_intvl": {
+                                    "type": "integer"
+                                },
+                                "mcast_query_intvl": {
+                                    "type": "integer"
+                                },
+                                "mcast_query_response_intvl": {
+                                    "type": "integer"
+                                },
+                                "mcast_query_use_ifaddr": {
+                                    "type": "integer"
+                                },
+                                "mcast_router": {
+                                    "type": "integer"
+                                },
+                                "mcast_snooping": {
+                                    "type": "integer"
+                                },
+                                "mcast_startup_query_cnt": {
+                                    "type": "integer"
+                                },
+                                "mcast_startup_query_intvl": {
+                                    "type": "integer"
+                                },
+                                "mcast_stats_enabled": {
+                                    "type": "integer"
+                                },
+                                "mcast_vlan_snooping": {
+                                    "type": "integer"
+                                },
+                                "miimon": {
+                                    "type": "integer"
+                                },
+                                "min_links": {
+                                    "type": "integer"
+                                },
+                                "mode": {
+                                    "type": "string"
+                                },
+                                "multi_queue": {
+                                    "type": "boolean"
+                                },
+                                "nf_call_arptables": {
+                                    "type": "integer"
+                                },
+                                "nf_call_ip6tables": {
+                                    "type": "integer"
+                                },
+                                "nf_call_iptables": {
+                                    "type": "integer"
+                                },
+                                "no_linklocal_learn": {
+                                    "type": "integer"
+                                },
+                                "num_peer_notif": {
+                                    "type": "integer"
+                                },
+                                "packets_per_slave": {
+                                    "type": "integer"
+                                },
+                                "peer_notify_delay": {
+                                    "type": "integer"
+                                },
+                                "persist": {
+                                    "type": "boolean"
+                                },
+                                "pi": {
+                                    "type": "boolean"
+                                },
+                                "primary_reselect": {
+                                    "type": "string"
+                                },
+                                "priority": {
+                                    "type": "integer"
+                                },
+                                "resend_igmp": {
+                                    "type": "integer"
+                                },
+                                "root_id": {
+                                    "type": "string"
+                                },
+                                "root_path_cost": {
+                                    "type": "integer"
+                                },
+                                "root_port": {
+                                    "type": "integer"
+                                },
+                                "stp_state": {
+                                    "type": "integer"
+                                },
+                                "tcn_timer": {
+                                    "type": "number"
+                                },
+                                "tlb_dynamic_lb": {
+                                    "type": "integer"
+                                },
+                                "topology_change": {
+                                    "type": "integer"
+                                },
+                                "topology_change_detected": {
+                                    "type": "integer"
+                                },
+                                "topology_change_timer": {
+                                    "type": "number"
+                                },
+                                "type": {
+                                    "type": "string"
+                                },
+                                "updelay": {
+                                    "type": "integer"
+                                },
+                                "use_carrier": {
+                                    "type": "integer"
+                                },
+                                "vlan_default_pvid": {
+                                    "type": "integer"
+                                },
+                                "vlan_filtering": {
+                                    "type": "integer"
+                                },
+                                "vlan_protocol": {
+                                    "type": "string"
+                                },
+                                "vlan_stats_enabled": {
+                                    "type": "integer"
+                                },
+                                "vlan_stats_per_port": {
+                                    "type": "integer"
+                                },
+                                "vnet_hdr": {
+                                    "type": "boolean"
+                                },
+                                "xmit_hash_policy": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "info_kind": {
+                            "type": "string"
+                        },
+                        "info_slave_data": {
+                            "type": "object",
+                            "properties": {
+                                "bcast_flood": {
+                                    "type": "boolean"
+                                },
+                                "bridge_id": {
+                                    "type": "string"
+                                },
+                                "config_pending": {
+                                    "type": "integer"
+                                },
+                                "cost": {
+                                    "type": "integer"
+                                },
+                                "designated_cost": {
+                                    "type": "integer"
+                                },
+                                "designated_port": {
+                                    "type": "integer"
+                                },
+                                "fastleave": {
+                                    "type": "boolean"
+                                },
+                                "flood": {
+                                    "type": "boolean"
+                                },
+                                "forward_delay_timer": {
+                                    "type": "number"
+                                },
+                                "group_fwd_mask": {
+                                    "type": "string"
+                                },
+                                "group_fwd_mask_str": {
+                                    "type": "string"
+                                },
+                                "guard": {
+                                    "type": "boolean"
+                                },
+                                "hairpin": {
+                                    "type": "boolean"
+                                },
+                                "hold_timer": {
+                                    "type": "number"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "isolated": {
+                                    "type": "boolean"
+                                },
+                                "learning": {
+                                    "type": "boolean"
+                                },
+                                "link_failure_count": {
+                                    "type": "integer"
+                                },
+                                "locked": {
+                                    "type": "boolean"
+                                },
+                                "mab": {
+                                    "type": "boolean"
+                                },
+                                "mcast_flood": {
+                                    "type": "boolean"
+                                },
+                                "mcast_to_unicast": {
+                                    "type": "boolean"
+                                },
+                                "message_age_timer": {
+                                    "type": "number"
+                                },
+                                "mii_status": {
+                                    "type": "string"
+                                },
+                                "multicast_router": {
+                                    "type": "integer"
+                                },
+                                "neigh_suppress": {
+                                    "type": "boolean"
+                                },
+                                "no": {
+                                    "type": "string"
+                                },
+                                "perm_hwaddr": {
+                                    "type": "string"
+                                },
+                                "prio": {
+                                    "type": "integer"
+                                },
+                                "priority": {
+                                    "type": "integer"
+                                },
+                                "proxy_arp": {
+                                    "type": "boolean"
+                                },
+                                "proxy_arp_wifi": {
+                                    "type": "boolean"
+                                },
+                                "queue_id": {
+                                    "type": "integer"
+                                },
+                                "root_block": {
+                                    "type": "boolean"
+                                },
+                                "root_id": {
+                                    "type": "string"
+                                },
+                                "state": {
+                                    "type": "string"
+                                },
+                                "topology_change_ack": {
+                                    "type": "integer"
+                                },
+                                "vlan_tunnel": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "info_slave_kind": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "master": {
+                    "type": "string"
+                },
+                "max_mtu": {
+                    "type": "integer"
+                },
+                "min_mtu": {
+                    "type": "integer"
+                },
+                "mtu": {
+                    "type": "integer"
+                },
+                "num_rx_queues": {
+                    "type": "integer"
+                },
+                "num_tx_queues": {
+                    "type": "integer"
+                },
+                "operstate": {
+                    "type": "string"
+                },
+                "parentbus": {
+                    "type": "string"
+                },
+                "parentdev": {
+                    "type": "string"
+                },
+                "phys_port_name": {
+                    "type": "string"
+                },
+                "phys_switch_id": {
+                    "type": "string"
+                },
+                "promiscuity": {
+                    "type": "integer"
+                },
+                "qdisc": {
+                    "type": "string"
+                },
+                "tso_max_segs": {
+                    "type": "integer"
+                },
+                "tso_max_size": {
+                    "type": "integer"
+                },
+                "txqlen": {
+                    "type": "integer"
+                },
+                "vfinfo_list": {
+                    "type": "array",
+                    "items": {}
+                }
+            }
+        },
         "TyepStorageCenterCluster": {
             "type": "object",
             "properties": {
@@ -784,6 +1405,497 @@ const docTemplate = `{
                     "type": "object",
                     "additionalProperties": {
                         "$ref": "#/definitions/TypeAuth"
+                    }
+                },
+                "refreshTime": {
+                    "type": "string"
+                }
+            }
+        },
+        "TypeBlockDevice": {
+            "type": "object",
+            "properties": {
+                "blockdevices": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "alignment": {
+                                "type": "integer"
+                            },
+                            "children": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "alignment": {
+                                            "type": "integer"
+                                        },
+                                        "children": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "alignment": {
+                                                        "type": "integer"
+                                                    },
+                                                    "dax": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "disc-aln": {
+                                                        "type": "integer"
+                                                    },
+                                                    "disc-gran": {
+                                                        "type": "string"
+                                                    },
+                                                    "disc-max": {
+                                                        "type": "string"
+                                                    },
+                                                    "disc-zero": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "fsavail": {
+                                                        "type": "string"
+                                                    },
+                                                    "fsroots": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "fssize": {
+                                                        "type": "string"
+                                                    },
+                                                    "fstype": {
+                                                        "type": "string"
+                                                    },
+                                                    "fsuse%": {
+                                                        "type": "string"
+                                                    },
+                                                    "fsused": {
+                                                        "type": "string"
+                                                    },
+                                                    "fsver": {
+                                                        "type": "string"
+                                                    },
+                                                    "group": {
+                                                        "type": "string"
+                                                    },
+                                                    "hctl": {},
+                                                    "hotplug": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "kname": {
+                                                        "type": "string"
+                                                    },
+                                                    "label": {},
+                                                    "log-sec": {
+                                                        "type": "integer"
+                                                    },
+                                                    "maj:min": {
+                                                        "type": "string"
+                                                    },
+                                                    "min-io": {
+                                                        "type": "integer"
+                                                    },
+                                                    "mode": {
+                                                        "type": "string"
+                                                    },
+                                                    "model": {},
+                                                    "mountpoint": {
+                                                        "type": "string"
+                                                    },
+                                                    "mountpoints": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "opt-io": {
+                                                        "type": "integer"
+                                                    },
+                                                    "owner": {
+                                                        "type": "string"
+                                                    },
+                                                    "partflags": {},
+                                                    "partlabel": {},
+                                                    "parttype": {},
+                                                    "parttypename": {},
+                                                    "partuuid": {},
+                                                    "path": {
+                                                        "type": "string"
+                                                    },
+                                                    "phy-sec": {
+                                                        "type": "integer"
+                                                    },
+                                                    "pkname": {
+                                                        "type": "string"
+                                                    },
+                                                    "pttype": {
+                                                        "type": "string"
+                                                    },
+                                                    "ptuuid": {
+                                                        "type": "string"
+                                                    },
+                                                    "ra": {
+                                                        "type": "integer"
+                                                    },
+                                                    "rand": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "rev": {},
+                                                    "rm": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "ro": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "rota": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "rq-size": {
+                                                        "type": "integer"
+                                                    },
+                                                    "sched": {},
+                                                    "serial": {},
+                                                    "size": {
+                                                        "type": "string"
+                                                    },
+                                                    "state": {
+                                                        "type": "string"
+                                                    },
+                                                    "subsystems": {
+                                                        "type": "string"
+                                                    },
+                                                    "tran": {},
+                                                    "type": {
+                                                        "type": "string"
+                                                    },
+                                                    "uuid": {
+                                                        "type": "string"
+                                                    },
+                                                    "vendor": {},
+                                                    "wsame": {
+                                                        "type": "string"
+                                                    },
+                                                    "wwn": {},
+                                                    "zoned": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "dax": {
+                                            "type": "boolean"
+                                        },
+                                        "disc-aln": {
+                                            "type": "integer"
+                                        },
+                                        "disc-gran": {
+                                            "type": "string"
+                                        },
+                                        "disc-max": {
+                                            "type": "string"
+                                        },
+                                        "disc-zero": {
+                                            "type": "boolean"
+                                        },
+                                        "fsavail": {
+                                            "type": "string"
+                                        },
+                                        "fsroots": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "fssize": {
+                                            "type": "string"
+                                        },
+                                        "fstype": {
+                                            "type": "string"
+                                        },
+                                        "fsuse%": {
+                                            "type": "string"
+                                        },
+                                        "fsused": {
+                                            "type": "string"
+                                        },
+                                        "fsver": {
+                                            "type": "string"
+                                        },
+                                        "group": {
+                                            "type": "string"
+                                        },
+                                        "hctl": {},
+                                        "hotplug": {
+                                            "type": "boolean"
+                                        },
+                                        "kname": {
+                                            "type": "string"
+                                        },
+                                        "label": {},
+                                        "log-sec": {
+                                            "type": "integer"
+                                        },
+                                        "maj:min": {
+                                            "type": "string"
+                                        },
+                                        "min-io": {
+                                            "type": "integer"
+                                        },
+                                        "mode": {
+                                            "type": "string"
+                                        },
+                                        "model": {},
+                                        "mountpoint": {
+                                            "type": "string"
+                                        },
+                                        "mountpoints": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "opt-io": {
+                                            "type": "integer"
+                                        },
+                                        "owner": {
+                                            "type": "string"
+                                        },
+                                        "partflags": {
+                                            "type": "string"
+                                        },
+                                        "partlabel": {},
+                                        "parttype": {
+                                            "type": "string"
+                                        },
+                                        "parttypename": {
+                                            "type": "string"
+                                        },
+                                        "partuuid": {
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "type": "string"
+                                        },
+                                        "phy-sec": {
+                                            "type": "integer"
+                                        },
+                                        "pkname": {
+                                            "type": "string"
+                                        },
+                                        "pttype": {
+                                            "type": "string"
+                                        },
+                                        "ptuuid": {
+                                            "type": "string"
+                                        },
+                                        "ra": {
+                                            "type": "integer"
+                                        },
+                                        "rand": {
+                                            "type": "boolean"
+                                        },
+                                        "rev": {},
+                                        "rm": {
+                                            "type": "boolean"
+                                        },
+                                        "ro": {
+                                            "type": "boolean"
+                                        },
+                                        "rota": {
+                                            "type": "boolean"
+                                        },
+                                        "rq-size": {
+                                            "type": "integer"
+                                        },
+                                        "sched": {
+                                            "type": "string"
+                                        },
+                                        "serial": {},
+                                        "size": {
+                                            "type": "string"
+                                        },
+                                        "state": {
+                                            "type": "string"
+                                        },
+                                        "subsystems": {
+                                            "type": "string"
+                                        },
+                                        "tran": {},
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "uuid": {
+                                            "type": "string"
+                                        },
+                                        "vendor": {},
+                                        "wsame": {
+                                            "type": "string"
+                                        },
+                                        "wwn": {
+                                            "type": "string"
+                                        },
+                                        "zoned": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "dax": {
+                                "type": "boolean"
+                            },
+                            "disc-aln": {
+                                "type": "integer"
+                            },
+                            "disc-gran": {
+                                "type": "string"
+                            },
+                            "disc-max": {
+                                "type": "string"
+                            },
+                            "disc-zero": {
+                                "type": "boolean"
+                            },
+                            "fsavail": {},
+                            "fsroots": {
+                                "type": "array",
+                                "items": {}
+                            },
+                            "fssize": {},
+                            "fstype": {
+                                "type": "string"
+                            },
+                            "fsuse%": {},
+                            "fsused": {},
+                            "fsver": {
+                                "type": "string"
+                            },
+                            "group": {
+                                "type": "string"
+                            },
+                            "hctl": {
+                                "type": "string"
+                            },
+                            "hotplug": {
+                                "type": "boolean"
+                            },
+                            "kname": {
+                                "type": "string"
+                            },
+                            "label": {},
+                            "log-sec": {
+                                "type": "integer"
+                            },
+                            "maj:min": {
+                                "type": "string"
+                            },
+                            "min-io": {
+                                "type": "integer"
+                            },
+                            "mode": {
+                                "type": "string"
+                            },
+                            "model": {
+                                "type": "string"
+                            },
+                            "mountpoint": {},
+                            "mountpoints": {
+                                "type": "array",
+                                "items": {}
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "opt-io": {
+                                "type": "integer"
+                            },
+                            "owner": {
+                                "type": "string"
+                            },
+                            "partflags": {},
+                            "partlabel": {},
+                            "parttype": {},
+                            "parttypename": {},
+                            "partuuid": {},
+                            "path": {
+                                "type": "string"
+                            },
+                            "phy-sec": {
+                                "type": "integer"
+                            },
+                            "pkname": {},
+                            "pttype": {
+                                "type": "string"
+                            },
+                            "ptuuid": {
+                                "type": "string"
+                            },
+                            "ra": {
+                                "type": "integer"
+                            },
+                            "rand": {
+                                "type": "boolean"
+                            },
+                            "rev": {
+                                "type": "string"
+                            },
+                            "rm": {
+                                "type": "boolean"
+                            },
+                            "ro": {
+                                "type": "boolean"
+                            },
+                            "rota": {
+                                "type": "boolean"
+                            },
+                            "rq-size": {
+                                "type": "integer"
+                            },
+                            "sched": {
+                                "type": "string"
+                            },
+                            "serial": {
+                                "type": "string"
+                            },
+                            "size": {
+                                "type": "string"
+                            },
+                            "state": {
+                                "type": "string"
+                            },
+                            "subsystems": {
+                                "type": "string"
+                            },
+                            "tran": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string"
+                            },
+                            "uuid": {
+                                "type": "string"
+                            },
+                            "vendor": {
+                                "type": "string"
+                            },
+                            "wsame": {
+                                "type": "string"
+                            },
+                            "wwn": {
+                                "type": "string"
+                            },
+                            "zoned": {
+                                "type": "string"
+                            }
+                        }
                     }
                 },
                 "refreshTime": {
@@ -2732,6 +3844,20 @@ const docTemplate = `{
                     }
                 },
                 "refresh_time": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TypeNICStatus": {
+            "type": "object",
+            "properties": {
+                "nics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/NICStatus"
+                    }
+                },
+                "refreshTime": {
                     "type": "string"
                 }
             }
