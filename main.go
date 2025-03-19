@@ -1,29 +1,18 @@
 package main
 
+import "C"
 import (
-	"errors"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
-	C "github.com/ycyun/Cube-API/controller"
-	//Cube "github.com/ycyun/Cube-API/cube/action"
-	Dashboard "github.com/ycyun/Cube-API/dashboard/action"
-	"github.com/ycyun/Cube-API/docs"
-	Glue "github.com/ycyun/Cube-API/glue/action"
-	Mold "github.com/ycyun/Cube-API/mold/action"
-	PCS "github.com/ycyun/Cube-API/pcs/action"
-	UTILS "github.com/ycyun/Cube-API/utils"
-	"log"
+	"github.com/ycyun/Cube-API/controller"
 	"time"
 )
 
-//	@title			Cube API
+//	@title			Cube APIServer
 //	@version		1.0
-//	@description	This is a Cube-API server.
+//	@description	This is a Cube-APIServer server.
 //	@termsOfService	https://ablecloud.io/
 
-//	@contact.name	API Support
+//	@contact.name	APIServer Support
 //	@contact.url	https://www.ablecloud.io/support
 //	@contact.email	ycyun@ablecloud.io
 
@@ -46,90 +35,28 @@ func main() {
 	// Set the timezone for the current process
 	time.Local = location
 
-	c := C.Init()
-	c.LoadConfig()
+	c := controller.Init()
 
-	//c.StatusRegister(Mold.MonitorStatus)
-	c.StatusRegister(Glue.Monitor)
-	//c.StatusRegister(Dashboard.Monitor)
-	c.StatusRegister(PCS.Monitor)
-	c.StatusRegister(Cube.Hosts.Update)
-	c.StatusRegister(Cube.NICs.Update)
-	c.StatusRegister(Cube.Disks.Update)
-	c.StatusRegister(C.SaveConfig)
-
-	go c.Start()
-	APIPort := "8080"
-	docs.SwaggerInfo.Schemes = []string{"http", "https"}
-	docs.SwaggerInfo.Host = UTILS.GetLocalIP().String() + ":" + APIPort
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
-
-	r := gin.Default()
-	//gin.SetMode(gin.DebugMode)
-	gin.SetMode(gin.ReleaseMode)
-	r.ForwardedByClientIP = true
-	err = r.SetTrustedProxies(nil)
-	if err != nil {
-		c.AddError(err)
-	}
-
-	r.Use(gin.Logger())
-
-	// Recovery 미들웨어는 panic이 발생하면 500 에러를 씁니다.
-	r.Use(gin.Recovery())
-
-	v1 := r.Group("/api/v1")
-	{
-		v1.GET("/neighbor", c.GetNeighbor)
-		v1.GET("/neighbor/info", c.GetNeighborInfo)
-		v1.POST("/neighbor", c.PutNeighbor)
-		v1.PUT("/neighbor", c.PutNeighbor)
-		v1.DELETE("/neighbor", c.DeleteNeighbor)
-		cube := v1.Group("/cube")
-		{
-			cube.GET("/hosts", Cube.Hosts.Get)
-			cube.GET("/test", Cube.Hosts.Get)
-			cube.GET("/nics", Cube.NICs.Get)
-			cube.GET("/disk", Cube.Disks.Get)
-		}
-		glue := v1.Group("/glue")
-		{
-			glue.GET("/", Glue.GetGlueStatus)
-			glue.GET("/auth", Glue.GetGlueAuth)
-			glue.GET("/auth/:username", Glue.GetGlueAuth)
-			glue.GET("/auths", Glue.GetGlueAuths)
-		}
-		mold := v1.Group("/mold")
-		{
-			mold.GET("", Mold.GetStatus)
-			mold.GET("/ccvm", Mold.GetCCVMInfo)
-		}
-		pcs := v1.Group("/pcs")
-		{
-			pcs.GET("", PCS.GetStatus)
-			pcs.GET("/resources", PCS.GetResource)
-		}
-		dashboard := v1.Group("/dashboard")
-		{
-			dashboard.GET("", Dashboard.GetStatus)
-
-		}
-		//v1.Any("/version", Cube.Version)
-		v1.GET("/err", c.Error)
-		v1.DELETE("/err", c.DeleteError)
-		v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	}
-
-	err = r.Run(":" + APIPort)
-	if err != nil {
-		c.AddError(err)
-	}
-
-	c.Stop()
+	API := c.A
+	Worker := c.W
+	API.Run()
+	Worker.Run()
+	//
+	////c.StatusRegister(Mold.MonitorStatus)
+	//c.StatusRegister(Glue.Monitor)
+	////c.StatusRegister(Dashboard.Monitor)
+	//c.StatusRegister(PCS.Monitor)
+	//c.StatusRegister(Cube.Hosts.Update)
+	//c.StatusRegister(Cube.NICs.Update)
+	//c.StatusRegister(Cube.Disks.Update)
+	//c.StatusRegister(C.SaveConfig)
+	//
+	//go c.Start()
+	//APIPort := "8080"
+	//docs.SwaggerInfo.Schemes = []string{"http", "https"}
+	//docs.SwaggerInfo.Host = UTILS.GetLocalIP().String() + ":" + APIPort
+	//log.SetFlags(log.LstdFlags | log.Lshortfile)
+	//
+	//c.Stop()
 	fmt.Println("end")
-}
-
-func errorMaker() {
-	c := C.Init()
-	c.AddError(errors.New(time.Now().String()))
 }
