@@ -38,7 +38,7 @@ type TypeStorageCenterCluster struct {
 	StoragePools *Glue.TypeGlueStorageSize `json:"storage-pools"`
 
 	RefreshTime time.Time `json:"refresh-time"`
-} // @name TyepStorageCenterCluster
+} // @name TypeStorageCenterCluster
 
 var lockStorageCenterCluster sync.Once
 

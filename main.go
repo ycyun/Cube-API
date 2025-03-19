@@ -124,6 +124,7 @@ func main() {
 	if err != nil {
 		c.AddError(err)
 	}
+
 	c.Stop()
 	fmt.Println("end")
 }

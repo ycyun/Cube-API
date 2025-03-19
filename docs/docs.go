@@ -110,7 +110,7 @@ const docTemplate = `{
         },
         "/cube/hosts": {
             "get": {
-                "description": "Cube의 Host목록을 보여줍니다.",
+                "description": "Cube의 Hosts 파일의 목록을 보여줍니다.",
                 "consumes": [
                     "application/x-www-form-urlencoded"
                 ],
@@ -121,264 +121,12 @@ const docTemplate = `{
                     "API",
                     "CUBE"
                 ],
-                "summary": "Show List of Host",
+                "summary": "Show List of Hosts",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/model.TypeHosts"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP400BadRequest"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP404NotFound"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP500InternalServerError"
-                        }
-                    }
-                }
-            }
-        },
-        "/cube/neighbor": {
-            "get": {
-                "description": "GetNeighbor.",
-                "consumes": [
-                    "application/x-www-form-urlencoded"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "API",
-                    "CUBE"
-                ],
-                "summary": "GetNeighbor",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controller.TypeNeighbors"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP400BadRequest"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP404NotFound"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP500InternalServerError"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "PutNeighbor.",
-                "consumes": [
-                    "application/x-www-form-urlencoded"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "API",
-                    "CUBE"
-                ],
-                "summary": "PutNeighbor",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Neighbor IP",
-                        "name": "ip",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Neighbor Hostname",
-                        "name": "hostname",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controller.TypeNeighbors"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP400BadRequest"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP404NotFound"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP500InternalServerError"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "PutNeighbor.",
-                "consumes": [
-                    "application/x-www-form-urlencoded"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "API",
-                    "CUBE"
-                ],
-                "summary": "PutNeighbor",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Neighbor IP",
-                        "name": "ip",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Neighbor Hostname",
-                        "name": "hostname",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controller.TypeNeighbors"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP400BadRequest"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP404NotFound"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP500InternalServerError"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "DeleteNeighbor.",
-                "consumes": [
-                    "application/x-www-form-urlencoded"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "API",
-                    "CUBE"
-                ],
-                "summary": "DeleteNeighbor",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Neighbor IP",
-                        "name": "ip",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Neighbor Hostname",
-                        "name": "hostname",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controller.TypeNeighbor"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP400BadRequest"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP404NotFound"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP500InternalServerError"
-                        }
-                    }
-                }
-            }
-        },
-        "/cube/neighbor/info": {
-            "get": {
-                "description": "GetNeighbor.",
-                "consumes": [
-                    "application/x-www-form-urlencoded"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "API",
-                    "CUBE"
-                ],
-                "summary": "GetNeighbor",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controller.TypeNeighborInfos"
                         }
                     },
                     "400": {
@@ -444,48 +192,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/cube/nics2": {
-            "get": {
-                "description": "Cube의 NIC목록을 보여줍니다.",
-                "consumes": [
-                    "application/x-www-form-urlencoded"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "API",
-                    "CUBE"
-                ],
-                "summary": "Show List of NIC",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.TypeNICStatus"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP400BadRequest"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP404NotFound"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/HTTP500InternalServerError"
-                        }
-                    }
-                }
-            }
-        },
         "/dashboard": {
             "get": {
                 "description": "GLUE의 상태값을 보여줍니다.",
@@ -504,7 +210,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/TyepStorageCenterCluster"
+                            "$ref": "#/definitions/TypeStorageCenterCluster"
                         }
                     },
                     "400": {
@@ -742,6 +448,258 @@ const docTemplate = `{
                 }
             }
         },
+        "/neighbor": {
+            "get": {
+                "description": "GetNeighbor.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "GetNeighbor",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller.TypeNeighbors"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "PutNeighbor.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "PutNeighbor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Neighbor IP",
+                        "name": "ip",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Neighbor Hostname",
+                        "name": "hostname",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller.TypeNeighbors"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "PutNeighbor.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "PutNeighbor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Neighbor IP",
+                        "name": "ip",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Neighbor Hostname",
+                        "name": "hostname",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller.TypeNeighbors"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "DeleteNeighbor.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "DeleteNeighbor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Neighbor IP",
+                        "name": "ip",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Neighbor Hostname",
+                        "name": "hostname",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller.TypeNeighbor"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
+        "/neighbor/info": {
+            "get": {
+                "description": "GetNeighbor.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API",
+                    "CUBE"
+                ],
+                "summary": "GetNeighbor",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller.TypeNeighborInfos"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP400BadRequest"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP404NotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTP500InternalServerError"
+                        }
+                    }
+                }
+            }
+        },
         "/pcs": {
             "get": {
                 "description": "PCS 상태값을 보여줍니다.",
@@ -877,524 +835,6 @@ const docTemplate = `{
                 "message": {
                     "type": "string",
                     "example": "InternalServerError"
-                }
-            }
-        },
-        "NICStatus": {
-            "type": "object",
-            "properties": {
-                "addr_info": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "broadcast": {
-                                "type": "string"
-                            },
-                            "family": {
-                                "type": "string"
-                            },
-                            "label": {
-                                "type": "string"
-                            },
-                            "local": {
-                                "type": "string"
-                            },
-                            "noprefixroute": {
-                                "type": "boolean"
-                            },
-                            "preferred_life_time": {
-                                "type": "integer"
-                            },
-                            "prefixlen": {
-                                "type": "integer"
-                            },
-                            "scope": {
-                                "type": "string"
-                            },
-                            "valid_life_time": {
-                                "type": "integer"
-                            }
-                        }
-                    }
-                },
-                "address": {
-                    "type": "string"
-                },
-                "allmulti": {
-                    "type": "integer"
-                },
-                "altnames": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "broadcast": {
-                    "type": "string"
-                },
-                "flags": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "gro_ipv4_max_size": {
-                    "type": "integer"
-                },
-                "gro_max_size": {
-                    "type": "integer"
-                },
-                "group": {
-                    "type": "string"
-                },
-                "gso_ipv4_max_size": {
-                    "type": "integer"
-                },
-                "gso_max_segs": {
-                    "type": "integer"
-                },
-                "gso_max_size": {
-                    "type": "integer"
-                },
-                "ifindex": {
-                    "type": "integer"
-                },
-                "ifname": {
-                    "type": "string"
-                },
-                "link_type": {
-                    "type": "string"
-                },
-                "linkinfo": {
-                    "type": "object",
-                    "properties": {
-                        "info_data": {
-                            "type": "object",
-                            "properties": {
-                                "active_slave": {
-                                    "type": "string"
-                                },
-                                "ad_lacp_active": {
-                                    "type": "string"
-                                },
-                                "ad_lacp_rate": {
-                                    "type": "string"
-                                },
-                                "ad_select": {
-                                    "type": "string"
-                                },
-                                "ageing_time": {
-                                    "type": "integer"
-                                },
-                                "all_slaves_active": {
-                                    "type": "integer"
-                                },
-                                "arp_all_targets": {
-                                    "type": "string"
-                                },
-                                "arp_interval": {
-                                    "type": "integer"
-                                },
-                                "arp_missed_max": {
-                                    "type": "integer"
-                                },
-                                "arp_validate": {},
-                                "bridge_id": {
-                                    "type": "string"
-                                },
-                                "downdelay": {
-                                    "type": "integer"
-                                },
-                                "fail_over_mac": {
-                                    "type": "string"
-                                },
-                                "forward_delay": {
-                                    "type": "integer"
-                                },
-                                "gc_timer": {
-                                    "type": "number"
-                                },
-                                "group_addr": {
-                                    "type": "string"
-                                },
-                                "group_fwd_mask": {
-                                    "type": "string"
-                                },
-                                "hello_time": {
-                                    "type": "integer"
-                                },
-                                "hello_timer": {
-                                    "type": "number"
-                                },
-                                "lp_interval": {
-                                    "type": "integer"
-                                },
-                                "max_age": {
-                                    "type": "integer"
-                                },
-                                "mcast_hash_elasticity": {
-                                    "type": "integer"
-                                },
-                                "mcast_hash_max": {
-                                    "type": "integer"
-                                },
-                                "mcast_igmp_version": {
-                                    "type": "integer"
-                                },
-                                "mcast_last_member_cnt": {
-                                    "type": "integer"
-                                },
-                                "mcast_last_member_intvl": {
-                                    "type": "integer"
-                                },
-                                "mcast_membership_intvl": {
-                                    "type": "integer"
-                                },
-                                "mcast_mld_version": {
-                                    "type": "integer"
-                                },
-                                "mcast_querier": {
-                                    "type": "integer"
-                                },
-                                "mcast_querier_intvl": {
-                                    "type": "integer"
-                                },
-                                "mcast_query_intvl": {
-                                    "type": "integer"
-                                },
-                                "mcast_query_response_intvl": {
-                                    "type": "integer"
-                                },
-                                "mcast_query_use_ifaddr": {
-                                    "type": "integer"
-                                },
-                                "mcast_router": {
-                                    "type": "integer"
-                                },
-                                "mcast_snooping": {
-                                    "type": "integer"
-                                },
-                                "mcast_startup_query_cnt": {
-                                    "type": "integer"
-                                },
-                                "mcast_startup_query_intvl": {
-                                    "type": "integer"
-                                },
-                                "mcast_stats_enabled": {
-                                    "type": "integer"
-                                },
-                                "mcast_vlan_snooping": {
-                                    "type": "integer"
-                                },
-                                "miimon": {
-                                    "type": "integer"
-                                },
-                                "min_links": {
-                                    "type": "integer"
-                                },
-                                "mode": {
-                                    "type": "string"
-                                },
-                                "multi_queue": {
-                                    "type": "boolean"
-                                },
-                                "nf_call_arptables": {
-                                    "type": "integer"
-                                },
-                                "nf_call_ip6tables": {
-                                    "type": "integer"
-                                },
-                                "nf_call_iptables": {
-                                    "type": "integer"
-                                },
-                                "no_linklocal_learn": {
-                                    "type": "integer"
-                                },
-                                "num_peer_notif": {
-                                    "type": "integer"
-                                },
-                                "packets_per_slave": {
-                                    "type": "integer"
-                                },
-                                "peer_notify_delay": {
-                                    "type": "integer"
-                                },
-                                "persist": {
-                                    "type": "boolean"
-                                },
-                                "pi": {
-                                    "type": "boolean"
-                                },
-                                "primary_reselect": {
-                                    "type": "string"
-                                },
-                                "priority": {
-                                    "type": "integer"
-                                },
-                                "resend_igmp": {
-                                    "type": "integer"
-                                },
-                                "root_id": {
-                                    "type": "string"
-                                },
-                                "root_path_cost": {
-                                    "type": "integer"
-                                },
-                                "root_port": {
-                                    "type": "integer"
-                                },
-                                "stp_state": {
-                                    "type": "integer"
-                                },
-                                "tcn_timer": {
-                                    "type": "number"
-                                },
-                                "tlb_dynamic_lb": {
-                                    "type": "integer"
-                                },
-                                "topology_change": {
-                                    "type": "integer"
-                                },
-                                "topology_change_detected": {
-                                    "type": "integer"
-                                },
-                                "topology_change_timer": {
-                                    "type": "number"
-                                },
-                                "type": {
-                                    "type": "string"
-                                },
-                                "updelay": {
-                                    "type": "integer"
-                                },
-                                "use_carrier": {
-                                    "type": "integer"
-                                },
-                                "vlan_default_pvid": {
-                                    "type": "integer"
-                                },
-                                "vlan_filtering": {
-                                    "type": "integer"
-                                },
-                                "vlan_protocol": {
-                                    "type": "string"
-                                },
-                                "vlan_stats_enabled": {
-                                    "type": "integer"
-                                },
-                                "vlan_stats_per_port": {
-                                    "type": "integer"
-                                },
-                                "vnet_hdr": {
-                                    "type": "boolean"
-                                },
-                                "xmit_hash_policy": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "info_kind": {
-                            "type": "string"
-                        },
-                        "info_slave_data": {
-                            "type": "object",
-                            "properties": {
-                                "bcast_flood": {
-                                    "type": "boolean"
-                                },
-                                "bridge_id": {
-                                    "type": "string"
-                                },
-                                "config_pending": {
-                                    "type": "integer"
-                                },
-                                "cost": {
-                                    "type": "integer"
-                                },
-                                "designated_cost": {
-                                    "type": "integer"
-                                },
-                                "designated_port": {
-                                    "type": "integer"
-                                },
-                                "fastleave": {
-                                    "type": "boolean"
-                                },
-                                "flood": {
-                                    "type": "boolean"
-                                },
-                                "forward_delay_timer": {
-                                    "type": "number"
-                                },
-                                "group_fwd_mask": {
-                                    "type": "string"
-                                },
-                                "group_fwd_mask_str": {
-                                    "type": "string"
-                                },
-                                "guard": {
-                                    "type": "boolean"
-                                },
-                                "hairpin": {
-                                    "type": "boolean"
-                                },
-                                "hold_timer": {
-                                    "type": "number"
-                                },
-                                "id": {
-                                    "type": "string"
-                                },
-                                "isolated": {
-                                    "type": "boolean"
-                                },
-                                "learning": {
-                                    "type": "boolean"
-                                },
-                                "link_failure_count": {
-                                    "type": "integer"
-                                },
-                                "locked": {
-                                    "type": "boolean"
-                                },
-                                "mab": {
-                                    "type": "boolean"
-                                },
-                                "mcast_flood": {
-                                    "type": "boolean"
-                                },
-                                "mcast_to_unicast": {
-                                    "type": "boolean"
-                                },
-                                "message_age_timer": {
-                                    "type": "number"
-                                },
-                                "mii_status": {
-                                    "type": "string"
-                                },
-                                "multicast_router": {
-                                    "type": "integer"
-                                },
-                                "neigh_suppress": {
-                                    "type": "boolean"
-                                },
-                                "no": {
-                                    "type": "string"
-                                },
-                                "perm_hwaddr": {
-                                    "type": "string"
-                                },
-                                "prio": {
-                                    "type": "integer"
-                                },
-                                "priority": {
-                                    "type": "integer"
-                                },
-                                "proxy_arp": {
-                                    "type": "boolean"
-                                },
-                                "proxy_arp_wifi": {
-                                    "type": "boolean"
-                                },
-                                "queue_id": {
-                                    "type": "integer"
-                                },
-                                "root_block": {
-                                    "type": "boolean"
-                                },
-                                "root_id": {
-                                    "type": "string"
-                                },
-                                "state": {
-                                    "type": "string"
-                                },
-                                "topology_change_ack": {
-                                    "type": "integer"
-                                },
-                                "vlan_tunnel": {
-                                    "type": "boolean"
-                                }
-                            }
-                        },
-                        "info_slave_kind": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "master": {
-                    "type": "string"
-                },
-                "max_mtu": {
-                    "type": "integer"
-                },
-                "min_mtu": {
-                    "type": "integer"
-                },
-                "mtu": {
-                    "type": "integer"
-                },
-                "num_rx_queues": {
-                    "type": "integer"
-                },
-                "num_tx_queues": {
-                    "type": "integer"
-                },
-                "operstate": {
-                    "type": "string"
-                },
-                "parentbus": {
-                    "type": "string"
-                },
-                "parentdev": {
-                    "type": "string"
-                },
-                "phys_port_name": {
-                    "type": "string"
-                },
-                "phys_switch_id": {
-                    "type": "string"
-                },
-                "promiscuity": {
-                    "type": "integer"
-                },
-                "qdisc": {
-                    "type": "string"
-                },
-                "tso_max_segs": {
-                    "type": "integer"
-                },
-                "tso_max_size": {
-                    "type": "integer"
-                },
-                "txqlen": {
-                    "type": "integer"
-                },
-                "vfinfo_list": {
-                    "type": "array",
-                    "items": {}
-                }
-            }
-        },
-        "TyepStorageCenterCluster": {
-            "type": "object",
-            "properties": {
-                "cluster-status": {
-                    "$ref": "#/definitions/model.TypeClusterStatus"
-                },
-                "daemons": {
-                    "$ref": "#/definitions/model.TypeGlueDaemons"
-                },
-                "disks": {
-                    "$ref": "#/definitions/model.TypeDisks"
-                },
-                "gateways": {
-                    "$ref": "#/definitions/model.TypeGateways"
-                },
-                "refresh-time": {
-                    "type": "string"
-                },
-                "storage-pools": {
-                    "$ref": "#/definitions/TypeGlueStorageSize"
                 }
             }
         },
@@ -3427,6 +2867,29 @@ const docTemplate = `{
                 }
             }
         },
+        "TypeStorageCenterCluster": {
+            "type": "object",
+            "properties": {
+                "cluster-status": {
+                    "$ref": "#/definitions/model.TypeClusterStatus"
+                },
+                "daemons": {
+                    "$ref": "#/definitions/model.TypeGlueDaemons"
+                },
+                "disks": {
+                    "$ref": "#/definitions/model.TypeDisks"
+                },
+                "gateways": {
+                    "$ref": "#/definitions/model.TypeGateways"
+                },
+                "refresh-time": {
+                    "type": "string"
+                },
+                "storage-pools": {
+                    "$ref": "#/definitions/TypeGlueStorageSize"
+                }
+            }
+        },
         "controller.TypeNeighbor": {
             "type": "object",
             "properties": {
@@ -3469,6 +2932,507 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/controller.TypeNeighbor"
                     }
+                }
+            }
+        },
+        "model.NICStatus": {
+            "type": "object",
+            "properties": {
+                "addr_info": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "broadcast": {
+                                "type": "string"
+                            },
+                            "family": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "local": {
+                                "type": "string"
+                            },
+                            "noprefixroute": {
+                                "type": "boolean"
+                            },
+                            "preferred_life_time": {
+                                "type": "integer"
+                            },
+                            "prefixlen": {
+                                "type": "integer"
+                            },
+                            "scope": {
+                                "type": "string"
+                            },
+                            "valid_life_time": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                "address": {
+                    "type": "string"
+                },
+                "allmulti": {
+                    "type": "integer"
+                },
+                "altnames": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "broadcast": {
+                    "type": "string"
+                },
+                "flags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "gro_ipv4_max_size": {
+                    "type": "integer"
+                },
+                "gro_max_size": {
+                    "type": "integer"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "gso_ipv4_max_size": {
+                    "type": "integer"
+                },
+                "gso_max_segs": {
+                    "type": "integer"
+                },
+                "gso_max_size": {
+                    "type": "integer"
+                },
+                "ifindex": {
+                    "type": "integer"
+                },
+                "ifname": {
+                    "type": "string"
+                },
+                "link_type": {
+                    "type": "string"
+                },
+                "linkinfo": {
+                    "type": "object",
+                    "properties": {
+                        "info_data": {
+                            "type": "object",
+                            "properties": {
+                                "active_slave": {
+                                    "type": "string"
+                                },
+                                "ad_lacp_active": {
+                                    "type": "string"
+                                },
+                                "ad_lacp_rate": {
+                                    "type": "string"
+                                },
+                                "ad_select": {
+                                    "type": "string"
+                                },
+                                "ageing_time": {
+                                    "type": "integer"
+                                },
+                                "all_slaves_active": {
+                                    "type": "integer"
+                                },
+                                "arp_all_targets": {
+                                    "type": "string"
+                                },
+                                "arp_interval": {
+                                    "type": "integer"
+                                },
+                                "arp_missed_max": {
+                                    "type": "integer"
+                                },
+                                "arp_validate": {},
+                                "bridge_id": {
+                                    "type": "string"
+                                },
+                                "downdelay": {
+                                    "type": "integer"
+                                },
+                                "fail_over_mac": {
+                                    "type": "string"
+                                },
+                                "forward_delay": {
+                                    "type": "integer"
+                                },
+                                "gc_timer": {
+                                    "type": "number"
+                                },
+                                "group_addr": {
+                                    "type": "string"
+                                },
+                                "group_fwd_mask": {
+                                    "type": "string"
+                                },
+                                "hello_time": {
+                                    "type": "integer"
+                                },
+                                "hello_timer": {
+                                    "type": "number"
+                                },
+                                "lp_interval": {
+                                    "type": "integer"
+                                },
+                                "max_age": {
+                                    "type": "integer"
+                                },
+                                "mcast_hash_elasticity": {
+                                    "type": "integer"
+                                },
+                                "mcast_hash_max": {
+                                    "type": "integer"
+                                },
+                                "mcast_igmp_version": {
+                                    "type": "integer"
+                                },
+                                "mcast_last_member_cnt": {
+                                    "type": "integer"
+                                },
+                                "mcast_last_member_intvl": {
+                                    "type": "integer"
+                                },
+                                "mcast_membership_intvl": {
+                                    "type": "integer"
+                                },
+                                "mcast_mld_version": {
+                                    "type": "integer"
+                                },
+                                "mcast_querier": {
+                                    "type": "integer"
+                                },
+                                "mcast_querier_intvl": {
+                                    "type": "integer"
+                                },
+                                "mcast_query_intvl": {
+                                    "type": "integer"
+                                },
+                                "mcast_query_response_intvl": {
+                                    "type": "integer"
+                                },
+                                "mcast_query_use_ifaddr": {
+                                    "type": "integer"
+                                },
+                                "mcast_router": {
+                                    "type": "integer"
+                                },
+                                "mcast_snooping": {
+                                    "type": "integer"
+                                },
+                                "mcast_startup_query_cnt": {
+                                    "type": "integer"
+                                },
+                                "mcast_startup_query_intvl": {
+                                    "type": "integer"
+                                },
+                                "mcast_stats_enabled": {
+                                    "type": "integer"
+                                },
+                                "mcast_vlan_snooping": {
+                                    "type": "integer"
+                                },
+                                "miimon": {
+                                    "type": "integer"
+                                },
+                                "min_links": {
+                                    "type": "integer"
+                                },
+                                "mode": {
+                                    "type": "string"
+                                },
+                                "multi_queue": {
+                                    "type": "boolean"
+                                },
+                                "nf_call_arptables": {
+                                    "type": "integer"
+                                },
+                                "nf_call_ip6tables": {
+                                    "type": "integer"
+                                },
+                                "nf_call_iptables": {
+                                    "type": "integer"
+                                },
+                                "no_linklocal_learn": {
+                                    "type": "integer"
+                                },
+                                "num_peer_notif": {
+                                    "type": "integer"
+                                },
+                                "packets_per_slave": {
+                                    "type": "integer"
+                                },
+                                "peer_notify_delay": {
+                                    "type": "integer"
+                                },
+                                "persist": {
+                                    "type": "boolean"
+                                },
+                                "pi": {
+                                    "type": "boolean"
+                                },
+                                "primary_reselect": {
+                                    "type": "string"
+                                },
+                                "priority": {
+                                    "type": "integer"
+                                },
+                                "resend_igmp": {
+                                    "type": "integer"
+                                },
+                                "root_id": {
+                                    "type": "string"
+                                },
+                                "root_path_cost": {
+                                    "type": "integer"
+                                },
+                                "root_port": {
+                                    "type": "integer"
+                                },
+                                "stp_state": {
+                                    "type": "integer"
+                                },
+                                "tcn_timer": {
+                                    "type": "number"
+                                },
+                                "tlb_dynamic_lb": {
+                                    "type": "integer"
+                                },
+                                "topology_change": {
+                                    "type": "integer"
+                                },
+                                "topology_change_detected": {
+                                    "type": "integer"
+                                },
+                                "topology_change_timer": {
+                                    "type": "number"
+                                },
+                                "type": {
+                                    "type": "string"
+                                },
+                                "updelay": {
+                                    "type": "integer"
+                                },
+                                "use_carrier": {
+                                    "type": "integer"
+                                },
+                                "vlan_default_pvid": {
+                                    "type": "integer"
+                                },
+                                "vlan_filtering": {
+                                    "type": "integer"
+                                },
+                                "vlan_protocol": {
+                                    "type": "string"
+                                },
+                                "vlan_stats_enabled": {
+                                    "type": "integer"
+                                },
+                                "vlan_stats_per_port": {
+                                    "type": "integer"
+                                },
+                                "vnet_hdr": {
+                                    "type": "boolean"
+                                },
+                                "xmit_hash_policy": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "info_kind": {
+                            "type": "string"
+                        },
+                        "info_slave_data": {
+                            "type": "object",
+                            "properties": {
+                                "bcast_flood": {
+                                    "type": "boolean"
+                                },
+                                "bridge_id": {
+                                    "type": "string"
+                                },
+                                "config_pending": {
+                                    "type": "integer"
+                                },
+                                "cost": {
+                                    "type": "integer"
+                                },
+                                "designated_cost": {
+                                    "type": "integer"
+                                },
+                                "designated_port": {
+                                    "type": "integer"
+                                },
+                                "fastleave": {
+                                    "type": "boolean"
+                                },
+                                "flood": {
+                                    "type": "boolean"
+                                },
+                                "forward_delay_timer": {
+                                    "type": "number"
+                                },
+                                "group_fwd_mask": {
+                                    "type": "string"
+                                },
+                                "group_fwd_mask_str": {
+                                    "type": "string"
+                                },
+                                "guard": {
+                                    "type": "boolean"
+                                },
+                                "hairpin": {
+                                    "type": "boolean"
+                                },
+                                "hold_timer": {
+                                    "type": "number"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "isolated": {
+                                    "type": "boolean"
+                                },
+                                "learning": {
+                                    "type": "boolean"
+                                },
+                                "link_failure_count": {
+                                    "type": "integer"
+                                },
+                                "locked": {
+                                    "type": "boolean"
+                                },
+                                "mab": {
+                                    "type": "boolean"
+                                },
+                                "mcast_flood": {
+                                    "type": "boolean"
+                                },
+                                "mcast_to_unicast": {
+                                    "type": "boolean"
+                                },
+                                "message_age_timer": {
+                                    "type": "number"
+                                },
+                                "mii_status": {
+                                    "type": "string"
+                                },
+                                "multicast_router": {
+                                    "type": "integer"
+                                },
+                                "neigh_suppress": {
+                                    "type": "boolean"
+                                },
+                                "no": {
+                                    "type": "string"
+                                },
+                                "perm_hwaddr": {
+                                    "type": "string"
+                                },
+                                "prio": {
+                                    "type": "integer"
+                                },
+                                "priority": {
+                                    "type": "integer"
+                                },
+                                "proxy_arp": {
+                                    "type": "boolean"
+                                },
+                                "proxy_arp_wifi": {
+                                    "type": "boolean"
+                                },
+                                "queue_id": {
+                                    "type": "integer"
+                                },
+                                "root_block": {
+                                    "type": "boolean"
+                                },
+                                "root_id": {
+                                    "type": "string"
+                                },
+                                "state": {
+                                    "type": "string"
+                                },
+                                "topology_change_ack": {
+                                    "type": "integer"
+                                },
+                                "vlan_tunnel": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "info_slave_kind": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "links": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.NICStatus"
+                    }
+                },
+                "master": {
+                    "type": "string"
+                },
+                "max_mtu": {
+                    "type": "integer"
+                },
+                "min_mtu": {
+                    "type": "integer"
+                },
+                "mtu": {
+                    "type": "integer"
+                },
+                "num_rx_queues": {
+                    "type": "integer"
+                },
+                "num_tx_queues": {
+                    "type": "integer"
+                },
+                "operstate": {
+                    "type": "string"
+                },
+                "parentbus": {
+                    "type": "string"
+                },
+                "parentdev": {
+                    "type": "string"
+                },
+                "phys_port_name": {
+                    "type": "string"
+                },
+                "phys_switch_id": {
+                    "type": "string"
+                },
+                "promiscuity": {
+                    "type": "integer"
+                },
+                "qdisc": {
+                    "type": "string"
+                },
+                "tso_max_segs": {
+                    "type": "integer"
+                },
+                "tso_max_size": {
+                    "type": "integer"
+                },
+                "txqlen": {
+                    "type": "integer"
+                },
+                "vfinfo_list": {
+                    "type": "array",
+                    "items": {}
                 }
             }
         },
@@ -3851,6 +3815,12 @@ const docTemplate = `{
         "model.TypeNICStatus": {
             "type": "object",
             "properties": {
+                "bridges": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/NICStatus"
+                    }
+                },
                 "nics": {
                     "type": "array",
                     "items": {
