@@ -10,18 +10,19 @@ type StructSamples struct {
 	Value []string `json:"value"`
 } //	@name	StructSamples
 
+// Psamples는 StructSamples의 싱글톤 인스턴스로, 지연 초기화되며 스레드 안전성을 위해 sync.Once로 보호됩니다.
 var lockSample sync.Once
-var samples *StructSamples
+var Psamples *StructSamples
 
 func Init() *StructSamples {
-	if samples == nil {
+	if Psamples == nil {
 		lockSample.Do(
 			func() {
-				fmt.Println("Creating ", reflect.TypeOf(samples), " now.")
-				samples = &StructSamples{}
+				fmt.Println("Creating ", reflect.TypeOf(Psamples), " now.")
+				Psamples = &StructSamples{}
 			})
 	} else {
-		fmt.Println("get old ", reflect.TypeOf(samples), " instance.")
+		fmt.Println("get old ", reflect.TypeOf(Psamples), " instance.")
 	}
-	return samples
+	return Psamples
 }

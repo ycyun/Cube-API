@@ -1,13 +1,12 @@
 package main
 
-import "C"
 import (
 	"fmt"
 	"github.com/ycyun/Cube-API/controller"
 	"time"
 )
 
-//	@title			Cube APIServer
+//	@title			Cube APIServers
 //	@version		1.0
 //	@description	This is a Cube-APIServer server.
 //	@termsOfService	https://ablecloud.io/
@@ -35,28 +34,28 @@ func main() {
 	// Set the timezone for the current process
 	time.Local = location
 
-	c := controller.Init()
+	Controller := controller.Init()
 
-	API := c.A
-	Worker := c.W
+	API := Controller.A
+	Worker := Controller.W
 	API.Run()
 	Worker.Run()
 	//
-	////c.StatusRegister(Mold.MonitorStatus)
-	//c.StatusRegister(Glue.Monitor)
-	////c.StatusRegister(Dashboard.Monitor)
-	//c.StatusRegister(PCS.Monitor)
-	//c.StatusRegister(Cube.Hosts.Update)
-	//c.StatusRegister(Cube.NICs.Update)
-	//c.StatusRegister(Cube.Disks.Update)
-	//c.StatusRegister(C.SaveConfig)
+	////Controller.StatusRegister(Mold.MonitorStatus)
+	//Controller.StatusRegister(Glue.Monitor)
+	////Controller.StatusRegister(Dashboard.Monitor)
+	//Controller.StatusRegister(PCS.Monitor)
+	//Controller.StatusRegister(Cube.Hosts.Update)
+	//Controller.StatusRegister(Cube.NICs.Update)
+	//Controller.StatusRegister(Cube.Disks.Update)
+	//Controller.StatusRegister(C.SaveConfig)
 	//
-	//go c.Start()
+	//go Controller.Start()
 	//APIPort := "8080"
 	//docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	//docs.SwaggerInfo.Host = UTILS.GetLocalIP().String() + ":" + APIPort
 	//log.SetFlags(log.LstdFlags | log.Lshortfile)
 	//
-	//c.Stop()
+	//Controller.Stop()
 	fmt.Println("end")
 }

@@ -15,12 +15,12 @@ type APIWorker struct {
 	running  bool
 }
 
-var lockAPI sync.Once
-var Pworker *APIWorker
+var lockWorker sync.Once // Worker의 락
+var Pworker *APIWorker   // Worker의 포인터
 
 func Init(conf *config.StructConfig) *APIWorker {
 	if Pworker == nil {
-		lockAPI.Do(
+		lockWorker.Do(
 			func() {
 				fmt.Println("Creating ", reflect.TypeOf(Pworker), "with config", conf, " now.")
 				Pworker = &APIWorker{

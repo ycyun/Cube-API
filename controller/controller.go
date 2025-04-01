@@ -2,14 +2,14 @@ package controller
 
 import (
 	"github.com/ycyun/Cube-API/Modules/config"
-	"github.com/ycyun/Cube-API/controller/server"
+	"github.com/ycyun/Cube-API/controller/router"
 	"github.com/ycyun/Cube-API/controller/worker"
 	"sync"
 )
 
 type TypeController struct {
 	Config *config.StructConfig `json:"cfg"`
-	A      *server.APIServer
+	A      *router.APIRouter
 	W      *worker.APIWorker
 }
 
@@ -21,7 +21,7 @@ func Init() *TypeController {
 		conf := config.Load()
 		controller = &TypeController{
 			Config: conf,
-			A:      server.Init(conf),
+			A:      router.Init(conf),
 			W:      worker.Init(conf),
 		}
 	})

@@ -2,7 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ycyun/Cube-API/Modules/utils"
+	"github.com/ycyun/Cube-API/utils"
 	"net/http"
 	"os"
 	//swaggerFiles "github.com/swaggo/files"

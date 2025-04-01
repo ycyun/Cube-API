@@ -1,38 +1,38 @@
-package server
+package router
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/ycyun/Cube-API/Modules/api"    // APIServer 핸들러 임포트
+	"github.com/ycyun/Cube-API/Modules/api"    // APIRouter 핸들러 임포트
 	"github.com/ycyun/Cube-API/Modules/config" // 설정 임포트
 	"log"
 	"reflect"
 	"sync"
 )
 
-type APIServer struct {
+type APIRouter struct {
 	Config *config.StructConfig `json:"cfg"`
 }
 
-var lockAPI sync.Once
-var Papi *APIServer
+var lockRouter sync.Once //Router 생성에 대한 lock
+var PRouter *APIRouter   //Router의 포인터
 
-func Init(conf *config.StructConfig) *APIServer {
-	if Papi == nil {
-		lockAPI.Do(
+func Init(conf *config.StructConfig) *APIRouter {
+	if PRouter == nil {
+		lockRouter.Do(
 			func() {
-				fmt.Println("Creating ", reflect.TypeOf(Papi), "with config", conf, " now.")
-				Papi = &APIServer{
+				fmt.Println("Creating ", reflect.TypeOf(PRouter), "with config", conf, " now.")
+				PRouter = &APIRouter{
 					Config: conf,
 				}
 			})
 	} else {
-		fmt.Println("get old ", reflect.TypeOf(Papi), " instance.")
+		fmt.Println("get old ", reflect.TypeOf(PRouter), " instance.")
 	}
-	return Papi
+	return PRouter
 }
 
-func (*APIServer) Run() {
+func (*APIRouter) Run() {
 	// 환경 변수 및 설정 로드
 	var err error
 	cfg := config.Load()
@@ -48,11 +48,11 @@ func (*APIServer) Run() {
 	router.ForwardedByClientIP = true
 	err = router.SetTrustedProxies(nil)
 
-	// APIServer 엔드포인트 등록
+	// APIRouter 엔드포인트 등록
 	api.RegisterRoutes(router)
 
 	// 서버 실행
-	log.Println("Starting APIServer server on port", cfg.ServerPort)
+	log.Println("Starting APIRouter server on port", cfg.ServerPort)
 	if err = router.Run(":" + cfg.ServerPort); err != nil {
 		log.Fatal("Failed to start server:", err)
 		//c.AddError(err)
