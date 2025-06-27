@@ -1,7 +1,8 @@
-package api
+package route
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/ycyun/Cube-API/Modules/cube"
 	"github.com/ycyun/Cube-API/utils"
 	"net/http"
 	"os"
@@ -21,6 +22,12 @@ func RegisterRoutes(router *gin.Engine) {
 			_, err := os.Open("test123")
 			utils.HandleError(err)
 			ctx.IndentedJSON(http.StatusOK, "hello")
+		})
+		v1.GET("/Cube/Disk/", func(ctx *gin.Context) {
+			ctx.IndentedJSON(http.StatusOK, cube.Cube.GetDiskList())
+		})
+		v1.GET("/Cube/Nic/", func(ctx *gin.Context) {
+			ctx.IndentedJSON(http.StatusOK, cube.Cube.GetNicList())
 		})
 	}
 	//{

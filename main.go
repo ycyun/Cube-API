@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/ycyun/Cube-API/controller"
+	"github.com/ycyun/Cube-API/utils"
 	"time"
 )
 
@@ -33,13 +34,18 @@ func main() {
 	}
 	// Set the timezone for the current process
 	time.Local = location
+	Logger := utils.LogInit()
+
+	Logger.Debug("server on ..")
+	Logger.Debug("controller init")
 
 	Controller := controller.Init()
 
 	API := Controller.A
 	Worker := Controller.W
+	Logger.Info("handlers", Worker.Handlers[0])
+	go Worker.Run()
 	API.Run()
-	Worker.Run()
 	//
 	////Controller.StatusRegister(Mold.MonitorStatus)
 	//Controller.StatusRegister(Glue.Monitor)

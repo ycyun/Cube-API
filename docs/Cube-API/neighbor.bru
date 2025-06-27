@@ -1,0 +1,11 @@
+meta {
+  name: neighbor
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{protocol}}://{{Server}}:{{port}}/{{version}}/neighbor
+  body: none
+  auth: none
+}

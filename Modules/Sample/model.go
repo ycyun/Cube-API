@@ -1,7 +1,7 @@
 package Sample
 
 import (
-	"fmt"
+	"log/slog"
 	"reflect"
 	"sync"
 )
@@ -18,11 +18,11 @@ func Init() *StructSamples {
 	if Psamples == nil {
 		lockSample.Do(
 			func() {
-				fmt.Println("Creating ", reflect.TypeOf(Psamples), " now.")
+				slog.Debug("Create Struct", "type", reflect.TypeOf(Psamples))
 				Psamples = &StructSamples{}
 			})
 	} else {
-		fmt.Println("get old ", reflect.TypeOf(Psamples), " instance.")
+		slog.Debug("Use Old Struct", "type", reflect.TypeOf(Psamples))
 	}
 	return Psamples
 }

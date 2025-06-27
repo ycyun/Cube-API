@@ -1,33 +1,35 @@
 package router
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/ycyun/Cube-API/Modules/api"    // APIRouter 핸들러 임포트
-	"github.com/ycyun/Cube-API/Modules/config" // 설정 임포트
+	"github.com/ycyun/Cube-API/Modules/route" // APIRouter 핸들러 임포트
+	"github.com/ycyun/Cube-API/utils"
 	"log"
+	"log/slog"
 	"reflect"
 	"sync"
 )
 
 type APIRouter struct {
-	Config *config.StructConfig `json:"cfg"`
+	Config *utils.StructConfig `json:"cfg"`
 }
 
 var lockRouter sync.Once //Router 생성에 대한 lock
 var PRouter *APIRouter   //Router의 포인터
 
-func Init(conf *config.StructConfig) *APIRouter {
+func Init(conf *utils.StructConfig) *APIRouter {
 	if PRouter == nil {
 		lockRouter.Do(
 			func() {
-				fmt.Println("Creating ", reflect.TypeOf(PRouter), "with config", conf, " now.")
+				//fmt.Println("Creating ", reflect.TypeOf(PRouter), "with config", conf, " now.")
+				slog.Debug("Create Struct", "type", reflect.TypeOf(PRouter), "config", conf)
 				PRouter = &APIRouter{
 					Config: conf,
 				}
 			})
 	} else {
-		fmt.Println("get old ", reflect.TypeOf(PRouter), " instance.")
+		//fmt.Println("Creating ", reflect.TypeOf(PRouter), "with config", conf, " now.")
+		slog.Debug("Use Old Struct", "type", reflect.TypeOf(PRouter), "config", conf)
 	}
 	return PRouter
 }
@@ -35,7 +37,7 @@ func Init(conf *config.StructConfig) *APIRouter {
 func (*APIRouter) Run() {
 	// 환경 변수 및 설정 로드
 	var err error
-	cfg := config.Load()
+	cfg := utils.LoadConfig()
 
 	// Gin 엔진 생성
 	router := gin.Default()
@@ -49,7 +51,7 @@ func (*APIRouter) Run() {
 	err = router.SetTrustedProxies(nil)
 
 	// APIRouter 엔드포인트 등록
-	api.RegisterRoutes(router)
+	route.RegisterRoutes(router)
 
 	// 서버 실행
 	log.Println("Starting APIRouter server on port", cfg.ServerPort)
