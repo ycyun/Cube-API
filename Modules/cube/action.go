@@ -6,7 +6,16 @@ import (
 
 func (c *StructCube) GetDiskList() []Disk.Interface {
 	//slog.Info("dDisks: ", c.Disks)
-	return c.Disks.Disks
+	return c.Disks.GetDisks()
+}
+
+func (c *StructCube) GetRBDDiskList() []Disk.Interface {
+	//slog.Info("dDisks: ", c.Disks)
+	return c.Disks.GetRBDs()
+}
+func (c *StructCube) GetBLKDiskList() []Disk.Interface {
+	//slog.Info("dDisks: ", c.Disks)
+	return c.Disks.GetBLKs()
 }
 
 func (c *StructCube) GetNicList() []string {

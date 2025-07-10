@@ -1,7 +1,6 @@
 package watcher
 
 import (
-	"fmt"
 	"github.com/ycyun/Cube-API/utils"
 	"log/slog"
 	"reflect"

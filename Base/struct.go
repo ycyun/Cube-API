@@ -1,7 +1,6 @@
 package Base
 
 import (
-	"fmt"
 	"log/slog"
 	"reflect"
 	"sync"
@@ -19,7 +18,9 @@ func Init() *Struct {
 	if PStruct == nil {
 		lockSample.Do(
 			func() {
-				fmt.Println("Creating ", reflect.TypeOf(PStruct), " now.")
+				//fmt.Println("Creating ", reflect.TypeOf(PStruct), " now.")
+				slog.Debug("Create Struct", "type", reflect.TypeOf(PStruct))
+
 				PStruct = &Struct{}
 			})
 	} else {

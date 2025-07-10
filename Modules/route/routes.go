@@ -26,6 +26,12 @@ func RegisterRoutes(router *gin.Engine) {
 		v1.GET("/Cube/Disk/", func(ctx *gin.Context) {
 			ctx.IndentedJSON(http.StatusOK, cube.Cube.GetDiskList())
 		})
+		v1.GET("/Cube/Disk/RBD", func(ctx *gin.Context) {
+			ctx.IndentedJSON(http.StatusOK, cube.Cube.GetRBDDiskList())
+		})
+		v1.GET("/Cube/Disk/BLK", func(ctx *gin.Context) {
+			ctx.IndentedJSON(http.StatusOK, cube.Cube.GetBLKDiskList())
+		})
 		v1.GET("/Cube/Nic/", func(ctx *gin.Context) {
 			ctx.IndentedJSON(http.StatusOK, cube.Cube.GetNicList())
 		})

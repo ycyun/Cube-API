@@ -1,19 +1,18 @@
 package DiskController
 
 import (
-	"fmt"
-	"github.com/ycyun/Cube-API/Modules/cube/DiskController/BLK"
-	"github.com/ycyun/Cube-API/Modules/cube/DiskController/Disk"
-	"github.com/ycyun/Cube-API/controller/worker"
 	"log/slog"
 	"reflect"
 	"sync"
+
+	"github.com/ycyun/Cube-API/Modules/cube/DiskController/Disk"
+	"github.com/ycyun/Cube-API/controller/worker"
 )
 
 type DiskController struct {
 	Disks  []Disk.Interface `json:"disks"`
 	RBDs   []Disk.Interface `json:"RBDs"`
-	BLKs   []*BLK.BLK       `json:"BLKs"`
+	BLKs   []Disk.Interface `json:"BLKs"`
 	HBAs   []*Disk.Base
 	iSCSIs []*Disk.Base
 	ID     string `json:"ID"`
@@ -29,9 +28,10 @@ func (s *DiskController) SetID(id string) bool {
 }
 
 func (s *DiskController) Update() {
-	//slog.Info("DiskController Update")
+	slog.Debug("DiskController Update")
 	s.UpdateRBDs()
-	//slog.Info("sRBDs = ", "s", s, s.RBDs)
+	s.UpdateBLKs()
+	slog.Debug("sRBDs = ", "s", s, "RBDs", s.RBDs)
 	tmpList := make([]Disk.Interface, 0)
 	s.Disks = append(tmpList, s.RBDs...)
 }
@@ -44,11 +44,12 @@ func Init() *DiskController {
 	if PDC == nil {
 		lockSample.Do(
 			func() {
-				fmt.Println("Creating ", reflect.TypeOf(PDC), " now.")
+				//fmt.Println("Creating ", reflect.TypeOf(PDC), " now.")
+				slog.Debug("Create Struct", "type", reflect.TypeOf(PDC))
 				PDC = &DiskController{
 					Disks: make([]Disk.Interface, 0),
 					RBDs:  make([]Disk.Interface, 0),
-					BLKs:  make([]*BLK.BLK, 0),
+					BLKs:  make([]Disk.Interface, 0),
 				}
 				worker.Pworker.StatusRegister(PDC)
 			})

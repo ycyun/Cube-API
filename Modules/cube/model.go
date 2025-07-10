@@ -1,8 +1,8 @@
 package cube
 
 import (
-	"fmt"
 	"github.com/ycyun/Cube-API/Modules/cube/DiskController"
+	"log/slog"
 	"reflect"
 	"sync"
 )
@@ -23,7 +23,7 @@ func Init() *StructCube {
 	if Cube == nil {
 		lockCube.Do(
 			func() {
-				fmt.Println("Creating ", reflect.TypeOf(Cube), " now.")
+				slog.Debug("Create Struct", "type", reflect.TypeOf(Cube))
 				Cube = &StructCube{
 					Disks:   DiskController.Init(),
 					NicList: []string{},
@@ -31,7 +31,8 @@ func Init() *StructCube {
 				}
 			})
 	} else {
-		fmt.Println("get old ", reflect.TypeOf(Cube), " instance.")
+		//slog.Debug(fmt.Sprintf("get old ", reflect.TypeOf(Cube), " instance."))
+		slog.Debug("Use Old Struct", "type", reflect.TypeOf(Cube))
 	}
 	return Cube
 }

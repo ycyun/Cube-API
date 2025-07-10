@@ -48,7 +48,7 @@ func (worker *APIWorker) Run() {
 	ticker := time.NewTicker(cfg.TaskInterval * time.Second)
 	defer ticker.Stop()
 
-	log.Println("APIWorker started with ticker interval", cfg.TaskInterval)
+	slog.Debug("APIWorker started with ticker interval", cfg.TaskInterval)
 	//
 	//for range ticker.C {
 	//	log.Println("Running background tasks...")

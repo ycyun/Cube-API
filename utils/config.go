@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"github.com/goccy/go-json"
+	"log/slog"
 	"os"
 	"strconv"
 	"time"
@@ -24,11 +25,11 @@ func LoadConfig() *StructConfig {
 		ret := new(StructConfig)
 		n, errRead := fc.Read(buff)
 		if errRead != nil {
-			fmt.Println("read ", buff, " with ", strconv.Itoa(n), "bytes, err_read: ", errRead)
+			slog.Error(fmt.Sprintf("read %v with %vbytes, err_read: %v", buff, strconv.Itoa(n), errRead))
 		}
 		errUnmarshal := json.Unmarshal(buff, ret)
 		if errUnmarshal != nil {
-			fmt.Println("unmarshal ", buff, " with errUnmarshal: ", errUnmarshal)
+			slog.Error(fmt.Sprintf("unmarshal %v with errUnmarshal: %v", buff, errUnmarshal))
 		}
 		Init(ret)
 	}

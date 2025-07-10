@@ -79,15 +79,15 @@ func (disk *RBD) UpdateRBD() {
 			if image["snapshot"] == nil {
 				disk.UsedSize = image["used_size"].(float64)
 				disk.ProvisionedSize = image["provisioned_size"].(float64)
+				Logger.Debug("In ", "image", image["name"])
 			}
 		} else if disk.Type == "SnapshotImage" {
 			if image["snapshot_id"] == disk.SnapshotId {
 				disk.UsedSize = image["used_size"].(float64)
 				disk.ProvisionedSize = image["provisioned_size"].(float64)
-
+				Logger.Debug("In ", "image", image["name"])
 			}
 		}
-		Logger.Debug("In ", "image", image)
 		//Logger.Info("Image Usage "+image["name"].(string), "provisioned_size", image["provisioned_size"], "used_size", image["used_size"])
 		//}
 	}

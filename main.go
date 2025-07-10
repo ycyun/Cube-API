@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log/slog"
+	"time"
+
 	"github.com/ycyun/Cube-API/controller"
 	"github.com/ycyun/Cube-API/utils"
-	"time"
 )
 
 //	@title			Cube APIServers
@@ -34,8 +36,10 @@ func main() {
 	}
 	// Set the timezone for the current process
 	time.Local = location
-	Logger := utils.LogInit()
-
+	//Logger := utils.LogInit()
+	slog.SetDefault(utils.Logger) // default 설정. logger 대신 slog로 로그 찍어도 logger랑 똑같은 기능을 함.
+	slog.SetLogLoggerLevel(slog.LevelError)
+	Logger := utils.Logger
 	Logger.Debug("server on ..")
 	Logger.Debug("controller init")
 
@@ -43,7 +47,7 @@ func main() {
 
 	API := Controller.A
 	Worker := Controller.W
-	Logger.Info("handlers", Worker.Handlers[0])
+	Logger.Info("handlers", "handler info", Worker.Handlers[0])
 	go Worker.Run()
 	API.Run()
 	//

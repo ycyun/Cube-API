@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/ycyun/Cube-API/Modules/route" // APIRouter 핸들러 임포트
 	"github.com/ycyun/Cube-API/utils"
-	"log"
 	"log/slog"
 	"reflect"
 	"sync"
@@ -54,9 +53,9 @@ func (*APIRouter) Run() {
 	route.RegisterRoutes(router)
 
 	// 서버 실행
-	log.Println("Starting APIRouter server on port", cfg.ServerPort)
+	slog.Info("Starting APIRouter server", "port", cfg.ServerPort)
 	if err = router.Run(":" + cfg.ServerPort); err != nil {
-		log.Fatal("Failed to start server:", err)
+		slog.Error("Failed to start server", "error", err)
 		//c.AddError(err)
 	}
 }

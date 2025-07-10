@@ -41,7 +41,7 @@ func Execute(command []string) ([]byte, error) {
 
 	logger := slog.New(AbleHandler)
 	logger.With(slog.String("cmd", strings.Join(command, ", ")))
-	logger.Debug("Executing command ", "cmd", command)
+	//logger.Debug("Executing command ", "cmd", command)
 
 	//output, err := cmd.CombinedOutput()
 	output, err := cmd.Output()

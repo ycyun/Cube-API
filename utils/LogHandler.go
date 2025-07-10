@@ -8,9 +8,11 @@ import (
 	"time"
 )
 
+var LogLevel = slog.LevelDebug
+
 var AbleJsonHandler = slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 
-	Level: slog.LevelInfo,
+	Level: LogLevel,
 	//AddSource: true,
 	ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
 		if a.Key == slog.TimeKey {
@@ -31,7 +33,7 @@ var AbleJsonHandler = slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 })
 var AbleTextHandler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
 
-	Level: slog.LevelInfo,
+	Level: LogLevel,
 	//AddSource: true,
 	ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
 		if a.Key == slog.TimeKey {
@@ -73,6 +75,6 @@ type Errorlog struct {
 func LogInit() *slog.Logger {
 
 	slog.SetDefault(Logger) // default 설정. logger 대신 slog로 로그 찍어도 logger랑 똑같은 기능을 함.
-	slog.SetLogLoggerLevel(slog.LevelInfo)
+	slog.SetLogLoggerLevel(slog.LevelDebug)
 	return Logger
 }
